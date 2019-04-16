@@ -5,8 +5,10 @@
   "scripts": {
     "test": "jest --verbose",
     "start": "node server.js",
-    "start:watch": "",
-    "test:watch": ""
+    "test:watch": "npm run test -- --watch"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "repository": {
     "type": "git",
