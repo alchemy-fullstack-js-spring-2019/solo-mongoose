@@ -19,9 +19,6 @@ const tweetSchema = new mongoose.Schema({
 const Tweet = mongoose.model('Tweet', tweetSchema);
 
 Tweet
-  .create({ handle: 'cellbomb', text: 'imagine whirrled peas' })
-  .then(createdTweet => {
-    return Tweet.findById(createdTweet._id, { text: 'hi there' })
-  })
-  .then(updatedTweet => console.log(updatedTweet));
+  .findByIdAndDelete('5cb63a819932ed4470a3ca61')
+  .then(deletedTweet => console.log(deletedTweet));
 
