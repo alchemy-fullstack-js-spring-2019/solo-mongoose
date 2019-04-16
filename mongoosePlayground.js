@@ -5,9 +5,34 @@ mongoose.connect('mongodb://localhost:27017/tweets', {
     useNewUrlParser: true
 });
 
-const tweetsSchema = new mongoose.Schema({
-    handle: String,
-    body: String
+const tweetsSchema = new mongoose.Schema({    
+    handle: {
+        type: String,
+        required: true  //here, the handle is required but the body is not. Will fail if no handle
+    },
+    body: {   
+        type: String,   
+        minLength: 20,   //will fail if not within these params
+        maxLength: 260
+    },
+    tag: {
+        type: String,
+        enum: ['person', 'dog']  //these are the only acceptable tags
+    },
+    likes: {
+        type: Number,
+        required: true,
+        default: 0,   //if not provided, defaults to 0 rather than failing
+        min: 0
+    },
+    retweets: {
+        type: [String] //denotes an array of strings
+    },
+    address: {   //can have a field that is an object (nested)  -- you want to nest as little as possible. only nest if you have a good reason to
+        street: String,
+        zipcode: String,
+        city: String
+    }
 });
 
 const Tweet = mongoose.model('Tweet', tweetsSchema);   //creating a tweet model by saying what it should be called and what schema is should use
