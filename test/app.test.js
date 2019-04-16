@@ -48,7 +48,7 @@ describe('App tests', () => {
       });
   });
 
-  it('gets all the tweets in the database', () => {
+  it('gets all the tweets in the database with GET', () => {
     return request(app)
       .post('/tweets').send({
         handle: 'Tommy',
@@ -61,7 +61,7 @@ describe('App tests', () => {
       });
   });
 
-  it('gets a tweet by id', () => {
+  it('gets a tweet by id with GET', () => {
     return request(app)
       .post('/tweets').send({
         handle: 'Tommy',
@@ -74,6 +74,32 @@ describe('App tests', () => {
           handle: 'Tommy',
           body: 'Tweet 6',
           tags: ['testing', 'jest', 'supertest'],
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it('patches a tweet by id with PATCH', () => {
+    return request(app)
+      .post('/tweets').send({
+        handle: 'Tommy',
+        body: 'Tweet 5',
+        tags: ['testing', 'supertest']
+      })
+      .then(res => request(app)
+        .patch(`/tweets/${res.body._id}`)
+        .send({
+          handle: 'Tommy',
+          body: 'Tweet 6',
+          tags: ['jest']
+        })
+      )
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'Tommy',
+          body: 'Tweet 6',
+          tags: ['jest'],
           _id: expect.any(String),
           __v: 0
         });
