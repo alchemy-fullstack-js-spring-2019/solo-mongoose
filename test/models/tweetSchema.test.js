@@ -22,4 +22,11 @@ describe('tests the "properties", you could say, of the tweet schema/tweet model
     //errors.body.message because since we dont have a body, the error message will be in the body object. assuming its an object within an errors object
     expect(errors.body.message).toEqual('Path `body` is required.');
   });
+  it('only has a body, thus resulting in an error on the the handle object of path "handle" required', () => {
+    const tweet = new TweetSchema({
+      body: 'tweet beep'
+    });
+    const errors = tweet.validateSync().errors;
+    expect(errors.handle.message).toEqual('Path `handle` is required.');
+  });
 });
