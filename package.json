@@ -1,0 +1,26 @@
+{
+  "name": "solo-mongoose",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --verbose",
+    "test:watch": "npm run test -- --watch",
+ 
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miniponz/solo-mongoose.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/miniponz/solo-mongoose/issues"
+  },
+  "homepage": "https://github.com/miniponz/solo-mongoose#readme",
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "jest": "^24.7.1"
+  }
+}
