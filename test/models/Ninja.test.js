@@ -18,4 +18,8 @@ describe('NINJA MODELS TESTS', () => {
     });
   });
 
+  it('required nickname', () => {
+    
+  });
+
 });
