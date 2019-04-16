@@ -17,4 +17,5 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 
 Tweet
   .create({ handle: 'imadog', text: 'woof woof woof' })
-  .then(createdTweet => console.log(createdTweet));
+  .then(createdTweet => console.log(createdTweet))
+  .finally(() => mongoose.connection.close());
