@@ -21,7 +21,7 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 Tweet
   .create({ handle: 'cellbomb', text: 'imagine whirrled peas' })
   .then(createdTweet => {
-    return Tweet.findById(createdTweet._id)
+    return Tweet.findById(createdTweet._id, { text: 'hi there' })
   })
-  .then(foundTweet => console.log(foundTweet));
+  .then(updatedTweet => console.log(updatedTweet));
 
