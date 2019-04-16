@@ -1,0 +1,27 @@
+{
+  "name": "solo-mongoose",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mongoose-playground.js",
+  "scripts": {
+    "test": "jest --verbose",
+    "test:watch": "npm run test -- --watch",
+    "start": "node server.js",
+    "start:watch": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ColCoutts/solo-mongoose.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ColCoutts/solo-mongoose/issues"
+  },
+  "homepage": "https://github.com/ColCoutts/solo-mongoose#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.5.2"
+  }
+}
