@@ -26,14 +26,26 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 //   .find()
 //   .then(tweets => console.log(tweets));
 
+// Tweet
+//   .create({ handle: 'ben', text: 'i am a cool dude' })
+//   .then(createdTweet => {
+//     return Tweet.findById(createdTweet._id);
+//   })
+//   .then(foundTweet => {
+//     console.log(foundTweet);
+//   })
+//   .finally(()=> {
+//     mongoose.connection.close();
+//   });
+
 Tweet
-  .create({ handle: 'ben', text: 'i am a cool dude' })
+  .create({ handle: 'emily', text: 'this cool tweet' })
   .then(createdTweet => {
-    return Tweet.findById(createdTweet._id);
+    return Tweet
+      .findByIdAndUpdate(createdTweet._id, {
+        text:'hi hi hi' });
   })
-  .then(foundTweet => {
-    console.log(foundTweet);
-  })
+  .then(updatedTweet => console.log(updatedTweet))
   .finally(()=> {
     mongoose.connection.close();
   });
