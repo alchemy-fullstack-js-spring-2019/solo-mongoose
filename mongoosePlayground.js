@@ -13,14 +13,18 @@ const tweetSchema = new mongoose.Schema({
   text: {
     type: String,
     required: true
+  },
+  favNumber: {
+    type: Number,
+    required: true
   }
 });
 
 const Tweet = mongoose.model('Tweet2', tweetSchema);
 
 Tweet
-  .findByIdAndDelete('5cb61a32a2c6950fd9e72dd3')
-  .then(deleted => console.log(deleted))
+  .create({ handle: 'chris', text: 'binjo', favNumber: 10 })
+  .then(createdTweet => console.log(createdTweet))
   .finally(() => {
     mongoose.connection.close();
   });
