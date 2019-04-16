@@ -18,9 +18,13 @@ const tweetSchema = new mongoose.Schema({
 
 const Tweet = mongoose.model('Tweet', tweetSchema);
 
-// Tweet
-//   .create({ name: 'Sean', text: 'Hello there!' })
-//   .then(createdTweet => console.log(createdTweet));
+Tweet
+  .create({ name: 'Sean', text: 'Hello there!' })
+  .then(createdTweet => console.log(createdTweet));
+Tweet
+  .findById('5cb61ae427209c18dd81b1ba')
+  .then(result => console.log(result))
+  .finally(() => mongoose.connection.close());
 
 // Tweet
 //   .findByIdAndUpdate('5cb61af5d0b1eb18fb751792', { name: 'Old2' }, { new: false })
@@ -33,7 +37,3 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 //   .then(result => console.log(result))
 //   .finally(() =>  mongoose.connection.close());
 
-Tweet
-  .findById('5cb61ae427209c18dd81b1ba')
-  .then(result => console.log(result))
-  .finally(() => mongoose.connection.close());
