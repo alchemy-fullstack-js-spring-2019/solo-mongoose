@@ -32,6 +32,16 @@ describe('tweet routes', () => {
           __v: 0
         });
       });
-
+  });
+  it('can get a list of all tweets', () => {
+    return Tweet
+      .create({ handle: 'meggo', body: 'gee I love to tweet' })
+      .then(() => {
+        return request(app)
+          .get('/tweets');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(1);
+      });
   });
 });
