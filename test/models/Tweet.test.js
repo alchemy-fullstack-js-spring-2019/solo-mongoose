@@ -11,16 +11,27 @@ describe('schema test', () => {
     expect(tweet.toJSON()).toEqual({
       handle: 'cara',
       text: 'a tweety tweet',
-      _id: expect.any(mongoose.Tyles.ObjectId)
+      _id: expect.any(mongoose.Types.ObjectId)
     });
+  });
+
+  it('has a required text and field', () => {
+    const tweet = new Tweet({
+      handle: 'cara'
+    });
+
+    const errors = tweet.validateSync().errors;
+    expect(errors.text.message).toEqual('Path `text` is required.');
   });
 
   it('has a required handle and field', () => {
     const tweet = new Tweet({
-      handle: 'cara'
+      text: 'these tests are not working'
     });
-    
+
     const errors = tweet.validateSync().errors;
-    expect(errors.body.message).toEqual('Path `text` is required');
+    expect(errors.handle.message).toEqual('Path `handle` is required.');
   });
+
+
 });

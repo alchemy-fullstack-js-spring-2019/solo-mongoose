@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "jest": "testEnvironment: node",
+    "jest": { 
+      "testEnvironment": "node" 
+    },
     "test": "jest --verbose",
     "test:watch": "npm run test -- --watch"
   },
