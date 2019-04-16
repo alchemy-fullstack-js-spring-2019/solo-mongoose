@@ -34,4 +34,16 @@ describe('Fweet model', () => {
 
     expect(errors.body.message).toBe('Path `body` is required.');
   }); 
+
+  it('has a maxlength of 140 in body field', () => {
+    const body = 'hi'.repeat(71);
+    const fweet = new Fweet({
+      handle: 'chris',
+      body
+    });
+
+    const errors = fweet.validateSync().errors;
+
+    expect(errors.body.message).toBe(`Path \`body\` (\`${body}\`) is longer than the maximum allowed length (140).`);
+  }); 
 });
