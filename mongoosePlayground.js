@@ -30,9 +30,16 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 //     mongoose.connection.close();
 //   });
 
+// Tweet
+//   .findById('5cb62520e67a1f205800aeec')
+//   .then(foundTweet => console.log(foundTweet))
+//   .finally(() => {
+//     mongoose.connection.close();
+//   });
+
 Tweet
-  .findById('5cb62520e67a1f205800aeec')
-  .then(foundTweet => console.log(foundTweet))
+  .findByIdAndUpdate('5cb62520e67a1f205800aeec', { handle: 'elninonegro' }, { new: true })
+  .then(updatedTweet => console.log(updatedTweet))
   .finally(() => {
     mongoose.connection.close();
   });
