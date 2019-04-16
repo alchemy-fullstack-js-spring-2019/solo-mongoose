@@ -44,9 +44,9 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 //     mongoose.connection.close();
 //   });
 
-Tweet
-  .findByIdAndDelete('5cb62520e67a1f205800aeec')
-  .then(deletedId => console.log(deletedId))
-  .finally(() => {
-    mongoose.connection.close();
-  });
+// Tweet
+//   .findByIdAndDelete('5cb62520e67a1f205800aeec')
+//   .then(deletedId => console.log(deletedId))
+//   .finally(() => {
+//     mongoose.connection.close();
+//   });
