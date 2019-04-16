@@ -20,3 +20,7 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 Tweet
   .create({ handle: 'Mal', body: 'tweetin' })
   .then(createdTweet => console.log(createdTweet));
+
+  Tweet
+    .find()
+    .then(tweets => console.log('******', tweets));
