@@ -23,6 +23,9 @@
     "start": "node server.js",
     "start:watch": "nodemon server.js"
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/UncleJerry23/solo-mongoose.git"
