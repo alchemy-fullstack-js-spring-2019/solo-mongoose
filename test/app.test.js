@@ -4,11 +4,15 @@ const mongoose = require('mongoose');
 
 describe('app routes properly', () => {
   beforeAll(() => {
-    return mongoose.connect('mongodb://localhost:27017/tweets', {
+    return mongoose.connect('mongodb://localhost:27017/tweets-test', {
       useFindAndModify: false,
       useNewUrlParser: true,
       useCreateIndex: true
     });
+  });
+
+  beforeEach(() => {
+    return mongoose.connection.dropDatabase();
   });
 
   afterAll(() => {
@@ -29,4 +33,18 @@ describe('app routes properly', () => {
       });
   });
 
+  it('finds all', () => {
+    return request(app)
+      .post('/tweets')
+      .send({ handle: 'Tester2', text:'Tester text2' })
+      .then(() => {
+        return request(app)
+          .get('/tweets');
+      })
+      .then(res => {
+        console.log(res.body);
+        expect(res.body).toHaveLength(1);
+      });
+  });
 });
+
