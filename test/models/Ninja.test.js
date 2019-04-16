@@ -28,4 +28,14 @@ describe('NINJA MODELS TESTS', () => {
     expect(errors.nickname.message).toEqual('Path `nickname` is required.');
   });
 
+  it('required age', () => {
+    const ninja = new Ninja({
+      nickname: 'Shadow',
+      tagline: 'One with the night'
+    });
+
+    const errors = ninja.validateSync().errors;
+    expect(errors.age.message).toEqual('Path `age` is required.');
+  });
+
 });
