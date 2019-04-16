@@ -85,4 +85,16 @@ describe('tweet routes', () => {
       });
   });
 
+  it('deletes a tweet', () => {
+    return Tweet
+      .create({ handle: 'deleter', body: 'doesn\'t matter cause we\'ll delete it immediately' })
+      .then(createdTweet => {
+        return request(app)
+          .delete(`/tweets/${createdTweet._id}`)
+          .then(res => {
+            expect(res.body._id).toEqual(createdTweet._id.toString());
+          });
+      });
+  });
+
 });
