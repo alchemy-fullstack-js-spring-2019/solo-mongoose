@@ -35,5 +35,16 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
   //     mongoose.connection.close();
   //   });
 
-  Tweet
-    .findByIdAndDelete('')
+  // Tweet
+  //   .findByIdAndDelete('5cb634e7309718ee8cc6a109')
+  //   .then(result => console.log(result))
+  //   .finally(() => {
+  //     mongoose.connection.close();
+  //   });
+
+  // Tweet
+  //   .find()
+  //   .then(foundTweets => console.log(foundTweets))
+  //   .finally(() => {
+  //     mongoose.connection.close();
+  //   });
