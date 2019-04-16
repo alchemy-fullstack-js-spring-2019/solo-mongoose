@@ -21,6 +21,24 @@ describe('tweetSchema tests', () => {
     expect(tweet.toJSON()).toEqual(expected);
   });
 
+  it('creates a new instance of tweet with array', () => {
+    const expected = {
+      handle: 'Tommy',
+      body: 'tweet4',
+      tags: ['testing', 'jest', 'supertest'],
+      _id: expect.any(mongoose.Types.ObjectId)
+    };
+    const tweet = new Tweet({
+      handle: 'Tommy',
+      body: 'tweet4',
+      tags: ['testing', 'jest', 'supertest']
+    });
+    
+    const error = tweet.validateSync();
+    
+    expect(error).toBeFalsy();
+    expect(tweet.toJSON()).toEqual(expected);
+  });
   it('requires a handle', () => {
     const tweet = new Tweet({
       body: 'tweet4'
