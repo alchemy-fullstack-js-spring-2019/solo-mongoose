@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost:27017/tweets', {
-  useNewUrlParser: true,
+  useNewUrlParser: true
 });
 
 const tweetSchema = new mongoose.Schema({
@@ -9,8 +9,14 @@ const tweetSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  text: {
+  body: {
     type: String,
     required: true
   }
 });
+
+const Tweet = mongoose.model('Tweet', tweetSchema);
+
+Tweet
+  .create({ handle: 'Mal', body: 'tweetin' })
+  .then(createdTweet => console.log(createdTweet));
