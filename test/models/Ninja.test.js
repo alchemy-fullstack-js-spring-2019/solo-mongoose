@@ -30,7 +30,7 @@ describe('NINJA MODELS TESTS', () => {
 
   it('required age', () => {
     const ninja = new Ninja({
-      nickname: 'Shadow',
+      nickname: 'Nightshade',
       tagline: 'One with the night'
     });
 
