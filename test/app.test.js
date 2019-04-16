@@ -47,4 +47,36 @@ describe('App tests', () => {
         });
       });
   });
+
+  it('gets all the tweets in the database', () => {
+    return request(app)
+      .post('/tweets').send({
+        handle: 'Tommy',
+        body: 'Tweet 6',
+      })
+      .then(() => request(app).get('/tweets'))
+      .then(res => {
+        expect(res.body).toEqual(expect.any(Array));
+        expect(res.body).toHaveLength(1);
+      });
+  });
+
+  it('gets a tweet by id', () => {
+    return request(app)
+      .post('/tweets').send({
+        handle: 'Tommy',
+        body: 'Tweet 6',
+        tags: ['testing', 'jest', 'supertest']
+      })
+      .then(res => request(app).get(`/tweets/${res.body._id}`))
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'Tommy',
+          body: 'Tweet 6',
+          tags: ['testing', 'jest', 'supertest'],
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
 });
