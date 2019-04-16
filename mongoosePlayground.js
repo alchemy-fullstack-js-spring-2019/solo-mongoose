@@ -39,17 +39,20 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 // create a new tweet
 Tweet
     .create({ 
-        handle: 'bonnie', 
-        text: 'tweet number one',
+        handle: 'leland', 
+        body: 'tweet number one',
         tag: 'person'
     })
-    .then(createdTweet => console.log(createdTweet));
+    .then(createdTweet => console.log('\ncreated tweet:\n', createdTweet));
 
-Tweet.findById('5cb61a294a06fd765d8bcb19')
+Tweet.findById('5cb61c57014b01778d4708dd"')
     .then(foundTweet => console.log('\nfound:\n', foundTweet));
 
-Tweet.findByIdAndUpdate('5cb61a294a06fd765d8bcb19', { text: 'updated again' })
-    .then(updatedTweet => console.log('\nupdated tweet:\n', updatedTweet))
+Tweet.findByIdAndUpdate('5cb620cd79389a7943a8acdd', { body: 'updated once again' })
+    .then(updatedTweet => console.log('\nupdated tweet:\n', updatedTweet));
+
+Tweet.findByIdAndDelete('5cb621bef4f17379b6914624')
+    .then(res => console.log('deleted --', res))
     .finally(() => {
         mongoose.connection.close();
     });
