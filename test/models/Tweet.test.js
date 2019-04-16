@@ -29,9 +29,6 @@ describe('Tweet Schema', () => {
 
         expect(error.handle.message).toEqual('Path `handle` is required.')
     });
-});
-
-describe('tweet routes', () => {
     it('registers the correct fields', () => {
         const tweet = new Tweet({
             handle: 'Frank',
@@ -44,22 +41,4 @@ describe('tweet routes', () => {
             _id: expect.any(mongoose.Types.ObjectId)
         });
     });
-    it('creates a new tweet', () => {
-        return request(app)
-            .post('/tweets')
-            .send({
-                handle: 'Colin',
-                body: 'test if this was created',
-                tag: 'cats'
-            })
-            .then(createdTweet => {
-                expect(createdTweet.body).toEqual({
-                    handle: 'Colin',
-                    body: 'test if this was created',
-                    tag: 'cats',
-                    _id: expect.any(mongoose.Types.ObjectId),
-                    __v: 0
-                });
-            })
-    })
-})
+});
