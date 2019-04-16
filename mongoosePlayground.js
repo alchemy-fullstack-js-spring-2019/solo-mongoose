@@ -38,14 +38,21 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 //     mongoose.connection.close();
 //   });
 
+// Tweet
+//   .create({ handle: 'emily', text: 'this cool tweet' })
+//   .then(createdTweet => {
+//     return Tweet
+//       .findByIdAndUpdate(createdTweet._id, {
+//         text:'hi hi hi' });
+//   })
+//   .then(updatedTweet => console.log(updatedTweet))
+//   .finally(()=> {
+//     mongoose.connection.close();
+//   });
+
 Tweet
-  .create({ handle: 'emily', text: 'this cool tweet' })
-  .then(createdTweet => {
-    return Tweet
-      .findByIdAndUpdate(createdTweet._id, {
-        text:'hi hi hi' });
-  })
-  .then(updatedTweet => console.log(updatedTweet))
+  .findByIdAndDelete('5cb63c0808f2b08ed39f5123')
+  .then(deleted => console.log(deleted))
   .finally(()=> {
     mongoose.connection.close();
   });
