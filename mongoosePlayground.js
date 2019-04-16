@@ -37,7 +37,13 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 
 
 Tweet
-  .findByIdAndUpdate('5cb6211fc9a0671bf4a2c9f6', { text: 'WoW' }, { new: true })
+  .create({
+    name: 'See',
+    text: 'my first tweet'
+  })
+  .then(created => {
+    return Tweet.findByIdAndUpdate(created._id, { name: 'Me', text: 'actually, my second' }, { new: true })
+  })
   .then (result =>  console.log(result))
   .finally(() => { mongoose.connection.close();
   });
