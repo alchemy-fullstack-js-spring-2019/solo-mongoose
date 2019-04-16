@@ -44,4 +44,20 @@ describe('tweet routes', () => {
         expect(res.body).toHaveLength(1);
       });
   });
+  it('can get a tweet by id', () => {
+    return Tweet  
+      .create({ handle: 'ollie', body: 'I am the best tweeter' })
+      .then((createdTweet) => {
+        return request(app)
+          .get(`/tweets/${createdTweet.id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'ollie',
+          body: 'I am the best tweeter',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
 });
