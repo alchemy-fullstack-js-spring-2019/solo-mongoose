@@ -27,7 +27,6 @@ describe('tweet routes', () => {
       .post('/fweet')
       .send(testFweet)
       .then(res => {
-        // console.log(res.body)
         expect(res.body).toEqual({ 
           handle: 'chris', 
           body: 'this is a tweet',
@@ -46,6 +45,22 @@ describe('tweet routes', () => {
       })
       .then(res => {
         expect(res.body).toHaveLength(1);
+      });
+  });
+
+  it('gets a fweet by id', () => {
+    return Fweet
+      .create(testFweet)
+      .then(createdFweet => {
+        return request(app)
+          .get(`/fweet/${createdFweet._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({ 
+          ...testFweet,
+          _id: expect.any(String),
+          __v: 0
+        });
       });
   });
 });
