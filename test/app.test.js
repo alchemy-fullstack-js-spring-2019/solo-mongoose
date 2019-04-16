@@ -36,13 +36,30 @@ describe('tweet routes', () => {
 
   it('can get a list of tweets', () => {
     return Tweet
-      .create({ handle: 'dave', body: 'a magical tweetr' })
+      .create({ handle: 'dave', body: 'a magical tweet' })
       .then(() => {
         return request(app)
           .get('/tweets');
       })
       .then(res => {
         expect(res.body).toHaveLength(1);
+      });
+  });
+
+  it('can get a tweet by id', () => {
+    return Tweet
+      .create({ handle: 'dave', body: 'a magical tweet' })
+      .then(createdTweet => {
+        return request(app)
+          .get(`/tweets/${createdTweet._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'dave',
+          body: 'a magical tweet',
+          _id: expect.any(String),
+          __v: 0
+        });
       });
   });
 });
