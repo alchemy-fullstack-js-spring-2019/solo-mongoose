@@ -45,8 +45,44 @@ describe('app routing test', () => {
           .get('/tweets');
       })
       .then(results => {
-        console.log(results.body.length);
         expect(results.body).toHaveLength(1);
+      });
+  });
+
+  it('finds a specific tweet by id', () => {
+    return Tweet
+      .create({ handle: 'spencer', body: 'i\'m not real' })
+      .then(createdTweet => {
+        return request(app)
+          .get(`/tweets/${createdTweet._id}`);
+      })
+      .then(returnedTweet => {
+        expect(returnedTweet.body).toEqual({
+          _id: expect.any(String),
+          __v: 0,
+          handle: 'spencer',
+          body: 'i\'m not real'
+        });
+      });
+  });
+
+  it('updates a tweet by id', () => {
+    return Tweet
+      .create({ handle: 'tiny', body: 'i want a smmich' })
+      .then(createdTweet => {
+        return request(app)
+          .patch(`/tweets/${createdTweet._id}`)
+          .send({
+            body: 'i want a sammich'
+          });
+      })
+      .then(updatedTweet => {
+        expect(updatedTweet.body).toEqual({
+          _id: expect.any(String),
+          __v: 0,
+          handle: 'tiny',
+          body: 'i want a sammich'
+        });
       });
   });
 
