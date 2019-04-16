@@ -5,7 +5,7 @@ const Tweet = require('../lib/models/Tweet');
 
 describe('tweet routes', () => {
   beforeAll(() => {
-    return mongoose.connect('mongodb://localhost:27107/tweets', {
+    return mongoose.connect('mongodb://localhost:27017/tweets', {
       useFindAndModify: false,
       useNewUrlParser: true,
       useCreateIndex: true
