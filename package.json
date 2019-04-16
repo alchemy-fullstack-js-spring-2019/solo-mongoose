@@ -18,6 +18,9 @@
     "test:watch": "npm run test -- --watch",
     "start": "node index.js"
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/emilycre/solo-mongoose.git"

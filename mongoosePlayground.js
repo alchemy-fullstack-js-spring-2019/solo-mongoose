@@ -18,6 +18,22 @@ const tweetSchema = new mongoose.Schema({
 
 const Tweet = mongoose.model('Tweet', tweetSchema);
 
-Tweet.create({ handle: 'emily', text: 'first tweet' })
-  .then(createdTweet => console.log(createdTweet));
-  // .finally(() => mongoose.connections.close());
+// Tweet.create({ handle: 'emily', text: 'look another tweet' })
+  // .then(createdTweet => console.log(createdTweet));
+
+// Tweet
+  // .create({ handle: 'emily', text: 'another tweet' })
+  // .then(createdTweet => {
+  //   return Tweet.findById(createdTweet._id)
+  // })
+  // .then(foundTweet => console.log(foundTweet));
+
+  // Tweet
+  //   .findByIdAndUpdate('5cb634e7309718ee8cc6a109', { text: 'hello' })
+  //   .then(updatedTweet => console.log(updatedTweet))
+  //   .finally(() => {
+  //     mongoose.connection.close();
+  //   });
+
+  Tweet
+    .findByIdAndDelete('')
