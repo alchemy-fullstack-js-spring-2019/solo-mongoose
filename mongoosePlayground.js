@@ -22,10 +22,10 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 // Tweet
 //   .create({ name: 'Sean', text: 'Hello there!' })
 //   .then(createdTweet => console.log(createdTweet));
-// //findByID
-// Tweet
-//   .findById('5cb61ae427209c18dd81b1ba')
-//   .then(result => console.log(result));
+//  findByID
+Tweet
+  .findById('5cb624942a95231dacacfe03')
+  .then(result => console.log(result));
 //   //Create then find
 // Tweet
 //   .create({ name: 'Sean', text: 'Hello there!' })
@@ -36,20 +36,20 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 
 
 
-Tweet
-  .create({
-    name: 'See',
-    text: 'my first tweet'
-  })
-  .then(created => {
-    return Tweet.findByIdAndUpdate(created._id, { name: 'Me', text: 'actually, my second' }, { new: true })
-  })
-  .then (updated =>  {
-    return Tweet.findByIdAndDelete(updated._id);
-  })
-  .then(result => console.log(result))
-  .finally(() => { mongoose.connection.close();
-  });
+// Tweet
+//   .create({
+//     name: 'See',
+//     text: 'my first tweet'
+//   })
+//   .then(created => {
+//     return Tweet.findByIdAndUpdate(created._id, { name: 'Me', text: 'actually, my second' }, { new: true })
+//   })
+//   .then (updated =>  {
+//     return Tweet.findByIdAndDelete(updated._id);
+//   })
+//   .then(result => console.log(result))
+//   .finally(() => { mongoose.connection.close();
+//   });
 
 // Tweet
 //   .findByIdAndDelete('5cb61af5d0b1eb18fb751792')
