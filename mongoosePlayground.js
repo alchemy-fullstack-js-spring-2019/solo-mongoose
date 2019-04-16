@@ -26,15 +26,18 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 
 
 //**************FIND BY ID********** */
+// Tweet
+//   .create({handle: 'FIND', text: 'FIND MY TWEET'})
+//   .then(tweetToFind=>{
+//     return Tweet.findById(tweetToFind._id)
+//   })
+//   .then(console.log);
+
+
+//**************UPDATe  MODEL******** */
+
 Tweet
-  .create({handle: 'FIND', text: 'FIND MY TWEET'})
-  .then(tweetToFind=>{
-    return Tweet.findById(tweetToFind._id)
-  })
-  .then(console.log);
-
-  
-
+  .create({handle: ''})
 
 
 
