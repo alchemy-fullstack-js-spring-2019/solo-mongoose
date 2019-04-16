@@ -14,9 +14,20 @@ describe('Tweet model', () => {
     });
   });
   it('the tweet as a required handle field', () => {
-    const tweet =new Tweet ({
-      handle: 'laura',
-      body: 'my first w'
-    })
+    const tweet = new Tweet ({
+      body: 'the first tweet'
+    });
+    const errors = tweet.validateSync().errors;
+
+    expect(errors.handle.message).toEqual('Path `handle` is required.');
+  });
+  it('has a required body field',  () => {
+    const tweet = new Tweet ({
+      handle: 'laura'
+    });
+    const errors = tweet.validateSync().errors;
+
+    expect(errors.body.message).toEqual('Path `body` is required.');
   })
+
 });
