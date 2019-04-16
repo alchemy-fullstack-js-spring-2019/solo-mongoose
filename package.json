@@ -15,8 +15,8 @@
   "scripts": {
     "test": "jest --verbose",
     "test:watch": "npm run test -- --watch",
-    "start": "node lib/index.js",
-    "start:watch": "npm run nodemon"
+    "start": "node server.js",
+    "start:watch": "nodemon server.js"
   },
   "repository": {
     "type": "git",
