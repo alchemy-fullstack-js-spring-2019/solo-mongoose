@@ -5,7 +5,8 @@ const app = require('./lib/app.js');
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
-  useFindAndModify: false
+  useFindAndModify: false,
+  useCreateIndex: true
 });
 
 const PORT = process.env.PORT || 8888;
