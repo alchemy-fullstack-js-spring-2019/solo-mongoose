@@ -13,4 +13,12 @@ describe('tweet model', () => {
       _id: expect.any(mongoose.Types.ObjectId)
     });
   });
+
+  it('has a required handle field', () => {
+    const tweet = new Tweet({
+      body: 'I can\'t even tell you how much I like tweeting'
+    });
+    const errors = tweet.validateSync().errors;
+    expect(errors.handle.message).toEqual('Path `handle` is required.');
+  });
 });
