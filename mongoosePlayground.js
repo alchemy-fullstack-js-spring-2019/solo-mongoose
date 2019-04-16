@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost:27017/tweets', {
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useFindAndModify: false
 });
 
 const tweetSchema = new mongoose.Schema({
@@ -32,3 +33,7 @@ Tweet
     })
     .then(foundTweet => 
       console.log(foundTweet));
+
+    Tweet
+      .findByIdAndUpdate('5cb626ec23f5e86076d4fecd', { handle: 'Ash' }, { new: true })
+      .then(updatedTweet => console.log(updatedTweet))
