@@ -9,9 +9,12 @@
   },
   "scripts": {
     "test": "jest --verbose",
-    "test:watch": "npm run -- --watch",
-    "start": "node mongoosePlayground.js",
-    "start:watch": "nodemon mongoosePlayground.js"
+    "test:watch": "npm run test -- --watch",
+    "start": "node server.js",
+    "start:watch": "nodemon server.js"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "repository": {
     "type": "git",
