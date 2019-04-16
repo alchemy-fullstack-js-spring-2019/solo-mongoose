@@ -18,3 +18,8 @@ const tweetSchema = new mongoose.Schema({
 
 const Tweet = mongoose.model('Tweet', tweetSchema);
 
+Tweet
+  .create({ handle: 'cellbomb', text: 'tweets are a new way of life' })
+  .then(createdTweet => console.log(createdTweet));
+
+
