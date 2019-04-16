@@ -37,9 +37,16 @@ const Tweet = mongoose.model('Tweet', tweetsSchema);
 //     mongoose.connection.close();
 //   });
 
+// Tweet
+//   .findByIdAndUpdate('5cb62523bb245e20dda9a7d8', { handle: 'Megan' }, { new: true })
+//   .then(updatedTweet => console.log(updatedTweet))
+//   .finally(() => {
+//     mongoose.connection.close();
+//   });
+
 Tweet
-  .findByIdAndUpdate('5cb62523bb245e20dda9a7d8', { handle: 'Megan' }, { new: true })
-  .then(updatedTweet => console.log(updatedTweet))
+  .findByIdAndDelete('5cb62523bb245e20dda9a7d8')
+  .then(result => console.log(result))
   .finally(() => {
     mongoose.connection.close();
   });

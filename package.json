@@ -11,6 +11,9 @@
     "test": "jest --verbose",
     "test:watch": "npm run test -- --watch"
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/meganamarshall/solo-mongoose.git"
