@@ -18,7 +18,25 @@ const tweetsSchema = new mongoose.Schema({
 
 const Tweet = mongoose.model('Tweet', tweetsSchema);
 
-Tweet
-  .create({ handle: 'fox', text: 'yeehaw' })
-  .then(createdTweet => console.log(createdTweet))
-  .finally(() => mongoose.connection.close());
+//create
+// Tweet
+//   .create({ handle: 'fox', text: 'yeehaw' })
+//   .then(createdTweet => console.log(createdTweet))
+//   .finally(() => mongoose.connection.close());
+
+//find by id
+// Tweet
+//   .create({ handle: 'badger', text: 'yum yum' })
+//   .then(createdTweet => {
+//     return Tweet.findById(createdTweet._id);
+//   })
+//   .then(foundTweet => console.log(foundTweet));
+
+//update
+// Tweet
+//   .create({ handle: 'snake', text: 'Devour it' })
+//   .then(createdTweet => {
+//     return Tweet.findByIdAndUpdate(createdTweet._id, { text: 'consider the self' });
+//   })
+//   .then(updatedTweeet => console.log(updatedTweeet));
+    
