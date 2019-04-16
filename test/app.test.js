@@ -86,4 +86,21 @@ describe('app routing test', () => {
       });
   });
 
+  it('deletes a tweet by id', () => {
+    return Tweet
+      .create({ handle: 'slick', body: 'catch me if you can!' })
+      .then(createdTweet => {
+        return request(app)
+          .delete(`/tweets/${createdTweet._id}`);
+      })
+      .then(results => {
+        expect(results.body).toEqual({
+          _id: expect.any(String),
+          __v: 0,
+          handle: 'slick',
+          body: 'catch me if you can!'
+        });
+      });
+  });
+
 });
