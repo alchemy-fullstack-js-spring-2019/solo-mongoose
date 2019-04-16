@@ -33,4 +33,16 @@ describe('tweet routes', () => {
         });
       });
   });
+
+  it('can get a list of all tweets', () => {
+    return Tweet
+      .create({ handle: 'cheri', body: 'my tweet' })
+      .then(() => {
+        return request(app)
+          .get('/tweets');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(1);
+      });
+  });
 });
