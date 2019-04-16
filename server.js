@@ -1,12 +1,15 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 const app = require('./lib/app');
 
-mongoose.connect('mongodb://127.0.0.1:27017/dogs', { 
+mongoose.connect(process.env.MONGODB_URI, { 
   useNewUrlParser: true,
   useFindAndModify: false,
   useCreateIndex: true
 });
 
+const PORT = process.env.PORT || 8888;
+
 app.listen(8888, () => {
-  console.log('Server started :8888');
+  console.log(`Server started :${PORT}`);
 });
