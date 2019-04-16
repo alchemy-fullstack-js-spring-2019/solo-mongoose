@@ -4,7 +4,7 @@ const app = require('../lib/app.js');
 
 describe('tweet routes', () => {
     beforeAll(() => {
-        return mongoose.connect('mongodb://localhost:27107/tweets', {
+        return mongoose.connect('mongodb://localhost:27017/tweets', {
             useNewUrlParser: true
         });
     });
@@ -17,7 +17,7 @@ describe('tweet routes', () => {
 
     it('creates a tweet', () => {
         return request(app)
-            .post('./tweet')
+            .post('/tweet')
             .send({ handle: 'Anna', body: 'this is my tweet' })
             .then(res => {
                 expect(res.body).toEqual({ handle: 'Anna', body: 'this is my tweet', _id: expect.any(String), __v: 0 })
