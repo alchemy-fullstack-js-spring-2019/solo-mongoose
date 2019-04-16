@@ -40,3 +40,10 @@ const Tweet = mongoose.model('Tweet', tweetsSchema);
 //   })
 //   .then(updatedTweeet => console.log(updatedTweeet));
     
+
+//delete
+
+Tweet
+  .findByIdAndDelete('5cb62d4a40a98d0d7960a6c0')
+  .then(deleted => console.log(deleted))
+;
