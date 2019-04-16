@@ -20,7 +20,7 @@ const tweetSchema = new mongoose.Schema({
     tag: {
         type: String,
         required: true,
-        enum: ['person', 'dog']
+        enum: ['person', 'dog', 'db']
     },
     likes: {
         type: Number,
@@ -40,21 +40,35 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 Tweet
     .create({ 
         handle: 'leland', 
-        body: 'tweet number one',
+        body: 'tweet number three',
         tag: 'person'
     })
     .then(createdTweet => console.log('\ncreated tweet:\n', createdTweet));
 
-Tweet.findById('5cb61c57014b01778d4708dd"')
-    .then(foundTweet => console.log('\nfound:\n', foundTweet));
-
-Tweet.findByIdAndUpdate('5cb620cd79389a7943a8acdd', { body: 'updated once again' })
+Tweet
+    .find()
+    .then(allTweets => console.log('\nAll stored tweets:\n', allTweets));
+    
+Tweet.findByIdAndUpdate('5cb625286aafee7bb1224b4c', { body: 'this is the first tweet, and it has been updated' })
     .then(updatedTweet => console.log('\nupdated tweet:\n', updatedTweet));
-
-Tweet.findByIdAndDelete('5cb621bef4f17379b6914624')
-    .then(res => console.log('deleted --', res))
+    
+Tweet
+    .create({ handle: 'mongo', body: 'the database tweets to itself again, but in vain', tag: 'db' })
+    .then(createdTweet => createdTweet._id)
+    .then(id => {
+        return Tweet.findById(id);
+    })
+    .then(foundTweet => {
+        console.log('\nFound Tweet:\n', foundTweet);
+        return foundTweet._id;
+    })
+    .then(id => {
+        return Tweet.findByIdAndDelete(id)
+            .then(deletedTweet => console.log('\nDeleted Tweet:\n', deletedTweet));
+    })
     .finally(() => {
         mongoose.connection.close();
     });
+    
 
 
