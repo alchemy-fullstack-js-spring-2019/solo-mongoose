@@ -20,14 +20,15 @@ describe('tweet routes', () => {
   });
 
   it('creates a new fweet', () => {
-    request(app)
+    return request(app)
       .post('/fweet')
       .send({ handle: 'chris', body: 'this is a tweet' })
       .then(res => {
-        expect(res).toEqual({ 
+        expect(res.text).toEqual({ 
           handle: 'chris', 
           body: 'this is a tweet',
-          _id: expect.any(mongoose.Types.ObjectId)
+          _id: expect.any(mongoose.Types.ObjectId),
+          __v: 0
         });
       });
   });
