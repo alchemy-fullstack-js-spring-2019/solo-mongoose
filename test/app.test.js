@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const request = require('supertest');
-const app = require('../lib/models/Tweets');
+const app = require('../lib/app');
 
 describe('tweet routes', () => {
   beforeAll(() => {
