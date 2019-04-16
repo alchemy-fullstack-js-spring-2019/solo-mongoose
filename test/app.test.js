@@ -24,7 +24,7 @@ describe('tweet routes', () => {
       .post('/fweet')
       .send({ handle: 'chris', body: 'this is a tweet' })
       .then(res => {
-        expect(res.text).toEqual({ 
+        expect(res.body).toEqual({ 
           handle: 'chris', 
           body: 'this is a tweet',
           _id: expect.any(mongoose.Types.ObjectId),
