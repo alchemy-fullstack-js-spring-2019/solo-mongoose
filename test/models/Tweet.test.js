@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
-const PasPire = require('../../lib/models/Tweets');
+const Tweet = require('../../lib/models/Tweets');
 
-describe('PasPire Model', () => {
+describe('Tweet Model', () => {
   it('has a handle and body', () =>{
-    const coin = new coin({
+    const tweet = new Tweet({
       handle: 'Luc',
       body: 'tabernak'
     });
 
-    expect(coin.toJSON()).toEqual({
+    expect(tweet.toJSON()).toEqual({
       handle: 'Luc',
       body: 'tabernak',
       _id: expect.any(mongoose.Types.ObjectId)
