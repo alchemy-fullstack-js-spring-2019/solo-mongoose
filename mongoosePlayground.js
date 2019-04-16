@@ -18,6 +18,10 @@ const tweetSchema = new mongoose.Schema({
 
 const Tweet = mongoose.model('Tweet', tweetSchema);
 
+// Tweet
+//   .create({ handle: 'emily', text: 'my cool tweet' })
+//   .then(createdTweet => console.log(createdTweet));
+
 Tweet
-  .create({ handle: 'emily', text: 'my cool tweet' })
-  .then(createdTweet => console.log(createdTweet));
+  .find()
+  .then(tweets => console.log(tweets));
