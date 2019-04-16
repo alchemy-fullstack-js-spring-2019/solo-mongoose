@@ -9,7 +9,9 @@
   },
   "scripts": {
     "test": "jest --verbose",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "start:watch": "nodemon server.js",
+    "start"
   },
   "jest": {
     "testEnvironment": "node"

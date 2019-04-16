@@ -39,5 +39,5 @@ describe('Dog model', () => {
     });
     const errors = dog.validateSync().errors;
     expect(errors.age.message).toEqual('Path `age` (25) is more than maximum allowed value (19).');
-  })
+  });
 });
