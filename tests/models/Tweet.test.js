@@ -21,4 +21,12 @@ describe('tweet model', () => {
     const errors = tweet.validateSync().errors;
     expect(errors.handle.message).toEqual('Path `handle` is required.');
   });
+
+  it('has a required body field', () => {
+    const tweet = new Tweet({
+      handle: 'megs'
+    });
+    const errors = tweet.validateSync().errors;
+    expect(errors.body.message).toEqual('Path `body` is required.');
+  });
 });
