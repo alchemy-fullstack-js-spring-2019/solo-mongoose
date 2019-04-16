@@ -19,6 +19,13 @@ const tweetSchema = new mongoose.Schema
 
 const Tweet = mongoose.model('Tweet', tweetSchema);
 
+// Tweet
+//   .create({ handle: 'dave', text: 'hopefully this works' })
+//   .then(createdTweet => console.log(createdTweet));
+
 Tweet
-  .create({ handle: 'dave', text: 'hopefully this works' })
-  .then(createdTweet => console.log(createdTweet));
+  .find()
+  .then(tweets => console.log(tweets))
+  .finally(() => {
+    mongoose.connection.close();
+  });
