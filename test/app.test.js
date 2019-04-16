@@ -63,4 +63,23 @@ describe('tweet routes', () => {
       });
   }); 
 
+  it('can update a tweet by id', () => {
+    return Tweet
+      .create({ handle: 'banjo', body: 'look but no touchy' })
+      .then(createdTweet => {
+        return request(app)
+          .put(`/tweets/${createdTweet._id}`)
+          .send({ handle: 'banjo', body: 'stay away from me!' });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'banjo',
+          body: 'stay away from me!',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+
 });
