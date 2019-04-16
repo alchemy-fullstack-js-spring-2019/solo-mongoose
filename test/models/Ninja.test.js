@@ -37,5 +37,15 @@ describe('NINJA MODELS TESTS', () => {
     const errors = ninja.validateSync().errors;
     expect(errors.age.message).toEqual('Path `age` is required.');
   });
+  
+  it('required tagline', () => {
+    const ninja = new Ninja({
+      nickname: 'Whisper',
+      age: 28
+    });
+
+    const errors = ninja.validateSync().errors;
+    expect(errors.tagline.message).toEqual('Path `tagline` is required.');
+  });
 
 });
