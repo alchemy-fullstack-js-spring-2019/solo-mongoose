@@ -37,9 +37,16 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 //     mongoose.connection.close();
 //   });
 
+// Tweet
+//   .findByIdAndUpdate('5cb62520e67a1f205800aeec', { handle: 'elninonegro' }, { new: true })
+//   .then(updatedTweet => console.log(updatedTweet))
+//   .finally(() => {
+//     mongoose.connection.close();
+//   });
+
 Tweet
-  .findByIdAndUpdate('5cb62520e67a1f205800aeec', { handle: 'elninonegro' }, { new: true })
-  .then(updatedTweet => console.log(updatedTweet))
+  .findByIdAndDelete('5cb62520e67a1f205800aeec')
+  .then(deletedId => console.log(deletedId))
   .finally(() => {
     mongoose.connection.close();
   });
