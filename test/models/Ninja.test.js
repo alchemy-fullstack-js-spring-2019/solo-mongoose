@@ -48,4 +48,16 @@ describe('NINJA MODELS TESTS', () => {
     expect(errors.tagline.message).toEqual('Path `tagline` is required.');
   });
 
+  it('tagline has maxlength of 144', () => {
+    const tagline = 't'.repeat(145);
+    const ninja = new Ninja({
+      nickname: 'John',
+      age: 30,
+      tagline
+    });
+
+    const errors = ninja.validateSync().errors;
+    expect(errors.tagline.message).toEqual(`Path \`tagline\` (\`${tagline}\`) is longer than the maximum allowed length (144).`);
+  });
+
 });
