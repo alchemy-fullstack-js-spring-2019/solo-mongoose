@@ -2,10 +2,11 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
 const Tweet = require('../lib/models/Tweet');
+require('dotenv').config();
 
 describe('tweet routes', () => {
   beforeAll(() => {
-    mongoose.connect('mongodb://localhost:27017/tweets', {
+    mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true
     });
   });
@@ -57,6 +58,27 @@ describe('tweet routes', () => {
         expect(res.body).toEqual({
           handle: 'barry',
           body: 'meow',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it('can update an existing tweet', () => {
+    return Tweet
+      .create({ handle: 'barry', body: 'meow' })
+      .then(createdTweet => createdTweet._id)
+      .then(id => {
+        return request(app)
+          .patch(`/tweets/${id}`)
+          .send({
+            body: 'meow meow!'
+          });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'barry',
+          body: 'meow meow!',
           _id: expect.any(String),
           __v: 0
         });
