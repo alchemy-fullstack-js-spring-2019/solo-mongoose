@@ -88,21 +88,25 @@ describe('user routes', () => {
       });
   });
 
-  // it('can delete a tweet by id', () => {
-  //   const aTweet = { handle: 'cara', text: 'here is some text' };
-  //   return Tweet
-  //     .create(aTweet)
-  //     .then(newTweet => {
-  //       return request(app)
-  //         .delete(`/tweets/${newTweet._id}`);
-  //     })
-  //     .then(res => {
-  //       expect(res.body).toEqual({ 
-  //         handle: 'cara', 
-  //         text: 'here is some text', 
-  //         _id: expect.any(String),
-  //         __v: 0 
-  //       });
-  //     });
-  // });
+  it('can delete a user by id', () => {
+    return User
+      .create({
+        handle: 'sick_handle_brah',
+        name: 'Shreddy McGnar',
+        email: 'professional@gettingrad.com'
+      })
+      .then(newUser => {
+        return request(app)
+          .delete(`/users/${newUser._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({ 
+          handle: 'sick_handle_brah',
+          name: 'Shreddy McGnar',
+          email: 'professional@gettingrad.com', 
+          _id: expect.any(String),
+          __v: 0 
+        });
+      });
+  });
 });
