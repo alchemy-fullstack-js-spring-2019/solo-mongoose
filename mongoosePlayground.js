@@ -44,7 +44,10 @@ Tweet
   .then(created => {
     return Tweet.findByIdAndUpdate(created._id, { name: 'Me', text: 'actually, my second' }, { new: true })
   })
-  .then (result =>  console.log(result))
+  .then (updated =>  {
+    return Tweet.findByIdAndDelete(updated._id);
+  })
+  .then(result => console.log(result))
   .finally(() => { mongoose.connection.close();
   });
 
