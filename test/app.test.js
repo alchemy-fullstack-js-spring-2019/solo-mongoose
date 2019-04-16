@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
+const Tweet = require('../lib/models/Tweet');
 
 describe('app routing test', () => {
   beforeAll(() => {
@@ -33,6 +34,19 @@ describe('app routing test', () => {
           handle: 'stickybuns',
           body: 'i love icing!'
         });
+      });
+  });
+
+  it('finds all tweets', () => {
+    return Tweet
+      .create({ handle: 'sharleen', body: 'oh boy' })
+      .then(() => {
+        return request(app)
+          .get('/tweets');
+      })
+      .then(results => {
+        console.log(results.body.length);
+        expect(results.body).toHaveLength(1);
       });
   });
 

@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "mongoose": "^5.5.2"
   },
@@ -14,7 +15,9 @@
   },
   "scripts": {
     "test": "jest",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "start:watch": "nodemon server.js",
+    "start": "node server.js"
   },
   "jest": {
     "testEnvironment": "node"
