@@ -1,0 +1,32 @@
+{
+  "name": "solo-mongoose",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mongoosePlayground.js",
+  "scripts": {
+    "test": "jest --verbose",
+    "test:watch": "npm run test -- --watch",
+    "start": "node mongoosePlayground.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Masmics/solo-mongoose.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Masmics/solo-mongoose/issues"
+  },
+  "homepage": "https://github.com/Masmics/solo-mongoose#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.5.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "jest": "^24.7.1",
+    "nodemon": "^1.18.11",
+    "superagent": "^5.0.2"
+  }
+}
