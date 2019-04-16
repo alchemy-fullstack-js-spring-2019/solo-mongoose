@@ -22,6 +22,18 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 //   .create({ handle: 'emily', text: 'my cool tweet' })
 //   .then(createdTweet => console.log(createdTweet));
 
+// Tweet
+//   .find()
+//   .then(tweets => console.log(tweets));
+
 Tweet
-  .find()
-  .then(tweets => console.log(tweets));
+  .create({ handle: 'ben', text: 'i am a cool dude' })
+  .then(createdTweet => {
+    return Tweet.findById(createdTweet._id);
+  })
+  .then(foundTweet => {
+    console.log(foundTweet);
+  })
+  .finally(()=> {
+    mongoose.connection.close();
+  });
