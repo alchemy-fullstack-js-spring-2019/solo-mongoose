@@ -31,4 +31,13 @@ describe('Dog model', () => {
     const errors = dog.validateSync().errors;
     expect(errors.age.message).toEqual('Path `age` is required.');
   });
+  it('has a max age of 19', () => {
+    const dog = new Dog({
+      name: 'bear',
+      breed: 'samoyed',
+      age: 25
+    });
+    const errors = dog.validateSync().errors;
+    expect(errors.age.message).toEqual('Path `age` (25) is more than maximum allowed value (19).');
+  })
 });
