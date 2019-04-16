@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "jest": { 
-      "testEnvironment": "node" 
+    "jest": {
+      "testEnvironment": "node"
     },
     "test": "jest --verbose",
     "test:watch": "npm run test -- --watch"
@@ -28,6 +28,7 @@
     "supertest": "^4.0.2"
   },
   "dependencies": {
+    "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "mongoose": "^5.5.2"
   }
