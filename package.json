@@ -1,7 +1,6 @@
 {
   "name": "solo-mongoose",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "directories": {
     "lib": "lib",
@@ -31,7 +30,12 @@
     "supertest": "^4.0.2"
   },
   "dependencies": {
+    "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "mongoose": "^5.5.2"
+  },
+  "description": "",
+  "jest": {
+    "testEnvironment": "node"
   }
 }
