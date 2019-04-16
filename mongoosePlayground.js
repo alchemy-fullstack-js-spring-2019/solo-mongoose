@@ -19,11 +19,11 @@ const tweetSchema = new mongoose.Schema({
 const Tweet = mongoose.model('Tweet2', tweetSchema);
 
 Tweet
-  .create({ handle: 'blah', text: 'this is a tweet' })
+  .create({ handle: 'tah', text: 'this is a tweet' })
   .then(createdTweet => {
-    return Tweet.findById(createdTweet._id);
+    return Tweet.findByIdAndUpdate(createdTweet._id, { text: 'hi there' }, { new: true });
   })
-  .then(foundTweet => console.log(foundTweet))
+  .then(updatedTweet => console.log(updatedTweet))
   .finally(() => {
     mongoose.connection.close();
   });
