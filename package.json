@@ -1,0 +1,26 @@
+{
+  "name": "solo-mongoose",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mongoosePlayground.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcnadams/solo-mongoose.git"
+  },
+  "keywords": [],
+  "author": "Bonnie McNeil <bonniebmcneil@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mcnadams/solo-mongoose/issues"
+  },
+  "homepage": "https://github.com/mcnadams/solo-mongoose#readme",
+  "devDependencies": {
+    "eslint": "^5.16.0"
+  },
+  "dependencies": {
+    "mongoose": "^5.5.2"
+  }
+}
