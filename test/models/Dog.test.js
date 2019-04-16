@@ -29,4 +29,13 @@ describe('Dogs', () => {
     const errors = dog.validateSync().errors;
     expect(errors.age.message).toEqual('Path `age` is required.');
   });
+  
+  it('won\'t accept ages less than 0', () => {
+    const dog = new Dog({
+      name: 'Scott',
+      age: -2
+    });
+    const errors = dog.validateSync().errors;
+    expect(errors.age.message).toEqual('Path `age` (-2) is less than minimum allowed value (0).');
+  });
 });
