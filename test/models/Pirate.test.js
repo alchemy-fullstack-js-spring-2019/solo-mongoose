@@ -33,4 +33,12 @@ describe('testing Pirate model', () => {
     const errors = pirate.validateSync().errors;
     expect(errors.name.message).toEqual(`Path \`name\` is required.`);
   });
+  it('Pirate requires a ship', () => {
+    const pirate = new Pirate({
+      name: 'First Mate Yarrvey',
+      pet: 'Polly the Parrot '
+    })
+    const errors = pirate.validateSync().errors;
+    expect(errors.ship.message).toEqual(`Path \`ship\` is required.`);
+  });
 });
