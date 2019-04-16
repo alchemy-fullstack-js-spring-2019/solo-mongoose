@@ -29,4 +29,14 @@ describe('tweet model', () => {
     const errors = tweet.validateSync().errors;
     expect(errors.body.message).toEqual('Path `body` is required.');
   });
+
+  it('body has a maxlength of 300 characters', () => {
+    const body = 'x'.repeat(301);
+    const tweet = new Tweet({
+      handle: 'megs',
+      body
+    });
+    const errors = tweet.validateSync().errors;
+    expect(errors.body.message).toEqual(`Path \`body\` (\`${body}\`) is longer than the maximum allowed length (300).`);
+  });
 });
