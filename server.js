@@ -9,7 +9,7 @@ mongoose.connect(process.env.MONGODB_URI, {
   useCreateIndex: true
 });
 
-const PORT = process.env.PORT || 8888;
+const PORT = process.env.PORT || 27017;
 
 app.listen(PORT, () => {
   console.log(`Someone connected on port ${PORT}!`);
