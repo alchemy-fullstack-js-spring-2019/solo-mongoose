@@ -5,7 +5,8 @@ const PORT = 7890;
 
 mongoose.connect('mongodb://127.0.0.1:27017/fweet', {
   useNewUrlParser: true,
-  useFindAndModify: false
+  useFindAndModify: false,
+  useCreateIndex: true
 });
 
 app.listen(PORT, () => {
