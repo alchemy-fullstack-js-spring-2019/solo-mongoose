@@ -4,7 +4,7 @@ const app = require('../lib/app');
 
 describe('app routing test', () => {
   beforeAll(() => {
-    return mongoose.connect('mongodb://localhost:27107/tweets', {
+    return mongoose.connect('mongodb://localhost:27017/tweets', {
       useFindAndModify: false,
       useNewUrlParser: true,
       useCreateIndex: true
@@ -19,6 +19,21 @@ describe('app routing test', () => {
     return mongoose.connection.close();
   });
 
-  
+  it('creates a tweet', () => {
+    return request(app)
+      .post('/tweets')
+      .send({
+        handle: 'stickybuns',
+        body: 'i love icing!'
+      })
+      .then(result => {
+        expect(result.body).toEqual({
+          _id: expect.any(String),
+          __v: 0,
+          handle: 'stickybuns',
+          body: 'i love icing!'
+        });
+      });
+  });
 
 });
