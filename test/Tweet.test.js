@@ -10,4 +10,11 @@ describe('Tweet model test', () => {
       body: 'hello'
     });
   });
+
+  it('requires the handle', () => {
+    const tweet = new Tweet({ body: 'uh oh' });
+    const errors = tweet.validateSync().errors;
+
+    expect(errors.handle.message).toEqual('Path `handle` is required.');
+  });
 });
