@@ -15,4 +15,12 @@ describe('Dog model', () => {
       _id: expect.any(mongoose.Types.ObjectId)
     });
   });
+  it('has a required name field', () => {
+    const dog = new Dog({
+      breed: 'terrier',
+      age: 14
+    });
+    const errors = dog.validateSync().errors;
+    expect(errors.name.message).toEqual('Path `name` is required.');
+  })
 });
