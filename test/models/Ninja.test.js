@@ -19,7 +19,13 @@ describe('NINJA MODELS TESTS', () => {
   });
 
   it('required nickname', () => {
-    
+    const ninja = new Ninja({
+      age: 23,
+      tagline: 'One with the night'
+    });
+
+    const errors = ninja.validateSync().errors;
+    expect(errors.nickname.message).toEqual('Path `nickname` is required.');
   });
 
 });
