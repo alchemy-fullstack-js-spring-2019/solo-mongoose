@@ -13,6 +13,9 @@
     "type": "git",
     "url": "git+https://github.com/ColCoutts/solo-mongoose.git"
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -22,6 +25,13 @@
   "homepage": "https://github.com/ColCoutts/solo-mongoose#readme",
   "dependencies": {
     "express": "^4.16.4",
-    "mongoose": "^5.5.2"
+    "mongoose": "^5.5.2",
+    "superagent": "^5.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "jest": "^24.7.1",
+    "nodemon": "^1.18.11",
+    "supertest": "^4.0.2"
   }
 }
