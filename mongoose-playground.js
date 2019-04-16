@@ -38,9 +38,18 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 //     })
 //     .finally(() => mongoose.connection.close());
 
+// Tweet
+//     .create({ handle: 'Squirrel', body: 'more text'})
+//     .then(createdTweet => {
+//         return Tweet.findByIdAndUpdate(createdTweet.id, { handle: 'Octopus'})
+//     })
+//     .then(updatedTweet => console.log(updatedTweet));
+
 Tweet
-    .create({ handle: 'Squirrel', body: 'more text'})
-    .then(createdTweet => {
-        return Tweet.findByIdAndUpdate(createdTweet.id, { name: 'Octopus'})
-    })
-    .then(updatedTweet => console.log(updatedTweet));
+    .findByIdAndUpdate("5cb6278b6a54fd330451c6a0", { handle: 'UPDATED', body: 'yet more updates'}, { new: true})
+    .then(updatedTweet => console.log(updatedTweet))
+    .finally(() => {
+        mongoose.connection.close();
+    });
+
+    
