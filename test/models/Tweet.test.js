@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Tweet = require('../../lib/models/Tweet');
 const request = require('supertest');
+const app = require('../../lib/app');
 
 describe('Tweet Schema', () => {
     it('has a handle and body field', () => {
@@ -23,7 +24,7 @@ describe('Tweet Schema', () => {
             body: 'Handle ought to be here'
         });
 
-        console.log(tweet);
+        // console.log(tweet);
         const error = tweet.validateSync().errors;
 
         expect(error.handle.message).toEqual('Path `handle` is required.')
@@ -36,14 +37,29 @@ describe('tweet routes', () => {
             handle: 'Frank',
             body: 'test tweet'
         });
-        console.log(typeof tweet);
+        // console.log(typeof tweet);
         expect(tweet.toJSON()).toEqual({
             handle: 'Frank',
             body: 'test tweet',
             _id: expect.any(mongoose.Types.ObjectId)
         });
     });
-    it.only('creates a new tweet', () => {
+    it('creates a new tweet', () => {
         return request(app)
+            .post('/tweets')
+            .send({
+                handle: 'Colin',
+                body: 'test if this was created',
+                tag: 'cats'
+            })
+            .then(createdTweet => {
+                expect(createdTweet.body).toEqual({
+                    handle: 'Colin',
+                    body: 'test if this was created',
+                    tag: 'cats',
+                    _id: expect.any(mongoose.Types.ObjectId),
+                    __v: 0
+                });
+            })
     })
 })
