@@ -1,18 +1,20 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
 const app = require('../lib/app');
-const Tweet = require('../lib/models/Tweet');
+// const Tweet = require('../lib/models/Tweet');
 
 describe('tweet routes', () => {
   beforeAll(() => {
-    return mongoose.connect('mongodb://localhost:27107/tweets', { 
-      useNewUrlParser: true 
+    return mongoose.connect('mongodb://localhost:27017/tweets', { 
+      useFindAndModify: false,  
+      useNewUrlParser: true,
+      useCreateIndex: true 
     });
   });
   beforeEach(() => {
     return mongoose.connection.dropDatabase();
   });
-  afterEach(() => {
+  afterAll(() => {
     return mongoose.connection.close();
   });
 
@@ -27,7 +29,8 @@ describe('tweet routes', () => {
         expect(res.body).toEqual({
           handle: 'cara',
           text: 'tweets have text',
-          _id: expect.any(String)
+          _id: expect.any(String),
+          __v: 0
         });
       });
   });
