@@ -46,7 +46,7 @@ describe('tweet model', () => {
     console.log(tweet);
     const errors = tweet.validateSync().errors;
 
-    expect(errors.text.message).toEqual(`Path \`body\` (\`${text}\`) is longer than the maximum allowed length (256).`);
+    expect(errors.text.message).toEqual(`Path \`text\` (\`${text}\`) is longer than the maximum allowed length (256).`);
   });
 
 });
