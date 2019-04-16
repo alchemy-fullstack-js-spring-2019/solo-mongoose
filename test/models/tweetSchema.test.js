@@ -29,4 +29,17 @@ describe('tests the "properties", you could say, of the tweet schema/tweet model
     const errors = tweet.validateSync().errors;
     expect(errors.handle.message).toEqual('Path `handle` is required.');
   });
+  it('checks that the length of the tweet isn\'t over the max length, in this test it will be and will result in an error message on the body stating length too long', () => {
+    const body = 'a'.repeat(300);
+    const tweet = new TweetSchema({
+      handle: 'intro_mode',
+      body
+    });
+    const errors = tweet.validateSync().errors;
+
+    expect(errors.body.message).toEqual('Path `body` (`aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`) is longer than the maximum allowed length (256).');
+  });
 });
+//Path \`body\` (\`${body}\`) is longer than the maximum allowed length (256).`
+
+
