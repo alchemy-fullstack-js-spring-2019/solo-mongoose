@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Tweet = require('../../lib/models/tweet');
+const Tweet = require('../../lib/models/Tweet');
 
 describe('Tweet model', () => {
   it('has a handle and a body field', () => {
