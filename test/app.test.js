@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
+const Dog = require('../lib/models/Dog');
 
 describe('dog route', () => {
   beforeAll(() => {
@@ -17,5 +18,29 @@ describe('dog route', () => {
 
   afterAll(() => {
     return mongoose.connection.close();
+  });
+
+  it('create a new dog', () => {
+    return request(app)
+      .post('/dogs')
+      .send({ name: 'Trevor', age: 600 })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'Trevor',
+          age: 600,
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it('get list of dogs', () => {
+    return Dog
+      .create({ name: 'Trevor', age: 600 })
+      .then(() => {
+        return request(app)
+          .get('/dogs');
+      })
+      .then(res => expect(res.body).toHaveLength(1));
   });
 });
