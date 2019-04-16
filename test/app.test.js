@@ -92,4 +92,23 @@ describe('tweet routes', ()=> {
         });
       });
   });
+  it('can delete a tweet by id', ()=> {
+    return Tweet
+      .create({
+        handle: 'emily',
+        body: 'my cool deleted tweet'
+      })
+      .then(createdTweet => {
+        return request(app)
+          .delete(`/tweets/${createdTweet._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'emily',
+          body: 'my cool deleted tweet',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
 });
