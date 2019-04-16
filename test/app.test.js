@@ -6,7 +6,7 @@ const Tweet = require('../lib/models/Tweet');
 describe('tweet routes', () => {
   beforeAll(() => {
     return mongoose.connect('mongodb://localhost:27017/tweets', {
-      useFindAndMotify: false,
+      useFindAndModify: false,
       useCreateIndex: true,
       useNewUrlParser: true
     });
@@ -31,6 +31,18 @@ describe('tweet routes', () => {
           _id: expect.any(String),
           __v: 0
         });
+      });
+  });
+
+  it('can get a list of tweets', () => {
+    return Tweet
+      .create({ handle: 'dave', body: 'a magical tweetr' })
+      .then(() => {
+        return request(app)
+          .get('/tweets');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(1);
       });
   });
 });
