@@ -109,3 +109,39 @@ describe('tweet routes', ()=> {
       });
   });
 });
+
+describe('user routes', ()=> {
+  beforeAll(()=> {
+    return mongoose.connect('mongodb://localhost:27017/users', {
+      useFindAndModify: false,
+      useNewUrlParser: true,
+      useCreateIndex: true
+    });
+  });
+
+  beforeEach(()=> {
+    return mongoose.connection.dropDatabase();
+  });
+
+  afterAll(()=> {
+    return mongoose.connection.close();
+  });
+
+  it('will create a new user', ()=> {
+    return request(app)
+      .post('/users')
+      .send({ 
+        handle: 'emilybemily', 
+        name: 'emily',
+        email: 'testemail@test.com' })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'emilybemily', 
+          name: 'emily',
+          email: 'testemail@test.com',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+});
