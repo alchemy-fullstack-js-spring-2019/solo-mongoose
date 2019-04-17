@@ -5,7 +5,7 @@ const Dog = require('../lib/models/Dog');
 
 describe('dog route', () => {
   beforeAll(() => {
-    mongoose.connect('mongodb://127.0.0.1:27017/dogs', { 
+    return mongoose.connect('mongodb://127.0.0.1:27017/dogs', { 
       useNewUrlParser: true,
       useFindAndModify: false,
       useCreateIndex: true
