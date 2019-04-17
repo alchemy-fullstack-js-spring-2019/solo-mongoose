@@ -1,18 +1,20 @@
 const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app.js');
-const Tweet = require('../lib/models/Tweet')
+const Tweet = require('../lib/models/Tweet');
 
 describe('tweet routes', () => {
     beforeAll(() => {
         return mongoose.connect('mongodb://localhost:27017/tweets', {
-            useNewUrlParser: true
+            useNewUrlParser: true,
+            useFindAndModify: false,
+            useCreateIndex: true
         });
     });
     beforeEach(() => {
         return mongoose.connection.dropDatabase();
     });
-    afterEach(() => {
+    afterAll(() => {
         return mongoose.connection.close();
     });
 
@@ -26,11 +28,13 @@ describe('tweet routes', () => {
     });
 
     it('gets a list of all tweets', () => {
-        return Tweet
-            .create({ handle: 'chandler', body: 'my tweet' })
+        return Tweet.create({ 
+            handle: 'allTweets', 
+            body: 'gotta list em all' 
+        })
             .then(() => {
                 return request(app)
-                    .get('/tweets');
+                    .get('/tweet');
             })
             .then(res => {
                 expect(res.body).toHaveLength(1);
