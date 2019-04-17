@@ -56,14 +56,58 @@ describe('tweet routes', () => {
       });
   });
   it('finds by id', () => {
+    //how would we get this to work with .create?
+    // return TweetSchema
+    //   .create({
+    //     handle: 'intro_mode',
+    //     body: 'tweetaleet'
+    //   })
+    return request(app)
+      .post('/tweets')
+      .send({
+        handle: 'intro_mode',
+        body: 'tweeetaleeet'
+      })
+      .then(res => {
+        return request(app)
+          //how does this still work with the use of a database?
+          .get(`/tweets/${res.body._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'intro_mode',
+          body: 'tweeetaleeet',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+  it.skip('finds by ID and updates', () => {
     return TweetSchema
       .create({
         handle: 'intro_mode',
-        body: 'tweet beep'
+        body: 'tweetaleet'
       })
-      .then(res => res.body.id)
-      .then(console.log);
+      .then(createdTweet => {
+        return request(app)
+          .put(`/tweets/${createdTweet._id}`) //just like post. were telling it where to post and where to put! Put completely replaces the old object. 
+          .send({
+            handle: 'into_mode',
+            body: 'TWEETALEET2'
+          });
+      })
+      //why dont we put this .then under the .send??
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'intro_mode',
+          body: 'TWEETALEET2',
+          id: expect.any(String),
+          __v: 0
+        });
+      });
   });
 });
+
+
 
 
