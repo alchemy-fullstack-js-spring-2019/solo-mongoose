@@ -1,11 +1,10 @@
-require('dotenv').config();
 const request = require('supertest');
 const app = require('../lib/app');
 const mongoose = require('mongoose');
 
 describe('App tests', () => {
   beforeAll(() => {
-    return mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
+    return mongoose.connect('mongodb://localhost:27017/tweets', { useNewUrlParser: true });
   });
   afterEach(() => {
     return mongoose.connection.dropDatabase();
