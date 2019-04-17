@@ -193,8 +193,20 @@ describe('tweet routes', () => {
 
   // it('can delete a toy by id', () => {
   //   return Toy 
-  //     .create({
-
+  //     .create({ 
+  //       name: 'the pickle', 
+  //       description: 'fuzzy pickle',
+  //       color: 'green',
+  //       condition: 'squeaker in critical condition'
   //     })
-  // })
+  //     .then(createdToy => {
+  //       return request(app)
+  //         .delete(`/toys/${createdToy._id}`);
+  //     })
+  //     .then(res => {
+  //       expect(res.body).toEqual({
+
+  //       })
+  //     })
+  // });
 });
