@@ -68,4 +68,39 @@ describe('APP TESTS', () => {
       });
   });
 
+  it.skip('update by id', () => {
+    return Ninja
+      .create({ nickname: 'tim', age: 33, tagline: 'winning' })
+      .then(ninja => {
+        return request(app)
+          .put(`/ninjas/${ninja._id}`)
+          .send({
+            nickname: 'tim', 
+            age: 18, 
+            tagline: 'YAY!'
+          });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          nickname: 'tim', 
+          age: 18, 
+          tagline: 'YAY',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it.skip('delete by id', () => {
+    return Ninja
+      .create({ nickname: 'tim', age: 33, tagline: 'winning' })
+      .then(data => {
+        return request(app)
+          .delete(`/ninjas/${data._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({ deleted: 1 });
+      });
+  });
+
 });
