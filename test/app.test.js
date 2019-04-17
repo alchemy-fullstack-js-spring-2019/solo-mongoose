@@ -1,9 +1,9 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
 const Tweet = require('../lib/models/Tweet');
 const User = require('../lib/models/User');
-require('dotenv').config();
 
 describe('tweet routes', () => {
   beforeAll(() => {
@@ -181,5 +181,18 @@ describe('User routes', () => {
         });
       });
   });
+
+  // it('can update an existing user', () => {
+  //   return User.create({
+  //     handle: 'mcnadams',
+  //     name: 'Bonnie McNeil',
+  //     email: 'a@b.com'
+  //   })
+  //     .then(newUser => newUser._id)
+  //     .then(id => {
+  //       return request(app)
+  //         .patch();
+  //     });
+  // });
 
 });
