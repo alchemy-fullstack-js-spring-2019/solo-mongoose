@@ -22,12 +22,22 @@ describe('tweet routes', ()=> {
   });
 
   it('can create a new tweet', ()=> {
-    return request(app)
-      .post('/tweets')
-      .send({ handle: 'emily', body: 'my cool tweet' })
+    return User.create({ 
+      handle: 'emilybemily', 
+      name: 'emily', 
+      email: 'test@coolemail.com'
+    })
+      .then(user => {
+        return request(app)
+          .post('/tweets')
+          .send({ 
+            user: user._id, 
+            body: 'my cool tweet'
+          });
+      })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'emily',
+          user: expect.any(String),
           body: 'my cool tweet',
           _id: expect.any(String),
           __v: 0
@@ -36,33 +46,52 @@ describe('tweet routes', ()=> {
   });
 
   it('can get a list of tweets', ()=> {
-    return Tweet
-      .create({
-        handle: 'emily',
-        body: 'my cool tweet'
+    return User.create({ 
+      handle: 'emilybemily', 
+      name: 'emily', 
+      email: 'test@coolemail.com'
+    })
+      .then(user => {
+        return Tweet
+          .create({
+            user: user._id,
+            body: 'my cool tweet'
+          })
+          .then(()=> {
+            return request(app)
+              .get('/tweets');
+          });
       })
-      .then(()=> {
-        return request(app)
-          .get('/tweets');
-      })
+    
       .then(res => { 
         expect(res.body).toHaveLength(1);
       });
   });
 
   it('can get a tweet by id', ()=> {
-    return Tweet
-      .create({
-        handle: 'emily',
-        body: 'my cool tweet'
+    return User
+      .create({ 
+        handle: 'emilybemily', 
+        name: 'emily', 
+        email: 'test@coolemail.com'
       })
+      .then(user => {
+        return Tweet
+          .create({
+            user: user._id,
+            body: 'my cool tweet'
+          });
+      })
+
       .then(createdTweet => {
         return request(app)
           .get(`/tweets/${createdTweet._id}`);
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'emily',
+          user: { 
+            _id: expect.any(String)
+          },
           body: 'my cool tweet',
           _id: expect.any(String)
         });
@@ -70,32 +99,49 @@ describe('tweet routes', ()=> {
   });
   
   it('can update a tweet by id', ()=> {
-    return Tweet
-      .create({
-        handle: 'emily',
-        body: 'my cool tweet'
+    return User
+      .create({ 
+        handle: 'emilybemily', 
+        name: 'emily', 
+        email: 'test@coolemail.com'
+      })
+      .then(user => {
+        return Tweet
+          .create({
+            user: user._id,
+            body: 'my cool tweet'
+          });
       })
       .then(createdTweet => {
         return request(app)
-          .put(`/tweets/${createdTweet._id}`)
+          .patch(`/tweets/${createdTweet._id}`)
           .send({
-            handle: 'emily',
             body: 'my really cool tweet'
           });
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'emily',
+          user: {
+            _id: expect.any(String)
+          },
           body: 'my really cool tweet',
           _id: expect.any(String)
         });
       });
   });
   it('can delete a tweet by id', ()=> {
-    return Tweet
-      .create({
-        handle: 'emily',
-        body: 'my cool deleted tweet'
+    return User
+      .create({ 
+        handle: 'emilybemily', 
+        name: 'emily', 
+        email: 'test@coolemail.com'
+      })
+      .then(user => {
+        return Tweet
+          .create({
+            user: user._id,
+            body: 'my cool deleted tweet'
+          });
       })
       .then(createdTweet => {
         return request(app)
@@ -103,12 +149,15 @@ describe('tweet routes', ()=> {
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'emily',
+          user: { 
+            _id: expect.any(String)
+          },
           body: 'my cool deleted tweet',
           _id: expect.any(String)
         });
       });
   });
+
 });
 
 describe('user routes', ()=> {
@@ -189,7 +238,7 @@ describe('user routes', ()=> {
         email: 'testemail@test.com' })
       .then(createdUser => {
         return request(app)
-          .put(`/users/${createdUser._id}`)
+          .patch(`/users/${createdUser._id}`)
           .send({
             handle: 'emilybemily1',
             name: 'emily',

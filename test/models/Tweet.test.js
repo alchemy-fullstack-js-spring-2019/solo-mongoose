@@ -2,30 +2,32 @@ const mongoose = require('mongoose');
 const Tweet = require('../../lib/models/Tweet');
 
 describe('Tweet model', ()=> {
-  it('has a handle and body', ()=> {
+  it('has a user and body', ()=> {
+    const id = new mongoose.Types.ObjectId();
     const tweet = new Tweet({
-      handle: 'emily',
+      user: id,
       body: 'my cool tweet'
     });
     expect(tweet.toJSON()).toEqual({
-      handle: 'emily',
+      user: id,
       body: 'my cool tweet',
       _id: expect.any(mongoose.Types.ObjectId)
     });
   });
 
-  it('has a required handle field', ()=> {
+  it('has a required userfield', ()=> {
     const tweet = new Tweet({
       body: 'my cool tweet'
     });
     const errors = tweet.validateSync().errors;
-    expect(errors.handle.message).toEqual('Path `handle` is required.');
+    expect(errors.user.message).toEqual('Path `user` is required.');
   });
 
   it('has a max body length of 256', ()=> {
+    const id = new mongoose.Types.ObjectId();
     const body = 'a'.repeat(260);
     const tweet = new Tweet({
-      handle: 'emily',
+      user: id,
       body
     });
     const errors = tweet.validateSync().errors;
