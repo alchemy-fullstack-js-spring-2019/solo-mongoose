@@ -24,13 +24,13 @@ describe('user routes', () => {
       .send({
         handle: 'cara_handle',
         name: 'cara',
-        email: 'email@email.com'
+        email: 'email.one@email.com'
       })
       .then(res => {
         expect(res.body).toEqual({
           handle: 'cara_handle',
           name: 'cara',
-          email: 'email@email.com',
+          email: 'email.one@email.com',
           _id: expect.any(String),
           __v: 0
         });
@@ -61,8 +61,7 @@ describe('user routes', () => {
           handle: 'new_handle', 
           name: 'New Person', 
           email: 'email@internets.com', 
-          _id: expect.any(String),
-          __v: 0 
+          _id: expect.any(String)
         });
       });
   });
@@ -82,8 +81,7 @@ describe('user routes', () => {
           handle: 'aspasp', 
           name: 'Moses', 
           email: 'NewEmail@place.com', 
-          _id: expect.any(String),
-          __v: 0 
+          _id: expect.any(String)
         });
       });
   });
@@ -104,8 +102,7 @@ describe('user routes', () => {
           handle: 'sick_handle_brah',
           name: 'Shreddy McGnar',
           email: 'professional@gettingrad.com', 
-          _id: expect.any(String),
-          __v: 0 
+          _id: expect.any(String)
         });
       });
   });
