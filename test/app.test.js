@@ -136,4 +136,20 @@ describe('user', () => {
       });
   });
 
-})
+  it('gets all user', () => {
+    return User
+      .create({
+        handle: 'funcle-jerry',
+        name: 'jared',
+        email: 'uncleJerry@email.net'
+      })
+      .then(() => {
+        return request(app)
+          .get('/users')
+          .then(res => {
+            expect(res.body).toHaveLength(1);
+          });
+      });
+  });
+
+});
