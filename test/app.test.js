@@ -103,7 +103,9 @@ describe('tweet routes', () => {
 describe('User routes', () => {
   beforeAll(() => {
     mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true
+      useNewUrlParser: true,
+      useFindAndModify: false,
+      useCreateIndex: true
     });
   });
   beforeEach(() => {
@@ -129,6 +131,34 @@ describe('User routes', () => {
           _id: expect.any(String),
           __v: 0
         });
+      });
+  });
+
+  it('can get all users', () => {
+    const users = [
+      {
+        handle: 'mcnadams',
+        name: 'Bonnie McNeil',
+        email: 'a@b.com'
+      },
+      {
+        handle: 'mcnadams1',
+        name: 'Bonnie Adams',
+        email: 'c@b.com'
+      }
+    ];
+    return Promise.all(
+      users.map(user => {
+        return User.create(user);
+      }))
+      .then(([user1, user2]) => {
+        console.log(user1);
+        console.log(user2);
+        return request(app)
+          .get('/users');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(2);
       });
   });
 
