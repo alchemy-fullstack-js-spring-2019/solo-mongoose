@@ -44,8 +44,7 @@ describe('app', () => {
         expect(res.body).toEqual({ 
           handle: 'steve', 
           body: 'never seen it so good',
-          _id: expect.any(String),
-          __v: 0 
+          _id: expect.any(String)
         });
       });
   });
