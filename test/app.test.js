@@ -86,7 +86,7 @@ describe('tweet routes', () => {
       .create({ handle: 'dan', body: 'I love data!' })
       .then(createdTweet => {
         return request(app)
-          .delete(`/tweets/${createdTweet._id}`)
+          .delete(`/tweets/${createdTweet._id}`);
       })
       .then(res => {
         expect(res.body).toEqual({  
