@@ -21,17 +21,19 @@ describe('app routing test', () => {
   });
 
   it('creates a tweet', () => {
+    const id = new mongoose.Types.ObjectId;
+
     return request(app)
       .post('/tweets')
       .send({
-        handle: 'stickybuns',
+        handle: id,
         body: 'i love icing!'
       })
       .then(result => {
         expect(result.body).toEqual({
           _id: expect.any(String),
           __v: 0,
-          handle: 'stickybuns',
+          handle: id,
           body: 'i love icing!'
         });
       });
