@@ -1,3 +1,5 @@
+/*eslint-disable*/
+
 const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost:27017/tweets', {
@@ -5,9 +7,29 @@ mongoose.connect('mongodb://localhost:27017/tweets', {
   useFindAndModify: false
 });
 
-const tweetSchema = new mongoose.Schema({
+
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
   handle: {
     type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    match: /\w*@\w*\.\w*/g
+  }
+});
+
+const User = mongoose.model('User', userSchema);
+
+const tweetSchema = new mongoose.Schema({
+  handle: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User', //User with no string?
     required: true
   },
   text: {
