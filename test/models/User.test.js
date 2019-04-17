@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
-const Toy = require('../../lib/models/Toys');
+const User = require('../../lib/models/User');
 
-describe('Toys model', () => {
+describe('User model', () => {
   it('has name, description, color, and condition fields', () => {
-    const toy = new Toy({
+    const user = new User({
       name: 'the pickle', 
       description: 'fuzzy pickle',
       color: 'green',
       condition: 'squeaker in critical condition'
     });
     
-    expect(toy.toJSON()).toEqual({
+    expect(user.toJSON()).toEqual({
       name: 'the pickle', 
       description: 'fuzzy pickle',
       color: 'green',
@@ -20,32 +20,32 @@ describe('Toys model', () => {
   });
 
   it('has required name field', () => {
-    const toy = new Toy({
+    const user = new User({
       color: 'green'      
     });
 
-    const errors = toy.validateSync().errors;
+    const errors = user.validateSync().errors;
     expect(errors.name.message).toEqual('Path `name` is required.');
   });
 
   it('has required description field', () => {
-    const toy = new Toy({
+    const user = new User({
       name: 'the pickle',
       color: 'green'
     });
 
-    const errors = toy.validateSync().errors;
+    const errors = user.validateSync().errors;
     expect(errors.description.message).toEqual('Path `description` is required.');
   });
   
   it('has required condition field', () => {
-    const toy = new Toy({
+    const user = new User({
       name: 'the pickle',
       description: 'fuzzy pickle',
       color: 'green'
     });
 
-    const errors = toy.validateSync().errors;
+    const errors = user.validateSync().errors;
     expect(errors.condition.message).toEqual('Path `condition` is required.');
   });
 });

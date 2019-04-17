@@ -2,9 +2,24 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
 const Tweet = require('../lib/models/Tweet');
-const Toy = require('../lib/models/Toys');
+const User = require('../lib/models/User');
 
 describe('tweet routes', () => {
+  
+  const createTweet = () => {
+    return User.create({ 
+      name: 'the pickle', 
+      description: 'fuzzy pickle',
+      color: 'green',
+      condition: 'squeaker in critical condition'   
+    })
+      .then(user => {
+        return Tweet.create({
+          user: user._id, body: 'a fine day for a tweet'
+        });
+      });
+  };
+  
   beforeAll(() => {
     return mongoose.connect('mongodb://localhost:27017/tweets', {
       useFindAndModify: false,
@@ -21,21 +36,22 @@ describe('tweet routes', () => {
     return mongoose.connection.close();
   });
 
+
   it('can create a new tweet', () => {
-    return Toy.create({
+    return User.create({
       name: 'the pickle', 
       description: 'fuzzy pickle',
       color: 'green',
       condition: 'squeaker in critical condition'
     }) 
-      .then(toy => {
+      .then(user => {
         return request(app)
           .post('/tweets')
-          .send({ toyUser: toy._id, body: 'a fine tweet' });
+          .send({ user: user._id, body: 'a fine tweet' });
       })
       .then(res => {
         expect(res.body).toEqual({
-          toyUser: expect.any(String),
+          user: expect.any(String),
           body: 'a fine tweet',
           _id: expect.any(String),
           __v: 0
@@ -44,15 +60,7 @@ describe('tweet routes', () => {
   });
 
   it('can get a list of all tweets', () => {
-    return Toy.create({
-      name: 'the pickle', 
-      description: 'fuzzy pickle',
-      color: 'green',
-      condition: 'squeaker in critical condition'
-    })
-      .then(toy => {
-        return Tweet.create({ toyUser: toy._id, body: 'my tweet' }); 
-      })
+    return createTweet()
       .then(() => {
         return request(app)
           .get('/tweets');
@@ -62,33 +70,35 @@ describe('tweet routes', () => {
       });
   });
   
-  it.only('can get a tweet by id', () => {
-    return Tweet 
-      .create({ handle: 'stitch', body: 'gimmie a treat' })
+  it('can get a tweet by id', () => {
+    return createTweet ()
       .then(createdTweet => {
         return request(app)
           .get(`/tweets/${createdTweet._id}`);
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'stitch', 
-          body: 'gimmie a treat',
-          _id: expect.any(String)
+          user: {
+            user: 'stitch', 
+            _id: expect.any(String)
+          },
+          _id: expect.any(String),
+          body: 'a fine day for a treat'
         });
       });
   }); 
 
   it('can update a tweet by id', () => {
     return Tweet
-      .create({ handle: 'banjo', body: 'look but no touchy' })
+      .create({ name: 'banjo', body: 'look but no touchy' })
       .then(createdTweet => {
         return request(app)
           .put(`/tweets/${createdTweet._id}`)
-          .send({ handle: 'banjo', body: 'stay away from me!' });
+          .send({ name: 'banjo', body: 'stay away from me!' });
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'banjo',
+          name: 'banjo',
           body: 'stay away from me!',
           _id: expect.any(String)
         });
@@ -97,23 +107,23 @@ describe('tweet routes', () => {
 
   it('can delete a tweet by id', () => {
     return Tweet
-      .create({ handle: 'dan', body: 'I love data!' })
+      .create({ name: 'dan', body: 'I love data!' })
       .then(createdTweet => {
         return request(app)
           .delete(`/tweets/${createdTweet._id}`);
       })
       .then(res => {
         expect(res.body).toEqual({  
-          handle: 'dan', 
+          name: 'dan', 
           body: 'I love data!',
           _id: expect.any(String)
         });
       });
   });
 
-  it('can create a new toy', () => {
+  it('can create a new user', () => {
     return request(app)
-      .post('/toys')
+      .post('/users')
       .send({
         name: 'the pickle', 
         description: 'fuzzy pickle',
@@ -132,8 +142,8 @@ describe('tweet routes', () => {
       });
   });
 
-  it('can get a list of toys', () => {
-    return Toy
+  it('can get a list of users', () => {
+    return User
       .create({ 
         name: 'the pickle', 
         description: 'fuzzy pickle',
@@ -142,24 +152,24 @@ describe('tweet routes', () => {
       })
       .then(() => {
         return request(app)
-          .get('/toys');
+          .get('/users');
       })
       .then(res => {
         expect(res.body).toHaveLength(1);
       });
   });
 
-  it('can get a toy by id', () => {
-    return Toy 
+  it('can get a user by id', () => {
+    return User
       .create({
         name: 'the pickle', 
         description: 'fuzzy pickle',
         color: 'green',
         condition: 'squeaker in critical condition'
       })
-      .then(createdToy => {
+      .then(createdUser => {
         return request(app)
-          .get(`/toys/${createdToy._id}`);
+          .get(`/users/${createdUser._id}`);
       })
       .then(res => {
         expect(res.body).toEqual({
@@ -172,17 +182,17 @@ describe('tweet routes', () => {
       });
   });
 
-  it('can update a toy', () => {
-    return Toy
+  it('can update a user', () => {
+    return User
       .create({
         name: 'the pickle', 
         description: 'fuzzy pickle',
         color: 'purple',
         condition: 'squeaker in critical condition'
       })
-      .then(createdToy => {
+      .then(createdUser => {
         return request(app)
-          .put(`/toys/${createdToy._id}`)
+          .put(`/users/${createdUser._id}`)
           .send({
             name: 'the pickle', 
             description: 'fuzzy pickle',
@@ -201,17 +211,17 @@ describe('tweet routes', () => {
       });
   });
 
-  it('can delete a toy by id', () => {
-    return Toy 
+  it('can delete a user by id', () => {
+    return User 
       .create({ 
         name: 'the pickle', 
         description: 'fuzzy pickle',
         color: 'green',
         condition: 'squeaker in critical condition'
       })
-      .then(createdToy => {
+      .then(createdUser => {
         return request(app)
-          .delete(`/toys/${createdToy._id}`);
+          .delete(`/users/${createdUser._id}`);
       })
       .then(res => {
         expect(res.body).toEqual({
