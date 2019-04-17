@@ -6,24 +6,26 @@ describe('tweet model', () => {
 
   it('has a handle and text', () => {
     const tweet = new Tweet({
-      handle: 'Sean',
+      user: new mongoose.Types.ObjectId(),
       text: 'Hey'
     });
     
     expect(tweet.toJSON()).toEqual({
-      handle: 'Sean',
       text: 'Hey',
+      user: expect.any(mongoose.Types.ObjectId),
       _id: expect.any(mongoose.Types.ObjectId)
     });
   });
+
   it('has a required handle field', () => {
     const tweet = new Tweet({
+
       text: 'my first tweet'
     });
 
     const errors = tweet.validateSync().errors;
 
-    expect(errors.handle.message).toEqual('Path `handle` is required.');
+    expect(errors.user.message).toEqual('Path `user` is required.');
   });
 
   it('has a required body field', () => {

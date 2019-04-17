@@ -2,6 +2,7 @@ const request = require('supertest');
 const app = require('../lib/app');
 const mongoose = require('mongoose');
 const Tweet = require('../lib/models/Tweet.js');
+const User = require('../lib/models/User.js');
 
 describe('app routes properly', () => {
   beforeAll(() => {
@@ -21,60 +22,79 @@ describe('app routes properly', () => {
   });
 
   it('routes for POST to create', () => {
-    return request(app)
-      .post('/tweets')
-      .send({ handle: 'Tester', text:'Tester text' })
-      .then(created => {
+    return User.create({ handle: 'SMN', name:'Sean', email:'sean@test.com' })
+      .then(user => {
+        return request(app)
+          .post('/tweets')
+          .send({ user: user._id, text: 'posted text' });
+      })
+      .then(created => { 
         expect(created.body).toEqual({
-          handle: 'Tester',
-          text: 'Tester text',
-          __v: 0,
-          _id: expect.any(String)
+          user: expect.any(String),
+          text: 'posted text',
+          _id: expect.any(String),
+          __v: 0
         });
+
       });
   });
 
   it('finds all', () => {
-    return request(app)
-      .post('/tweets')
-      .send({ handle: 'Tester2', text:'Tester text2' })
+    return User
+      .create({ handle: 'SMN2', name:'Sean2', email:'sean2@test.com' })
+      .then(user => {
+        return Tweet
+          .create({ user: user._id, text: 'dude' });
+      })
       .then(() => {
         return request(app)
           .get('/tweets');
       })
-      .then(res => {
-        expect(res.body).toHaveLength(1);
+      .then(result => {
+        expect(result.body).toHaveLength(1);
       });
   });
 
   it('finds by id', () => {
-    return Tweet
-      .create({ handle: 'Tester3', text:'Tester text3' })
-      .then(created => {
-        return request(app)
-          .get(`/tweets/${created.id}`);
-      })
-      .then(res => {
-        expect(res.body).toEqual({
-          handle: 'Tester3',
-          text:'Tester text3',
-          _id: expect.any(String)
-        });
+    return User
+      .create({ handle: 'SMN3', name:'Sean3', email:'sean3@test.com' })
+      .then(createdUser => {
+        return Tweet
+          .create({ user: createdUser._id, text:'Tester text3' })
+          .then(created => {
+            return request(app)
+              .get(`/tweets/${created.id}`);
+          })
+          .then(res => {
+            expect(res.body).toEqual({
+              user: {
+                handle: 'SMN3',
+                name:'Sean3',
+                _id: expect.any(String),
+                email:'sean3@test.com' },
+              text: 'Tester text3',
+              _id: expect.any(String)
+            });
+          });
       });
-
   });
 
   it('updates with patch', () => {
-    return Tweet
-      .create({ handle: 'Tester3', text:'Tester text3' })
+
+    return User
+      .create({ handle: 'SMN6', name:'Sean6', email:'sean6@test.com' })
+      .then(user => {
+        return Tweet
+          .create({ user: user._id, text:'Text to Delete' });
+      })
       .then(created => {
         return request(app)
           .patch(`/tweets/${created.id}`)
-          .send({ handle: 'Updated', text: 'UpdatedText' });
+          .send({ text: 'UpdatedText' });
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'Updated',
+          user: expect.any(String),
           text: 'UpdatedText',
           _id: expect.any(String)
         });
@@ -82,14 +102,19 @@ describe('app routes properly', () => {
   });
 
   it('deletes by ID', () => {
-    return Tweet
-      .create({ handle: 'Tester4', text:'Tester text4' })
+    return User
+      .create({ handle: 'SMN6', name:'Sean6', email:'sean6@test.com' })
+      .then(user => {
+        return Tweet
+          .create({ user: user._id, text:'Text to Delete' });
+      })
       .then(created => {
         return request(app)
           .delete(`/tweets/${created.id}`);
       })
-      .then(returned => {
-        expect(returned.body).toEqual({ deleted: 1 });
+      .then(res => {
+        expect(res.body).toEqual({ deleted: 1 });
       });
   });
 });
+
