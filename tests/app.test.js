@@ -118,12 +118,12 @@ describe('dog routes', () => {
   it('can create a new dog', () => {
     return request(app)
       .post('/dogs')
-      .send({ name: 'bongo', breed: 'crazy', age: 11 })
+      .send({ name: 'bongo', handle: 'crazy', email: 'bongo@crazy.com' })
       .then(res => {
         expect(res.body).toEqual({
           name: 'bongo',
-          breed: 'crazy',
-          age: 11,
+          handle: 'crazy',
+          email: 'bongo@crazy.com',
           _id: expect.any(String),
           __v: 0
         });
@@ -131,7 +131,7 @@ describe('dog routes', () => {
   });
   it('can get a list of all dogs', () => {
     return Dog
-      .create({ name: 'meggo', breed: 'pug', age: 10 })
+      .create({ name: 'meggo', handle: 'pug', email: 'meggo@crazy.com' })
       .then(() => {
         return request(app)
           .get('/dogs');
@@ -142,7 +142,7 @@ describe('dog routes', () => {
   });
   it('can find a dog by id', () => {
     return Dog
-      .create({ name: 'meggo', breed: 'pug', age: 10 })
+      .create({ name: 'meggo', handle: 'pug', email: 'meggo@pug.com' })
       .then((createdDog) => {
         return request(app)
           .get(`/dogs/${createdDog._id}`);
@@ -150,8 +150,8 @@ describe('dog routes', () => {
       .then(res => {
         expect(res.body).toEqual({
           name: 'meggo',
-          breed: 'pug',
-          age: 10, 
+          handle: 'pug',
+          email: 'meggo@pug.com', 
           _id: expect.any(String),
           __v: 0
         });
@@ -159,19 +159,19 @@ describe('dog routes', () => {
   });
   it('can find a dog by id and update', () => {
     return Dog
-      .create({ name: 'meggo', breed: 'pug', age: 10 })
+      .create({ name: 'meggo', handle: 'pug', email: 'meggo@pug.com' })
       .then((createdDog) => {
         return request(app)
           .patch(`/dogs/${createdDog._id}`)
           .send({
-            age: 11
+            email: 'meggo@dog.com'
           });
       })
       .then(res => {
         expect(res.body).toEqual({
           name: 'meggo',
-          breed: 'pug',
-          age: 11, 
+          handle: 'pug',
+          email: 'meggo@dog.com', 
           _id: expect.any(String),
           __v: 0
         });
@@ -179,7 +179,7 @@ describe('dog routes', () => {
   });
   it('finds by id and deletes', () => {
     return Dog
-      .create({ name: 'meggo', breed: 'pug', age: 10 })
+      .create({ name: 'meggo', handle: 'pug', email: 'meggo@pug.com' })
       .then((createdDog) => {
         return request(app)
           .delete(`/dogs/${createdDog._id}`);
@@ -187,8 +187,8 @@ describe('dog routes', () => {
       .then(res => {
         expect(res.body).toEqual({
           name: 'meggo',
-          breed: 'pug',
-          age: 10, 
+          handle: 'pug',
+          email: 'meggo@pug.com', 
           _id: expect.any(String),
           __v: 0
         });

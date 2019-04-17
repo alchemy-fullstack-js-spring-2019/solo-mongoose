@@ -2,42 +2,33 @@ const Dog = require('../../lib/models/Dog');
 const mongoose = require('mongoose');
 
 describe('Dog model', () => {
-  it('has name, breed, and age fields', () => {
+  it('has name, handle, and email fields', () => {
     const dog = new Dog({
       name: 'toto',
-      breed: 'yorkie',
-      age: 10
+      handle: 'yorkie',
+      email: 'toto@yorkie.com'
     });
     expect(dog.toJSON()).toEqual({
       name: 'toto',
-      breed: 'yorkie',
-      age: 10,
+      handle: 'yorkie',
+      email: 'toto@yorkie.com',
       _id: expect.any(mongoose.Types.ObjectId)
     });
   });
   it('has a required name field', () => {
     const dog = new Dog({
-      breed: 'terrier',
-      age: 14
+      handle: 'terrier',
+      email: 'funny@twrrier.com'
     });
     const errors = dog.validateSync().errors;
     expect(errors.name.message).toEqual('Path `name` is required.');
   });
-  it('has a required age field', () => {
+  it('has a required email field', () => {
     const dog = new Dog({
       name: 'cutie',
-      breed: 'hound',
+      handle: 'hound',
     });
     const errors = dog.validateSync().errors;
-    expect(errors.age.message).toEqual('Path `age` is required.');
-  });
-  it('has a max age of 19', () => {
-    const dog = new Dog({
-      name: 'bear',
-      breed: 'samoyed',
-      age: 25
-    });
-    const errors = dog.validateSync().errors;
-    expect(errors.age.message).toEqual('Path `age` (25) is more than maximum allowed value (19).');
+    expect(errors.email.message).toEqual('Path `email` is required.');
   });
 });
