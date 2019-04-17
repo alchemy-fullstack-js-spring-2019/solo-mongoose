@@ -24,13 +24,13 @@
   "homepage": "https://github.com/LBadgley/solo-mongoose#readme",
   "description": "",
   "devDependencies": {
-    "dotenv": "^7.0.0",
     "eslint": "^5.16.0",
     "jest": "^24.7.1",
     "nodemon": "^1.18.11",
     "supertest": "^4.0.2"
   },
   "dependencies": {
+    "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "mongoose": "^5.5.2"
   }
