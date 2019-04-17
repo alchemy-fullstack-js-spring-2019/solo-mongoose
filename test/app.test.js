@@ -141,4 +141,23 @@ describe('routes', () => {
         });
       });
   });
+
+  it.only('updates a user\'s name by id', () => {
+    return User
+      .create(testUser)
+      .then(createdUser => {
+        return request(app)
+          .patch(`/user/${createdUser._id}`)
+          .send({ name: 'dave' });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'chris1',
+          name: 'dave',
+          email: 'test@test.com',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
 });
