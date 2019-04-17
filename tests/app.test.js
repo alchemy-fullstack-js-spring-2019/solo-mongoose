@@ -86,7 +86,12 @@ describe('tweet routes', () => {
       })
       .then(res => {
         expect(res.body).toEqual({
-          user: expect.any(String),
+          user: {
+            _id: expect.any(String),
+            email: 'fun@hello.com',
+            handle: 'hello',
+            name: 'fun'
+          },
           body: 'I\'m a Kiwi',
           _id: expect.any(String)
         });
@@ -103,8 +108,6 @@ describe('tweet routes', () => {
       })
       .then(res => {
         expect(res.body).toEqual({
-          user: expect.any(String),
-          body: 'my next tweet',
           _id: expect.any(String)
         });
       });
