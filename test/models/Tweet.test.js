@@ -26,6 +26,7 @@ describe('Tweet Schema', () => {
 
         expect(error.handle.message).toEqual('Path `handle` is required.')
     });
+    
     it('registers the correct fields', () => {
         const tweet = new Tweet({
             handle: 'Frank',
