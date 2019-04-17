@@ -56,3 +56,11 @@ Tweet
 //   .then(result => console.log(result))
 //   .finally(() =>  mongoose.connection.close());
 
+// Tweet
+// .findByID('id?')
+// .select({
+//   body: true/false
+//   handle: true/false
+// })
+
+// .then(console.log);
