@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
 const Tweet = require('../lib/models/Tweet');
+const Toy = require('../lib/models/Toys');
 
 describe('tweet routes', () => {
   beforeAll(() => {
@@ -116,6 +117,23 @@ describe('tweet routes', () => {
           _id: expect.any(String),
           __v: 0
         });
+      });
+  });
+
+  it.only('can get a list of toys', () => {
+    return Toy
+      .create({ 
+        name: 'the pickle', 
+        description: 'fuzzy pickle',
+        color: 'green',
+        condition: 'squeaker in critical condition'
+      })
+      .then(() => {
+        return request(app)
+          .get('/toys');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(1);
       });
   });
 });
