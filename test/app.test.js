@@ -197,7 +197,6 @@ describe('User routes', () => {
           });
       })
       .then(res => {
-        console.log('response', res.body);
         expect(res.body).toEqual({
           handle: 'mcnadams',
           name: 'Bonnie McNeil',
@@ -205,6 +204,23 @@ describe('User routes', () => {
           _id: expect.any(String),
           __v: 0
         });
+      });
+  });
+
+
+  it('can delete a user', () => {
+    return User.create({
+      handle: 'mcnadams',
+      name: 'Bonnie McNeil',
+      email: 'a@b.com'
+    })
+      .then(user => user._id)
+      .then(id => {
+        return request(app)
+          .delete(`/users/${id}`)
+          .then(res => {
+            expect(res.body._id).toEqual(id.toString());
+          });       
       });
   });
 
