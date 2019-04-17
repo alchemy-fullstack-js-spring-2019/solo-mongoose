@@ -8,7 +8,7 @@ require('dotenv').config();
 
 describe('tweets', () => {
   
-  const twat = () => {
+  const createTweet = () => {
     return User
       .create({
         handle: 'jimmy no panys',
@@ -38,7 +38,7 @@ describe('tweets', () => {
   it('creates a tweet', () => {
     return User
       .create({
-        handle: 'jimmy no panys',
+        handle: 'jimmy no pants',
         name: 'jimithy',
         email: 'aintGotNoEmail.email.com'
       })
@@ -61,7 +61,7 @@ describe('tweets', () => {
   });
 
   it('gets list of all tweets', () => {
-    return twat()
+    return createTweet()
       .then(() => {
         return request(app)
           .get('/tweets');
@@ -72,7 +72,7 @@ describe('tweets', () => {
   });
 
   it('gets tweet by id', () => {
-    return twat()
+    return createTweet()
       .then(tweet => {
         return request(app)
           .get(`/tweets/${tweet._id}`);
@@ -87,7 +87,7 @@ describe('tweets', () => {
   });
 
   it('gets by id and updates body using patch', () => {
-    return twat()
+    return createTweet()
       .then(tweet => {
         return request(app)
           .patch(`/tweets/${tweet._id}`)
@@ -98,13 +98,12 @@ describe('tweets', () => {
           user: expect.any(String), 
           body: 'pretty close enough', 
           _id: expect.any(String),
-          __v: 0 
         });
       });
   });
 
   it('gets by id and updates handle using patch', () => {
-    return twat()
+    return createTweet()
       .then(tweet =>{
         return request(app)
           .patch(`/tweets/${tweet._id}`)
@@ -115,13 +114,12 @@ describe('tweets', () => {
           user: expect.any(String), 
           body: 'yooo', 
           _id: expect.any(String),
-          __v: 0 
         });
       });
   });
 
   it('gets tweet by id and deletes', () => {
-    return twat()
+    return createTweet()
       .then(tweet => {
         return request(app)
           .delete(`/tweets/${tweet._id}`);
@@ -131,7 +129,6 @@ describe('tweets', () => {
           user: expect.any(String),
           body: 'yooo',
           _id: expect.any(String),
-          __v: 0
         });
       });
   });
