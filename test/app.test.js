@@ -124,4 +124,15 @@ describe('owner route', () => {
       .then(res => expect(res.body).toHaveLength(1));
   });
 
+  it.only('get owner by ID', () => {
+    return Owner
+      .create({ name: 'Clem', email: 'clemjim90@hotmail.com' })
+      .then(createdOwner => {
+        return request(app)
+          .get(`/owners/${createdOwner._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({ name: 'Clem', email: 'clemjim90@hotmail.com', _id: expect.any(String) });
+      });
+  });
 });
