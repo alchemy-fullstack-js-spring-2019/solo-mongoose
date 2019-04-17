@@ -2,10 +2,11 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
 const Tweet = require('../lib/models/Tweets');
+require('dotenv').config();
 
 describe('tweet routes', ()=>{
     beforeAll(()=>{   
-        mongoose.connect('mongodb://localhost:27017/tweets', {
+        mongoose.connect(`mongodb://${process.env.MONGO_HOST}/tweets`, {
             useFindAndModify: false,
             useNewUrlParser: true,
             useCreateIndex: true
