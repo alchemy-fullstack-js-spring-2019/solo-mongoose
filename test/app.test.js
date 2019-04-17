@@ -1,6 +1,7 @@
 const request = require('supertest');
 const app = require('../lib/app');
 const mongoose = require('mongoose');
+const Tweet = require('../lib/models/Tweet');
 
 describe('tweet routes', () => {
     beforeAll(() => {
@@ -17,7 +18,7 @@ describe('tweet routes', () => {
         return mongoose.connection.close();
     })
 
-    it.only('creates a new tweet', () => {
+    it('creates a new tweet', () => {
         return request(app)
             .post('/tweets')
             .send({
@@ -33,6 +34,32 @@ describe('tweet routes', () => {
                     _id: expect.any(String),
                     __v: 0
                 });
+            });
+    });
+    it('returns all tweets', () => {
+        return Tweet.create({ handle: 'Ryan', body: 'Get this', tag: 'cats' })
+            .then(() => {
+                return request(app)
+                    .get('/tweets')
+            })
+            .then(res => {
+                expect(res.body).toHaveLength(1);
+            });
+    })
+    it.only('returns a tweet by id', () => {
+        return Tweet.create({ handle: 'Frank', body: 'Get this by ID', tag: 'findById'})
+            .then(createdTweet => {
+                return request(app)
+                    .get(`/tweets/${createdTweet._id}`)
+            })
+            .then(returnedTweet => {
+                expect(returnedTweet.body).toEqual({
+                    handle: 'Frank',
+                    body: 'Get this by ID',
+                    tag: 'findById',
+                    _id: expect.any(String),
+                    __v: 0
+                })
             })
     })
-})
+});
