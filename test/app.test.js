@@ -83,4 +83,18 @@ describe('tweet routes', () => {
         });
       });
   });
+
+  it('deletes a tweet by the id', () => {
+    return Tweet
+      .create({ handle: 'dave', body: 'a magical tweet' })
+      .then(tweet => {
+        return request(app)
+          .delete(`/tweets/${tweet._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          deleted: 1
+        });
+      });
+  });
 });
