@@ -69,7 +69,10 @@ describe('/tweets routes', () => {
       .then(res => request(app).get(`/tweets/${res.body._id}`))
       .then(res => {
         expect(res.body).toEqual({
-          user: expect.any(String),
+          user: {
+            _id: expect.any(String),
+            handle: 'sup.tommy'
+          },
           body: 'User tweet',
           tags: ['testing', 'jest', 'supertest'],
           _id: expect.any(String)
