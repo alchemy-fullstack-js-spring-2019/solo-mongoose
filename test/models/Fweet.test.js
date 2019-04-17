@@ -2,15 +2,19 @@ const mongoose = require('mongoose');
 const Fweet = require('../../lib/models/Fweet');
 
 describe('Fweet model', () => {
-  it('creates a fweet with a handle, body, and tags', () => {
+  
+  const id = new mongoose.Types.ObjectId;
+
+  it('creates a fweet with a handle (id), body, and tags', () => {
+
     const fweet = new Fweet({
-      handle: 'chris',
+      handle: id,
       body: 'this is a tweet',
       tags: 'JS'
     });
 
     expect(fweet.toJSON()).toEqual({
-      handle: 'chris',
+      handle: id,
       body: 'this is a tweet',
       tags: 'JS',
       _id: expect.any(mongoose.Types.ObjectId)
@@ -51,7 +55,7 @@ describe('Fweet model', () => {
 
   it('has tags which can only be certain strings', () => {
     const fweet = new Fweet({
-      handle: 'chris',
+      handle: id,
       body: 'this is a tweet',
       tags: 'badtag'
     });
