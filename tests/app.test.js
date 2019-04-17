@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
 const Tweet = require('../lib/models/Tweet');
+const Dog = require('../lib/models/Dog');
 
 describe('tweet routes', () => {
   beforeAll(() => {
@@ -90,6 +91,39 @@ describe('tweet routes', () => {
         expect(res.body).toEqual({
           handle: 'megan',
           body: 'I am serious',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+});
+
+describe('dog routes', () => {
+  beforeAll(() => {
+    return mongoose.connect('mongodb://localhost:27017/dogs', {
+      useFindAndModify: false,
+      useNewUrlParser: true,
+      useCreateIndex: true
+    });
+  });
+
+  beforeEach(() => {
+    return mongoose.connection.dropDatabase();
+  });
+
+  afterAll(() => {
+    return mongoose.connection.close();
+  });
+
+  it('can create a new dog', () => {
+    return request(app)
+      .post('/dogs')
+      .send({ name: 'bongo', breed: 'crazy', age: 11 })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'bongo',
+          breed: 'crazy',
+          age: 11,
           _id: expect.any(String),
           __v: 0
         });
