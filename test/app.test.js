@@ -92,6 +92,22 @@ describe('e2e user routes', () => {
       });
   });
 
+  it('it can delete stuff', () => {
+    return User.create({ handle: 'sad_robot', name: 'empty heart' })
+      .then(user => {
+        return request(app)
+          .delete(`/users/${user._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'sad_robot',
+          name: 'empty heart',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
 
 });
 
