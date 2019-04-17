@@ -75,8 +75,7 @@ describe('/tweets routes', () => {
           handle: 'Tommy',
           body: 'Tweet 6',
           tags: ['testing', 'jest', 'supertest'],
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
@@ -101,8 +100,7 @@ describe('/tweets routes', () => {
           handle: 'Tommy',
           body: 'Tweet 6',
           tags: ['jest'],
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
@@ -120,8 +118,7 @@ describe('/tweets routes', () => {
           handle: 'Tommy',
           body: 'Tweet 6',
           tags: ['testing', 'jest', 'supertest'],
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
@@ -138,7 +135,7 @@ describe('/users routes', () => {
     return mongoose.connection.close();
   });
 
-  it('adds tweet (w/ tags) to database with POST', () => {
+  it('adds user to database with POST', () => {
     return request(app)
       .post('/users').send({
         handle: 'sup.tommy',
@@ -170,7 +167,7 @@ describe('/users routes', () => {
       });
   });
 
-  it('gets a tweet by id with GET', () => {
+  it('gets a user by id with GET', () => {
     return request(app)
       .post('/users').send({
         handle: 'sup.tommy',
@@ -183,13 +180,12 @@ describe('/users routes', () => {
           handle: 'sup.tommy',
           name: 'Tommy Tran',
           email: 'tommytran@email.com',
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
 
-  it('patches a tweet by id with PATCH', () => {
+  it('patches a user by id with PATCH', () => {
     return request(app)
       .post('/users').send({
         handle: 'sup.tomy',
@@ -207,13 +203,12 @@ describe('/users routes', () => {
           handle: 'sup.tommy',
           name: 'Tommy Tran',
           email: 'tommytran@email.com',
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
 
-  it('deletes a tweet by id with DELETE', () => {
+  it('deletes a user by id with DELETE', () => {
     return request(app)
       .post('/users').send({
         handle: 'sup.tommy',
@@ -226,8 +221,7 @@ describe('/users routes', () => {
           handle: 'sup.tommy',
           name: 'Tommy Tran',
           email: 'tommytran@email.com',
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
