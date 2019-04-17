@@ -21,19 +21,24 @@ describe('tweet routes', () => {
 
   it('can create a new tweet', () => {
     return User
-      .create({ handle: 'create test', name: 'a name', email: 'an@email.add' })
+      .create({
+        handle: 'create test',
+        name: 'some name',
+        email: 'some@email.com'
+      })
       .then(user => {
-        return Tweet
-          .create({ user: user._id, text: 'a new tweet' });
+        return request(app)
+          .post('/tweets').send({
+            user: user._id, 
+            text: 'a new tweet'
+          });
       })
       .then(res => {
         expect(res.body).toEqual({
-          user: {
-            _id: expect.any(String),
-            handle: 'create test'
-          }, 
+          user: expect.any(String),
           text: 'a new tweet', 
-          _id: expect.any(String)
+          _id: expect.any(String),
+          __v: 0
         });
       });
   });
