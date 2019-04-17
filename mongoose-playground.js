@@ -1,22 +1,22 @@
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/tweets', {
-    useNewUrlParser: true,
-    useFindAndModify: false
-});
+// mongoose.connect('mongodb://localhost:27017/tweets', {
+//     useNewUrlParser: true,
+//     useFindAndModify: false
+// });
 
-const tweetSchema = new mongoose.Schema({
-    handle: {
-        type: String,
-        required: true
-    },
-    body: {
-        type: String,
-        required: true
-    }
-});
+// const tweetSchema = new mongoose.Schema({
+//     handle: {
+//         type: String,
+//         required: true
+//     },
+//     body: {
+//         type: String,
+//         required: true
+//     }
+// });
 
-const Tweet = mongoose.model('Tweet', tweetSchema);
+// const Tweet = mongoose.model('Tweet', tweetSchema);
 
 // Tweet.create({ handle: 'Colin', body: 'Mongoose stuffs?'})
 //     .then(tweet => console.log(tweet))
@@ -45,11 +45,9 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 //     })
 //     .then(updatedTweet => console.log(updatedTweet));
 
-Tweet
-    .findByIdAndUpdate("5cb6278b6a54fd330451c6a0", { handle: 'UPDATED', body: 'yet more updates'}, { new: true})
-    .then(updatedTweet => console.log(updatedTweet))
-    .finally(() => {
-        mongoose.connection.close();
-    });
-
-    
+// Tweet
+//     .findByIdAndUpdate("5cb6278b6a54fd330451c6a0", { handle: 'UPDATED', body: 'yet more updates'}, { new: true})
+//     .then(updatedTweet => console.log(updatedTweet))
+//     .finally(() => {
+//         mongoose.connection.close();
+//     });
