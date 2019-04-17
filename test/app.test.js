@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
 const Tweet = require('../lib/models/Tweet');
+const User = require('../lib/models/User');
 
 describe('app', () => {
 
@@ -12,15 +13,12 @@ describe('app', () => {
       useCreateIndex: true
     });
   });
-
   beforeEach(() => {
     return mongoose.connection.dropDatabase();
   });
-
   afterAll(() => {
     return mongoose.connection.close();
   });
-
   it('creates a tweet', () => {
     return request(app)
       .post('/tweets')
@@ -101,5 +99,41 @@ describe('app', () => {
         });
       });
   });
-
 });
+
+describe('user', () => {
+
+  beforeAll(() => {
+    return mongoose.connect('mongodb://localhost:27017/users', {
+      useFindAndModify: false,
+      useNewUrlParser: true,
+      useCreateIndex: true
+    });
+  });
+  beforeEach(() => {
+    return mongoose.connection.dropDatabase();
+  });
+  afterAll(() => {
+    return mongoose.connection.close();
+  });
+
+  it('create user', () => {
+    return request(app)
+      .post('/users')
+      .send({
+        handle: 'funcle-jerry',
+        name: 'jared',
+        email: 'uncleJerry@email.net'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'funcle-jerry',
+          name: 'jared',
+          email: 'uncleJerry@email.net',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+})
