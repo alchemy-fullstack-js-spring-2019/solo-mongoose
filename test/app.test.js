@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app.js');
 const TweetSchema = require('../lib/models/tweetSchema.js');
+const UserSchema = require('../lib/models/userSchema.js');
+
 
 describe('tweet routes', () => {
   beforeAll(() => {
@@ -81,7 +83,7 @@ describe('tweet routes', () => {
         });
       });
   });
-  it('finds by ID and updates', () => {
+  it.skip('finds by ID and updates', () => {
     return TweetSchema
       .create({
         handle: 'intro_mode',
@@ -123,13 +125,36 @@ describe('user routes', () => {
     return mongoose.connection.dropDatabase();
   });
 
-  // it('creates a user', () => {
-  //   return request(app)
-  //     .post('/users')
-  //     .send({
-
-  //     })
-  // });
+  it('creates a user', () => {
+    return request(app)
+      .post('/users')
+      .send({
+        handle: 'intro_mode',
+        email: 'intro_mode@gmail.com'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'intro_mode',
+          email: 'intro_mode@gmail.com',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+  it('returns an array of all users in the db', () => {
+    return UserSchema
+      .create({
+        handle: 'intro_mode',
+        email: 'intro_mode@gmail.com'
+      })
+      .then(() => {
+        return request(app)
+          .get('/users');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(1);
+      });
+  });
 });
 
 
