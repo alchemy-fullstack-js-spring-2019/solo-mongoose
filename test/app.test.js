@@ -55,4 +55,7 @@ describe('tweet routes', () => {
         expect(res.body).toHaveLength(1);
       });
   });
+  it('finds by id', () => {
+
+  });
 });
