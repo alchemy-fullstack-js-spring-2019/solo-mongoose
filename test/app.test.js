@@ -62,4 +62,25 @@ describe('tweet routes', () => {
         });
       });
   });
+
+  it('updates a tweet by the id', () => {
+    return Tweet
+      .create({ handle: 'dave', body: 'a magical tweet' })
+      .then(tweet => {
+        return request(app)
+          .put(`/tweets/${tweet._id}`)
+          .send({
+            handle: 'dave',
+            body: 'a magical tweet'
+          });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'dave',
+          body: 'a magical tweet',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
 });
