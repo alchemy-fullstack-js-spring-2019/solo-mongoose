@@ -14,6 +14,29 @@ describe('/tweets routes', () => {
     return mongoose.connection.close();
   });
 
+  it.only('adds a tweet by user', () => {
+    return request(app)
+      .post('/users').send({
+        handle: 'sup.tommy',
+        name: 'Tommy Tran',
+        email: 'tommy@tran.com'
+      })
+      .then(res => request(app)
+        .post(`/tweets/users/${res.body._id}`)
+        .send({
+          body: 'User tweet'
+        })
+      )
+      .then(res => {
+        expect(res.body).toEqual({
+          body: 'User tweet',
+          tags: [],
+          _id: expect.any(String),
+          __v: 0,
+          handle: expect.any(String)
+        });
+      });
+  });
   it('adds tweet (w/ tags) to database with POST', () => {
     return request(app)
       .post('/tweets').send({

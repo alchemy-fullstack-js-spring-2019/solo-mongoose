@@ -5,13 +5,13 @@ const mongoose = require('mongoose');
 describe('tweetSchema tests', () => {
   it('creates a new instance of tweet', () => {
     const expected = {
-      handle: 'Tommy',
+      handle: expect.any(mongoose.Types.ObjectId),
       body: 'tweet4',
       tags: [],
       _id: expect.any(mongoose.Types.ObjectId)
     };
     const tweet = new Tweet({
-      handle: 'Tommy',
+      handle: new mongoose.Types.ObjectId,
       body: 'tweet4'
     });
     
@@ -23,13 +23,13 @@ describe('tweetSchema tests', () => {
 
   it('creates a new instance of tweet with array', () => {
     const expected = {
-      handle: 'Tommy',
+      handle: expect.any(mongoose.Types.ObjectId),
       body: 'tweet4',
       tags: ['testing', 'jest', 'supertest'],
       _id: expect.any(mongoose.Types.ObjectId)
     };
     const tweet = new Tweet({
-      handle: 'Tommy',
+      handle: new mongoose.Types.ObjectId(),
       body: 'tweet4',
       tags: ['testing', 'jest', 'supertest']
     });
@@ -49,7 +49,7 @@ describe('tweetSchema tests', () => {
 
   it('limits characters (140)', () => {
     const tweet = new Tweet({
-      handle: 'Tommy',
+      handle: new mongoose.Types.ObjectId(),
       body: '@'.repeat(141)
     });
   
