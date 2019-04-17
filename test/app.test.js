@@ -4,7 +4,7 @@ const app = require('../lib/app');
 const Tweet = require('../lib/models/Tweet');
 const User = require('../lib/models/User');
 
-describe('app', () => {
+describe('tweets', () => {
 
   beforeAll(() => {
     return mongoose.connect('mongodb://localhost:27017/tweets', {
@@ -20,7 +20,23 @@ describe('app', () => {
     return mongoose.connection.close();
   });
 
-  
+  it('creates a tweet', () => {
+    return request(app)
+      .post('/tweets')
+      .send({ 
+        user: 'gustof', 
+        body: 'yo hey there friends' 
+      })
+      .then(res => {
+        expect(res.body).toEqual({ 
+          handle: 'gustof', 
+          body: 'yo hey there friends',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
   it('gets list of all tweets', () => {
     return Tweet
       .create({ handle: 'victor', body: 'yooo' })
@@ -96,23 +112,6 @@ describe('app', () => {
         expect(res.body).toEqual({
           handle: 'jessy',
           body: 'shurdu',
-          _id: expect.any(String),
-          __v: 0
-        });
-      });
-  });
-
-  it('creates a tweet', () => {
-    return request(app)
-      .post('/tweets')
-      .send({ 
-        handle: 'gustof', 
-        body: 'yo hey there friends' 
-      })
-      .then(res => {
-        expect(res.body).toEqual({ 
-          handle: 'gustof', 
-          body: 'yo hey there friends',
           _id: expect.any(String),
           __v: 0
         });
