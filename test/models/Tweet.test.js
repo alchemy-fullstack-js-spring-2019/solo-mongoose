@@ -2,14 +2,15 @@ const mongoose = require('mongoose');
 const Tweet = require('../../lib/models/Tweet');
 
 describe('Tweet model', () => {
-  it('has a handle and body field', () => {
+  it('has a toyUser and body field', () => {
+    const id = new mongoose.Types.ObjectId();
     const tweet = new Tweet({
-      handle: 'cheri',
+      toyUser: id,
       body: 'this is a tweet'
     });
 
     expect(tweet.toJSON()).toEqual({
-      handle: 'cheri',
+      toyUser: id,
       body: 'this is a tweet',
       _id: expect.any(mongoose.Types.ObjectId)
     });

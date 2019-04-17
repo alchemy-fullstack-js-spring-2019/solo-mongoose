@@ -22,12 +22,20 @@ describe('tweet routes', () => {
   });
 
   it('can create a new tweet', () => {
-    return request(app)
-      .post('/tweets')
-      .send({ handle: 'cheri', body: 'a fine tweet' })
+    return Toy.create({
+      name: 'the pickle', 
+      description: 'fuzzy pickle',
+      color: 'green',
+      condition: 'squeaker in critical condition'
+    }) 
+      .then(toy => {
+        return request(app)
+          .post('/tweets')
+          .send({ toyUser: toy._id, body: 'a fine tweet' });
+      })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'cheri',
+          toyUser: expect.any(String),
           body: 'a fine tweet',
           _id: expect.any(String),
           __v: 0
@@ -36,8 +44,15 @@ describe('tweet routes', () => {
   });
 
   it('can get a list of all tweets', () => {
-    return Tweet
-      .create({ handle: 'cheri', body: 'my tweet' })
+    return Toy.create({
+      name: 'the pickle', 
+      description: 'fuzzy pickle',
+      color: 'green',
+      condition: 'squeaker in critical condition'
+    })
+      .then(toy => {
+        return Tweet.create({ toyUser: toy._id, body: 'my tweet' }); 
+      })
       .then(() => {
         return request(app)
           .get('/tweets');
@@ -47,7 +62,7 @@ describe('tweet routes', () => {
       });
   });
   
-  it('can get a tweet by id', () => {
+  it.only('can get a tweet by id', () => {
     return Tweet 
       .create({ handle: 'stitch', body: 'gimmie a treat' })
       .then(createdTweet => {
