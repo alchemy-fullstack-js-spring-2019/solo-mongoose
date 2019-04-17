@@ -43,6 +43,14 @@ describe('tweet routes', () => {
         expect(res.body).toHaveLength(1);
       });
   });
+  it('can delete a tweet', () => {
+    return Tweet
+      .create({ handle: 'Luc', body: 'tabernak' })
+      .then(()  => {
+        return request(app);
+        
+      });
+  });
 
 });
 
