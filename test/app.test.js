@@ -56,7 +56,7 @@ describe('dog route', () => {
       });
   });
 
-  it('update tweet by ID', () => {
+  it('update dog by ID', () => {
     return Dog
       .create({ name: 'Trevor', age: 600 })
       .then(dog => {
@@ -66,6 +66,18 @@ describe('dog route', () => {
       })
       .then(res => {
         expect(res.body).toEqual({ name: 'Ted', age: 3, __v:0, _id: expect.any(String) });
+      });
+  });
+
+  it('delete by ID', () => {
+    return Dog
+      .create({ name: 'Trevor', age: 600 })
+      .then(dog => {
+        return request(app)
+          .delete(`/dogs/${dog._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({ name: 'Trevor', age: 600, __v: 0, _id: expect.any(String) });
       });
   });
 });
