@@ -63,8 +63,7 @@ describe('tweet routes', ()=> {
         expect(res.body).toEqual({
           handle: 'emily',
           body: 'my cool tweet',
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
@@ -87,8 +86,7 @@ describe('tweet routes', ()=> {
         expect(res.body).toEqual({
           handle: 'emily',
           body: 'my really cool tweet',
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
@@ -106,8 +104,7 @@ describe('tweet routes', ()=> {
         expect(res.body).toEqual({
           handle: 'emily',
           body: 'my cool deleted tweet',
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
