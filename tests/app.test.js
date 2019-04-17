@@ -103,12 +103,15 @@ describe('tweet routes', () => {
         return Tweet.create({ user: createdDog._id, body: 'my next tweet' });
       })
       .then((createdTweet) => {
-        return request(app)
-          .delete(`/tweets/${createdTweet._id}`);
+        return Promise.all([
+          Promise.resolve(createdTweet._id.toString()),
+          request(app)
+            .delete(`/tweets/${createdTweet._id}`)
+        ]);
       })
-      .then(res => {
+      .then(([_id, res]) => {
         expect(res.body).toEqual({
-          _id: expect.any(String)
+          _id
         });
       });
   });
