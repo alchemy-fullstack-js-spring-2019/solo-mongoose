@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app.js');
+const Tweet = require('../lib/models/Tweet')
 
 describe('tweet routes', () => {
     beforeAll(() => {
@@ -21,6 +22,18 @@ describe('tweet routes', () => {
             .send({ handle: 'Anna', body: 'this is my tweet' })
             .then(res => {
                 expect(res.body).toEqual({ handle: 'Anna', body: 'this is my tweet', _id: expect.any(String), __v: 0 })
+            });
+    });
+
+    it('gets a list of all tweets', () => {
+        return Tweet
+            .create({ handle: 'chandler', body: 'my tweet' })
+            .then(() => {
+                return request(app)
+                    .get('/tweets');
+            })
+            .then(res => {
+                expect(res.body).toHaveLength(1);
             });
     });
 });
