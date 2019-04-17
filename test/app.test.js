@@ -3,7 +3,7 @@ const request = require('supertest');
 const app = require('../lib/app');
 const Tweet = require('../lib/models/Tweets');
 require('dotenv').config();
-console.log('work!!!!!');
+
 
 describe('tweet routes', ()=>{
     beforeAll(()=>{   
