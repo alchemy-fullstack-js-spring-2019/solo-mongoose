@@ -129,4 +129,15 @@ describe('dog routes', () => {
         });
       });
   });
+  it('can get a list of all dogs', () => {
+    return Dog
+      .create({ name: 'meggo', breed: 'pug', age: 10 })
+      .then(() => {
+        return request(app)
+          .get('/dogs');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(1);
+      });
+  });
 });
