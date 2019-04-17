@@ -1,14 +1,15 @@
-const mongoose = require('mongoose');
+require('dotenv').config();
 const app = require('./lib/app');
+const mongoose = require('mongoose');
 
-const PORT = process.env.PORT || 7890;
-
-mongoose.connect('mongodb://localhost:27017/tweets', { 
+mongoose.connect(process.env.MONGODB_URI, { 
   useFindAndModify: false,
   useNewUrlParser: true,
   useCreateIndex: true  
 });
 
+const PORT = process.env.PORT || 7890;
+
 app.listen(PORT, () => {
-  console.log(`Started on port ${PORT}`);
+  console.log(`Listening on port ${PORT}`);
 });
