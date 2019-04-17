@@ -176,8 +176,7 @@ describe('User routes', () => {
           handle: 'mcnadams',
           name: 'Bonnie McNeil',
           email: 'a@b.com',
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
@@ -201,8 +200,7 @@ describe('User routes', () => {
           handle: 'mcnadams',
           name: 'Bonnie McNeil',
           email: 'b@c.com',
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
