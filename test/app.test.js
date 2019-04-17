@@ -55,4 +55,17 @@ describe('dog route', () => {
         expect(res.body).toEqual({ name: 'Trevor', age: 600, __v: 0, _id: expect.any(String) });
       });
   });
+
+  it('update tweet by ID', () => {
+    return Dog
+      .create({ name: 'Trevor', age: 600 })
+      .then(dog => {
+        return request(app)
+          .put(`/dogs/${dog._id}`)
+          .send({ name: 'Ted', age: 3 });
+      })
+      .then(res => {
+        expect(res.body).toEqual({ name: 'Ted', age: 3, __v:0, _id: expect.any(String) });
+      });
+  });
 });
