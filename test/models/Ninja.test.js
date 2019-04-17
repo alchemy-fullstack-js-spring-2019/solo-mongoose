@@ -1,31 +1,38 @@
 const mongoose = require('mongoose');
 const Ninja = require('../../lib/models/Ninja');
+const User = require('../../lib/models/User');
 
 describe('NINJA MODELS TESTS', () => {
 
   it('has nickname, age, and tagline', () => {
-    const ninja = new Ninja({
+    const user = new User({
       nickname: 'Shadow',
+      name: 'Steven',
+      email: 'steven@shadow.com'
+    });
+    
+    const ninja = new Ninja({
+      user: user._id,
       age: 23,
       tagline: 'One with the night'
     });
 
     expect(ninja.toJSON()).toEqual({
-      nickname: 'Shadow',
+      user: user._id,
       age: 23,
       tagline: 'One with the night',
       _id: expect.any(mongoose.Types.ObjectId)
     });
   });
 
-  it('required nickname', () => {
+  it('required user', () => {
     const ninja = new Ninja({
       age: 23,
       tagline: 'One with the night'
     });
 
     const errors = ninja.validateSync().errors;
-    expect(errors.nickname.message).toEqual('Path `nickname` is required.');
+    expect(errors.user.message).toEqual('Path `user` is required.');
   });
 
   it('required age', () => {

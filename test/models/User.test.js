@@ -16,4 +16,16 @@ describe('USER MODELS TESTS', () => {
       _id: expect.any(mongoose.Types.ObjectId)
     });
   });
+
+  it('required nickname', () => {
+    const user = new User({
+      name: 'Steven',
+      email: 'steven@stealth.com'
+    });
+    const errors = user.validateSync().errors;
+    expect(errors.nickname.message).toEqual(
+      'Path `nickname` is required.'
+    );
+  });
+
 });

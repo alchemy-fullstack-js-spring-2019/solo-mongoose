@@ -21,13 +21,26 @@ describe('APP TESTS', () => {
     return mongoose.connection.close();
   });
 
+  const createNinja = () => {
+    return User
+      .create({ nickname: 'nickname', name: 'name', email: 'email@email.com' })
+      .then(user => {
+        return Ninja
+          .create({ user: user._id, age: 20, tagline: 'tagline' });
+      });
+  };
+
   it('creates a new NINJA', () => {
-    return request(app)
-      .post('/ninjas')
-      .send({ nickname: 'nino', age: 20, tagline: 'death' })
+    return User
+      .create({ nickname: 'nickname', name: 'name', email: 'email@email.com' })
+      .then(user => {
+        return request(app)
+          .post('/ninjas')
+          .send({ user: user._id, age: 20, tagline: 'death' });
+      })
       .then(res => {
         expect(res.body).toEqual({
-          nickname: 'nino', 
+          user: expect.any(String), 
           age: 20, 
           tagline: 'death',
           _id: expect.any(String),
@@ -37,74 +50,78 @@ describe('APP TESTS', () => {
   });
 
   it('find a list of NINJAS', () => {
-    return Ninja
-      .create([
-        { nickname: 'nino', age: 20, tagline: 'death' },
-        { nickname: 'tim', age: 33, tagline: 'winning' }
-      ])
+    return createNinja()
       .then(() => {
         return request(app)
           .get('/ninjas');
       })
       .then(res => {
-        expect(res.body).toHaveLength(2);
+        expect(res.body).toHaveLength(1);
       });
   });
 
   it('find NINJA by id', () => {
-    return Ninja
-      .create({ nickname: 'tim', age: 33, tagline: 'winning' })
+    return createNinja()
       .then(data => {
         return request(app)
           .get(`/ninjas/${data._id}`);
       })
       .then(res => {
         expect(res.body).toEqual({
-          nickname: 'tim', 
-          age: 33, 
-          tagline: 'winning',
+          user: {
+            nickname: 'nickname',
+            name: 'name',
+            email: 'email@email.com',
+            _id: expect.any(String)
+          }, 
+          age: 20, 
+          tagline: 'tagline',
           _id: expect.any(String),
-          __v: 0
         });
       });
   });
 
   it('update NINJA by id', () => {
-    return Ninja
-      .create({ nickname: 'tim', age: 33, tagline: 'winning' })
+    return createNinja()
       .then(ninja => {
         return request(app)
           .put(`/ninjas/${ninja._id}`)
           .send({
-            nickname: 'tim', 
             age: 18, 
             tagline: 'YAY!'
           });
       })
       .then(res => {
         expect(res.body).toEqual({
-          nickname: 'tim', 
+          user: {
+            nickname: 'nickname',
+            name: 'name',
+            email: 'email@email.com',
+            _id: expect.any(String)
+          }, 
           age: 18, 
           tagline: 'YAY!',
           _id: expect.any(String),
-          __v: 0
         });
       });
   });
 
   it('delete NINJA by id', () => {
-    return Ninja
-      .create({ nickname: 'delete', age: 0, tagline: 'me deleted' })
+    return createNinja()
       .then(data => {
         return request(app)
           .delete(`/ninjas/${data._id}`)
           .then(res => {
             expect(res.body).toEqual({
-              nickname: 'delete', 
-              age: 0, 
-              tagline: 'me deleted',
+              user: {
+                nickname: 'nickname',
+                name: 'name',
+                email: 'email@email.com',
+                _id: expect.any(String)
+              }, 
+              age: 20, 
+              tagline: 'tagline',
               _id: expect.any(String),
-              __v: 0
             });
           });
       });
