@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app.js');
 const Tweet = require('../lib/models/Tweet');
+const User = require('../lib/models/User');
 
 describe('tweet routes', () => {
     beforeAll(() => {
@@ -91,6 +92,107 @@ describe('tweet routes', () => {
                 expect(res.body).toEqual({ 
                     handle: 'name', 
                     body: 'delete me',
+                    _id: expect.any(String)
+                });
+            });
+    });
+});
+
+describe('user routes', () => {
+    beforeAll(() => {
+        return mongoose.connect('mongodb://localhost:27017/users', {
+            useNewUrlParser: true,
+            useFindAndModify: false,
+            useCreateIndex: true
+        });
+    });
+    beforeEach(() => {
+        return mongoose.connection.dropDatabase();
+    });
+    afterAll(() => {
+        return mongoose.connection.close();
+    });
+
+    it('creates a user', () => {
+        return request(app)
+            .post('/user')
+            .send({ handle: '@anna', name: 'Anna', email: 'email@email.com' })
+            .then(res => {
+                expect(res.body).toEqual({ handle: '@anna', name: 'Anna', email: 'email@email.com', _id: expect.any(String), __v: 0 });
+            });
+    });
+
+    it('gets a list of all users', () => {
+        return User.create({
+            handle: '@anna',
+            name: 'Anna',
+            email: 'email@email.com' 
+        })
+            .then(() => {
+                return request(app)
+                    .get('/user');
+            })
+            .then(res => {
+                expect(res.body).toHaveLength(1);
+            });
+    });
+
+    it('gets a user by id', () => {
+        return User.create({
+            handle: '@anna',
+            name: 'Anna',
+            email: 'email@email.com' 
+        })
+            .then(user => {
+                return request(app)
+                    .get(`/user/${user._id}`);
+            })
+            .then(res => {
+                expect(res.body).toEqual({
+                    handle: '@anna',
+                    name: 'Anna',
+                    email: 'email@email.com', 
+                    _id: expect.any(String),
+                });
+            });
+    });
+
+    it('updates a user', () => {
+        return User.create({
+            handle: '@anna',
+            name: 'Anna',
+            email: 'email@email.com' 
+        })
+            .then(user => {
+                return request(app)
+                    .patch(`/user/${user._id}`)
+                    .send({ email: 'new@gmail.com' });
+            })
+            .then(res => {
+                expect(res.body).toEqual({
+                    handle: '@anna',
+                    name: 'Anna',
+                    email: 'new@gmail.com', 
+                    _id: expect.any(String),
+                });
+            });
+    });
+
+    it('deletes a user', () => {
+        return User.create({
+            handle: '@anna',
+            name: 'Anna',
+            email: 'email@email.com' 
+        })
+            .then(user => {
+                return request(app)
+                    .delete(`/user/${user._id}`);
+            })
+            .then(res => {
+                expect(res.body).toEqual({
+                    handle: '@anna',
+                    name: 'Anna',
+                    email: 'email@email.com', 
                     _id: expect.any(String)
                 });
             });
