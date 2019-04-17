@@ -3,11 +3,26 @@ const request = require('supertest');
 const app = require('../lib/app');
 const Tweet = require('../lib/models/Tweet');
 const User = require('../lib/models/User');
+require('dotenv').config();
+
 
 describe('tweets', () => {
+  
+  const twat = () => {
+    return User
+      .create({
+        handle: 'jimmy no panys',
+        name: 'jimithy',
+        email: 'aintGotNoEmail.email.com'
+      })
+      .then(createdUser => {
+        return Tweet
+          .create({ user: createdUser._id, body: 'yooo' });
+      });
+  };
 
   beforeAll(() => {
-    return mongoose.connect('mongodb://localhost:27017/tweets', {
+    return mongoose.connect(process.env.MONGODB_URI, {
       useFindAndModify: false,
       useNewUrlParser: true,
       useCreateIndex: true
@@ -21,25 +36,32 @@ describe('tweets', () => {
   });
 
   it('creates a tweet', () => {
-    return request(app)
-      .post('/tweets')
-      .send({ 
-        user: 'gustof', 
-        body: 'yo hey there friends' 
+    return User
+      .create({
+        handle: 'jimmy no panys',
+        name: 'jimithy',
+        email: 'aintGotNoEmail.email.com'
       })
-      .then(res => {
-        expect(res.body).toEqual({ 
-          handle: 'gustof', 
-          body: 'yo hey there friends',
-          _id: expect.any(String),
-          __v: 0
-        });
+      .then(createdUser => {
+        return request(app)
+          .post('/tweets')
+          .send({ 
+            user: createdUser._id, 
+            body: 'yo hey there friends' 
+          })
+          .then(res => {
+            expect(res.body).toEqual({ 
+              body: 'yo hey there friends',
+              _id: expect.any(String),
+              __v: 0,
+              user: expect.any(String)
+            });
+          });
       });
   });
 
   it('gets list of all tweets', () => {
-    return Tweet
-      .create({ handle: 'victor', body: 'yooo' })
+    return twat()
       .then(() => {
         return request(app)
           .get('/tweets');
@@ -50,32 +72,30 @@ describe('tweets', () => {
   });
 
   it('gets tweet by id', () => {
-    return Tweet
-      .create({ handle: 'steve', body: 'never seen it so good' })
-      .then(createdTweet => {
+    return twat()
+      .then(tweet => {
         return request(app)
-          .get(`/tweets/${createdTweet._id}`);
+          .get(`/tweets/${tweet._id}`);
       })
       .then(res => {
         expect(res.body).toEqual({ 
-          handle: 'steve', 
-          body: 'never seen it so good',
+          user: expect.any(String), 
+          body: 'yooo',
           _id: expect.any(String)
         });
       });
   });
 
   it('gets by id and updates body using patch', () => {
-    return Tweet
-      .create({ handle: 'steve', body: 'happy monday' })
-      .then(createdTweet => {
+    return twat()
+      .then(tweet => {
         return request(app)
-          .patch(`/tweets/${createdTweet._id}`)
+          .patch(`/tweets/${tweet._id}`)
           .send({ body: 'pretty close enough' });
       })
       .then(res => {
         expect(res.body).toEqual({ 
-          handle: 'steve', 
+          user: expect.any(String), 
           body: 'pretty close enough', 
           _id: expect.any(String),
           __v: 0 
@@ -84,17 +104,16 @@ describe('tweets', () => {
   });
 
   it('gets by id and updates handle using patch', () => {
-    return Tweet
-      .create({ handle: 'steve', body: 'happy monday' })
-      .then(createdTweet => {
+    return twat()
+      .then(tweet =>{
         return request(app)
-          .patch(`/tweets/${createdTweet._id}`)
+          .patch(`/tweets/${tweet._id}`)
           .send({ handle: 'jared' });
       })
       .then(res => {
         expect(res.body).toEqual({ 
-          handle: 'jared', 
-          body: 'happy monday', 
+          user: expect.any(String), 
+          body: 'yooo', 
           _id: expect.any(String),
           __v: 0 
         });
@@ -102,16 +121,15 @@ describe('tweets', () => {
   });
 
   it('gets tweet by id and deletes', () => {
-    return Tweet
-      .create({ handle: 'jessy', body: 'shurdu' })
-      .then(createdTweet => {
+    return twat()
+      .then(tweet => {
         return request(app)
-          .delete(`/tweets/${createdTweet._id}`);
+          .delete(`/tweets/${tweet._id}`);
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'jessy',
-          body: 'shurdu',
+          user: expect.any(String),
+          body: 'yooo',
           _id: expect.any(String),
           __v: 0
         });
@@ -119,10 +137,11 @@ describe('tweets', () => {
   });
 });
 
+
 describe('user', () => {
 
   beforeAll(() => {
-    return mongoose.connect('mongodb://localhost:27017/users', {
+    return mongoose.connect(process.env.MONGODB_URI, {
       useFindAndModify: false,
       useNewUrlParser: true,
       useCreateIndex: true
