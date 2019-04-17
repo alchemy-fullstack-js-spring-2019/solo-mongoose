@@ -5,6 +5,13 @@ const Tweet = require('../lib/models/Tweet');
 const User = require('../lib/models/User');
 
 describe('tweet routes', () => {
+    const createTweet = () => {
+        return User.create({ handle: 'Colin', image: '' })
+        .then(user => {
+            return Tweet.create({ user: user._id, body: 'my tweet' });
+        });
+    };
+
     beforeAll(() => {
         return mongoose.connect('mongodb://localhost:27017/tweets', {
             useFindAndModify: false,
@@ -19,7 +26,7 @@ describe('tweet routes', () => {
         return mongoose.connection.close();
     })
 
-    it.only('creates a new tweet', () => {
+    it('creates a new tweet', () => {
         return User.create({ handle: 'Colin', image: ''})
             .then(createdUser => {
                 return request(app)
@@ -40,7 +47,7 @@ describe('tweet routes', () => {
             });
     });
     it('returns all tweets', () => {
-        return Tweet.create({ handle: 'Ryan', body: 'Get this', tag: 'cats' })
+        return createTweet()
             .then(() => {
                 return request(app)
                     .get('/tweets')
@@ -51,37 +58,40 @@ describe('tweet routes', () => {
             });
     })
     it('returns a tweet by id', () => {
-        return Tweet.create({ handle: 'Frank', body: 'Get this by ID', tag: 'findById'})
+        return createTweet()
             .then(createdTweet => {
                 return request(app)
                     .get(`/tweets/${createdTweet._id}`)
             })
             .then(returnedTweet => {
-                expect(returnedTweet.body).toEqual({
-                    handle: 'Frank',
-                    body: 'Get this by ID',
-                    tag: 'findById',
+                expect(returnedTweet.body).toEqual(
+                    {
+                    user: {handle: 'Colin',
+                    image: '',
                     _id: expect.any(String)
+                },
+                _id: expect.any(String),
+                body: 'my tweet'
                 });
             });
     });
     it('returns an updated tweet', () => {
-        return Tweet.create({ handle: 'Frank', body: 'Get this by ID', tag: 'findById'})
+        return createTweet()
             .then(createdTweet => {
                 return request(app)
                     .patch(`/tweets/${createdTweet.id}`)
-                    .send({
-                        handle: 'Gary',
-                        body: 'Get this by ID',
-                        tag: 'findByIdAndUpdate'
-                    })
+                    .send({ body: 'Get this by ID' });
             })
             .then(updatedTweet => {
                 expect(updatedTweet.body).toEqual({
-                    handle: 'Gary',
+                    _id: expect.any(String),
+                    user: {
+                        _id: expect.any(String),
+                        image: '',
+                        handle: 'Colin'
+                    },
                     body: 'Get this by ID',
-                    tag: 'findByIdAndUpdate',
-                    _id: expect.any(String)
+                    tag: null
                 });
             });
     })
