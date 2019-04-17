@@ -4,23 +4,20 @@ const app = require('../lib/app');
 const Tweet = require('../lib/models/Tweets');
 
 describe('tweet routes', ()=>{
-    beforeAll(()=>{
-        //may need to return as in example but not sure why
+    beforeAll(()=>{   
         mongoose.connect('mongodb://localhost:27017/tweets', {
             useFindAndModify: false,
             useNewUrlParser: true,
             useCreateIndex: true
         });
     });
-    beforeEach(()=>{
-        //may need to return as in example but not sure why
+    beforeEach(()=>{     
         mongoose.connection.dropDatabase();
     });
     afterAll(()=>{
         //may need to return as in example but not sure why
         mongoose.connection.close();
     });
-
     it('can create a new tweet', ()=>{
         return request(app)
             .post('/tweets')
@@ -80,8 +77,7 @@ describe('tweet routes', ()=>{
                     __v:0,
                     _id:expect.any(String)
                 });
-            });
-            
+            });        
     });
     it('can delete tweet by id', ()=>{
         return Tweet
@@ -90,11 +86,9 @@ describe('tweet routes', ()=>{
                 body: 'delete me now!' 
             })
             .then(createdTweet=>{
-                const id = createdTweet._id;
-             
+                const id = createdTweet._id;        
                 return request(app)
-                    .delete(`/tweets/${id}`);
-                    
+                    .delete(`/tweets/${id}`);               
             })
             .then(()=>{
                 return request(app)
@@ -103,7 +97,5 @@ describe('tweet routes', ()=>{
                         expect(foundTweets.body.length).toBe(0);
                     });
             });
-          
-
     });
 });
