@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const { app } = require('../lib/app');
 const Tweet = require('../lib/models/Tweet');
+const User = require('../lib/models/User');
 
 describe('tweet routes', ()=> {
   beforeAll(()=> {
@@ -142,6 +143,21 @@ describe('user routes', ()=> {
           _id: expect.any(String),
           __v: 0
         });
+      });
+  });
+
+  it('can get a list of users', ()=> {
+    return User
+      .create({ 
+        handle: 'emilybemily', 
+        name: 'emily',
+        email: 'testemail@test.com' })
+      .then(()=> {
+        return request(app)
+          .get('/users');
+      })
+      .then(res => { 
+        expect(res.body).toHaveLength(1);
       });
   });
 });
