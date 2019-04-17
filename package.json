@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/CheriPortman/solo-mongoose#readme",
   "devDependencies": {
-    "dotenv": "^7.0.0",
     "eslint": "^5.16.0",
     "jest": "^24.7.1",
     "nodemon": "^1.18.11",
@@ -32,6 +31,8 @@
   },
   "dependencies": {
     "express": "^4.16.4",
+    "dotenv": "^7.0.0",
     "mongoose": "^5.5.2"
+
   }
 }
