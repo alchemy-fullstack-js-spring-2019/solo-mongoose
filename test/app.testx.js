@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
 const Dog = require('../lib/models/Dog');
+const Owner = require('../lib/models/Owner');
 
 describe('dog route', () => {
   beforeAll(() => {
@@ -34,7 +35,7 @@ describe('dog route', () => {
       });
   });
 
-  it('get list of dogs', () => {
+  it.only('get list of dogs', () => {
     return Dog
       .create({ name: 'Trevor', age: 600 })
       .then(() => {
@@ -78,6 +79,38 @@ describe('dog route', () => {
       })
       .then(res => {
         expect(res.body).toEqual({ name: 'Trevor', age: 600, _id: expect.any(String) });
+      });
+  });
+});
+
+describe('owner route', () => {
+  beforeAll(() => {
+    return mongoose.connect('mongodb://127.0.0.1:27017/owners', { 
+      useNewUrlParser: true,
+      useFindAndModify: false,
+      useCreateIndex: true
+    });
+  });
+
+  beforeEach(() => {
+    return mongoose.connection.dropDatabase();
+  });
+
+  afterAll(() => {
+    return mongoose.connection.close();
+  });
+
+  it.only('create a new user', () => {
+    return request(app)
+      .post('/owners')
+      .send({ name: 'Clem', email: 'clemjim90@hotmail.com' })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'Clem',
+          email: 'clemjim90@hotmail.com',
+          _id: expect.any(String),
+          __v: 0
+        });
       });
   });
 });
