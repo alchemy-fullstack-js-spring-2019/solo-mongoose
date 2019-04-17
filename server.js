@@ -8,11 +8,6 @@ mongoose.connect(process.env.MONGODB_URI, {
     useCreateIndex: true
 });
 
-// mongoose.connect('mongodb://localhost:27017/story', {
-//     useNewUrlParser: true,
-//     useFindAndModify: false
-// });
-
 const PORT = process.env.PORT || 7890;
 
 app.listen(PORT, () => {

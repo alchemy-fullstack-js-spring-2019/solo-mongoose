@@ -22,7 +22,6 @@ describe('Tweet Schema', () => {
             body: 'Handle ought to be here'
         });
 
-        // console.log(tweet);
         const error = tweet.validateSync().errors;
 
         expect(error.handle.message).toEqual('Path `handle` is required.')
@@ -32,7 +31,6 @@ describe('Tweet Schema', () => {
             handle: 'Frank',
             body: 'test tweet'
         });
-        // console.log(typeof tweet);
         expect(tweet.toJSON()).toEqual({
             handle: 'Frank',
             body: 'test tweet',

@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Story = require('../../lib/models/Story');
 
 describe('story schema test', () => {
