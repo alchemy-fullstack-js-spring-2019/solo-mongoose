@@ -35,8 +35,10 @@ describe('tweet routes', () => {
       });
   });
   it('can get a list of all tweets', () => {
-    return Tweet
-      .create({ handle: 'meggo', body: 'gee I love to tweet' })
+    Dog.create({ handle: 'hello', name: 'fun', email: 'fun@hello.com' })
+      .then(user => {
+        return Tweet.create({ user: user._id, body: 'my tweet' });
+      })
       .then(() => {
         return request(app)
           .get('/tweets');
