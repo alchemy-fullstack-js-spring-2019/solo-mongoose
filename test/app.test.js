@@ -205,4 +205,25 @@ describe('user routes', ()=> {
         });
       });
   });
+
+  it('can delete a user by id', ()=> {
+    return User
+      .create({
+        handle: 'emilybemily',
+        name: 'emily',
+        email: 'testemail@test.com'
+      })
+      .then(createdUser => {
+        return request(app)
+          .delete(`/users/${createdUser._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'emilybemily',
+          name: 'emily',
+          email: 'testemail@test.com',
+          _id: expect.any(String)
+        });
+      });
+  });
 });
