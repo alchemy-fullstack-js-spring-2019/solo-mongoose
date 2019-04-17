@@ -16,7 +16,7 @@ describe('User routes', () => {
     });
     afterAll(() => {
         return mongoose.connection.close();
-    })
+    });
     it('creates a user', () => {
         return request(app)
             .post('/users')
@@ -34,17 +34,17 @@ describe('User routes', () => {
             });
     });
     it('returns all users', () => {
-        User.create({ handle: 'Some', image: 'Something' })
+        return User.create({ handle: 'Some', image: 'Something' })
             .then(() => {
                 return request(app)
                 .get('/users')
             })
             .then(foundUser => {
-                expect(foundUser).toEqual({
+                expect(foundUser.body).toEqual([{
                     handle: 'Some',
                     image: 'Something',
                     _id: expect.any(String)
-                });
+                }]);
             });
     });
     it('returns a user by id', () => {
