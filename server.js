@@ -1,7 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const app = require('./lib/app');
-console.log(process.env.MONGODB_URI);
+
 mongoose.connect(process.env.MONGODB_URI, { 
   useNewUrlParser: true,
   useFindAndModify: false,
