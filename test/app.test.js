@@ -46,7 +46,7 @@ describe('tweet routes', () => {
                 expect(res.body).toHaveLength(1);
             });
     })
-    it.only('returns a tweet by id', () => {
+    it('returns a tweet by id', () => {
         return Tweet.create({ handle: 'Frank', body: 'Get this by ID', tag: 'findById'})
             .then(createdTweet => {
                 return request(app)
@@ -59,7 +59,28 @@ describe('tweet routes', () => {
                     tag: 'findById',
                     _id: expect.any(String),
                     __v: 0
-                })
+                });
+            });
+    });
+    it('returns an updated tweet', () => {
+        return Tweet.create({ handle: 'Frank', body: 'Get this by ID', tag: 'findById'})
+            .then(createdTweet => {
+                return request(app)
+                    .patch(`/tweets/${createdTweet.id}`)
+                    .send({
+                        handle: 'Gary',
+                        body: 'Get this by ID',
+                        tag: 'findByIdAndUpdate'
+                    })
             })
+            .then(updatedTweet => {
+                expect(updatedTweet.body).toEqual({
+                    handle: 'Gary',
+                    body: 'Get this by ID',
+                    tag: 'findByIdAndUpdate',
+                    _id: expect.any(String),
+                    __v: 0
+                });
+            });
     })
 });
