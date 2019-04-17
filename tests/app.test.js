@@ -177,4 +177,21 @@ describe('dog routes', () => {
         });
       });
   });
+  it('finds by id and deletes', () => {
+    return Dog
+      .create({ name: 'meggo', breed: 'pug', age: 10 })
+      .then((createdDog) => {
+        return request(app)
+          .delete(`/dogs/${createdDog._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'meggo',
+          breed: 'pug',
+          age: 10, 
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
 });
