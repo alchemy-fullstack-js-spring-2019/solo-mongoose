@@ -23,3 +23,17 @@ const Tweet = mongoose.model('Tweet', tweetSchema);
 //     text: 'my first tweet'
 //   })
 //   .then(console.log);
+
+// Tweet
+//   .find()
+//   .then(console.log)
+//   .finally(() => {
+//     mongoose.connection.close();
+//   });
+
+// Tweet
+//   .findByIdAndUpdate('5cb624772002e8d5dda8488d', { text: 'changing the text' }, { new: true } )
+//   .then(console.log)
+//   .finally(() => {
+//     mongoose.connection.close();
+//   });
