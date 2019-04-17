@@ -7,18 +7,18 @@ require('dotenv').config();
 
 describe('tweet routes', ()=>{
     beforeAll(()=>{   
-        mongoose.connect(`mongodb://${process.env.MONGO_HOST}/tweets`, {
+        return mongoose.connect(`mongodb://${process.env.MONGO_HOST}/tweets`, {
             useFindAndModify: false,
             useNewUrlParser: true,
             useCreateIndex: true
         });
     });
     beforeEach(()=>{     
-        mongoose.connection.dropDatabase();
+        return mongoose.connection.dropDatabase();
     });
     afterAll(()=>{
         //may need to return as in example but not sure why
-        mongoose.connection.close();
+        return mongoose.connection.close();
     });
     it('can create a new tweet', ()=>{
         return request(app)
