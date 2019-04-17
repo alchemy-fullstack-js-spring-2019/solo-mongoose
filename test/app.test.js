@@ -3,13 +3,11 @@ const request = require('supertest');
 const app = require('../lib/app');
 const Tweet = require('../lib/models/Tweet');
 
-
-
 describe('tweet routes', () => {
   beforeAll(() => {
-    return mongoose.connect('mongodb://localhost:27107/tweets', {
-      useFindAndModify: true,
-      useNewUrlParser: false,
+    return mongoose.connect('mongodb://localhost:27017/tweets', {
+      useFindAndModify: false,
+      useNewUrlParser: true,
       useCreateIndex: true
     });
   });
@@ -25,12 +23,27 @@ describe('tweet routes', () => {
   it('can create a new tweet', () => {
     return request(app)
       .post('/tweets')
-      .send()
+      .send({ handle: 'laura', body: 'my tweet' })
       .then(res => {
-        expect(res.body)
-      })
-  })
-  it('can get a list of tweets', () => {
+        expect(res.body).toEqual({
+          handle: 'laura',
+          body: 'my tweet',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+  // it('can get a list of tweets', () => {
+  //   return Tweet
+  //     .create({ handle: 'laura', body: 'my tweet' })
+  //     .then(() => {
+  //       return request(app)
+  //         .get('/tweets');
+  //     })
+  //     .then(res => {
+  //       console.log(res.text);
+  //       expect(res.body).toEqual({ handle: 'laura', body: 'my tweet' });
+  //     })
+  // })
 
-  })
 });
