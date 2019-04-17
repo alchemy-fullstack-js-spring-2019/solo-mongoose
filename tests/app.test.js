@@ -22,9 +22,12 @@ describe('tweet routes', () => {
   });
 
   it('can create a new tweet', () => {
-    return request(app)
-      .post('/tweets')
-      .send({ handle: 'megs', body: 'tweets are the best' })
+    Dog.create({ handle: 'hello', name: 'fun', email: 'fun@hello.com' })
+      .then(createdDog => {
+        return request (app)
+          .post('/tweets')
+          .send({ user: createdDog._id, body: 'my tweet' });
+      })
       .then(res => {
         expect(res.body).toEqual({
           handle: 'megs',
@@ -48,23 +51,27 @@ describe('tweet routes', () => {
       });
   });
   it('can get a tweet by id', () => {
-    return Tweet  
-      .create({ handle: 'ollie', body: 'I am the best tweeter' })
+    Dog.create({ handle: 'hello', name: 'fun', email: 'fun@hello.com' })
+      .then(createdDog => {
+        return Tweet.create({ user: createdDog._id, body: 'my next tweet' });
+      })
       .then((createdTweet) => {
         return request(app)
           .get(`/tweets/${createdTweet._id}`);
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'ollie',
-          body: 'I am the best tweeter',
+          user: expect.any(String),
+          body: 'my next tweet',
           _id: expect.any(String)
         });
       });
   });
   it('can find a tweet by id and update', () => {
-    return Tweet
-      .create({ handle: 'simon', body: 'I\'m an Aussie' })
+    Dog.create({ handle: 'hello', name: 'fun', email: 'fun@hello.com' })
+      .then(createdDog => {
+        return Tweet.create({ user: createdDog._id, body: 'my next tweet' });
+      })
       .then((createdTweet) => {
         return request(app)
           .patch(`/tweets/${createdTweet._id}`)
@@ -81,8 +88,10 @@ describe('tweet routes', () => {
       });
   });
   it('finds by id and deletes', () => {
-    return Tweet
-      .create({ handle: 'megan', body: 'I am serious' })
+    Dog.create({ handle: 'hello', name: 'fun', email: 'fun@hello.com' })
+      .then(createdDog => {
+        return Tweet.create({ user: createdDog._id, body: 'my next tweet' });
+      })
       .then((createdTweet) => {
         return request(app)
           .delete(`/tweets/${createdTweet._id}`);
