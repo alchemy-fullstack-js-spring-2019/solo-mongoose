@@ -105,4 +105,23 @@ describe('App tests', () => {
         });
       });
   });
+
+  it('deletes a tweet by id with DELETE', () => {
+    return request(app)
+      .post('/tweets').send({
+        handle: 'Tommy',
+        body: 'Tweet 6',
+        tags: ['testing', 'jest', 'supertest']
+      })
+      .then(res => request(app).delete(`/tweets/${res.body._id}`))
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'Tommy',
+          body: 'Tweet 6',
+          tags: ['testing', 'jest', 'supertest'],
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
 });
