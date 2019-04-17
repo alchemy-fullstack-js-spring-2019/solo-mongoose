@@ -190,4 +190,11 @@ describe('tweet routes', () => {
           });
       });
   });
+
+  // it('can delete a toy by id', () => {
+  //   return Toy 
+  //     .create({
+
+  //     })
+  // })
 });
