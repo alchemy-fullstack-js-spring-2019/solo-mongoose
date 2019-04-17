@@ -68,7 +68,7 @@ describe('APP TESTS', () => {
       });
   });
 
-  it.skip('update by id', () => {
+  it('update by id', () => {
     return Ninja
       .create({ nickname: 'tim', age: 33, tagline: 'winning' })
       .then(ninja => {
@@ -84,22 +84,28 @@ describe('APP TESTS', () => {
         expect(res.body).toEqual({
           nickname: 'tim', 
           age: 18, 
-          tagline: 'YAY',
+          tagline: 'YAY!',
           _id: expect.any(String),
           __v: 0
         });
       });
   });
 
-  it.skip('delete by id', () => {
+  it('delete by id', () => {
     return Ninja
-      .create({ nickname: 'tim', age: 33, tagline: 'winning' })
+      .create({ nickname: 'delete', age: 0, tagline: 'me deleted' })
       .then(data => {
         return request(app)
-          .delete(`/ninjas/${data._id}`);
-      })
-      .then(res => {
-        expect(res.body).toEqual({ deleted: 1 });
+          .delete(`/ninjas/${data._id}`)
+          .then(res => {
+            expect(res.body).toEqual({
+              nickname: 'delete', 
+              age: 0, 
+              tagline: 'me deleted',
+              _id: expect.any(String),
+              __v: 0
+            });
+          });
       });
   });
 
