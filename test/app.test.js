@@ -46,23 +46,54 @@ describe('e2e user routes', () => {
         return request(app)
           .get('/users');
       })
-      .then(res => {
+      .then(res => {  
         expect(res.body).toHaveLength(1);
       });
   });
 
-  it('can return a specific user user based on path', () => {
+  // it('can return a specific user based on path', () => {
+  //   return User
+  //     .create({
+  //       handle: 'Rabid Rabbit',
+  //       name: 'Sigmund',
+  //     })
+  //     .then(() => {
+  //       return request(app)
+  //         .get('/:id');
+  //     })
+  //     .then(res => {
+  //       expect(res.body).toHaveLength(1);
+  //     });
+  // });
+
+  it('can get a user by id', () => {
     return User
-      .create({
-        handle: 'Rabid Rabbit',
-        name: 'Sigmund',
-      })
-      .then(() => {
+      .create({ handle: 'whatever', name: 'exhaustion' })
+      .then(createdUser => {
         return request(app)
-          .get('/users');
+          .get(`/users/${createdUser._id}`);
+      });
+  });
+
+  it('it can update userinfo by ID', () => {
+    return User
+      .create({ 
+        handle: 'cretinous crab',
+        name: 'arrogant ass',
+      })
+      .then(createdUser => {
+        return request(app)
+          .put(`/users/${createdUser._id}`)
+          .send({ 
+            handle: 'cretinous crab',
+            name: 'directionless ennui' 
+          });
       })
       .then(res => {
-        expect(res.body).toHaveLength(1);
+        expect(res.body).toEqual({
+          handle: 'monstrous crab', 
+          name: 'directionless ennui',
+        });
       });
   });
 
