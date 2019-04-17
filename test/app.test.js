@@ -114,7 +114,7 @@ describe('routes', () => {
       });
   });
 
-  it.only('returns a list of all users', () => {
+  it('returns a list of all users', () => {
     return User
       .create(testUser)
       .then(() => {
@@ -123,6 +123,22 @@ describe('routes', () => {
       })
       .then(res => {
         expect(res.body).toHaveLength(1);
+      });
+  });
+
+  it.only('returns a user by id', () => {
+    return User 
+      .create(testUser)
+      .then(createdUser => {
+        return request(app)
+          .get(`/user/${createdUser._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          ...testUser,
+          _id: expect.any(String),
+          __v: 0
+        });
       });
   });
 });
