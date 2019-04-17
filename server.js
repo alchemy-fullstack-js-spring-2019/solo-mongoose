@@ -12,3 +12,10 @@ const PORT = process.env.PORT || 7890;
 app.listen(PORT, () => {
   console.log(`started on port ${PORT}`);
 });
+
+// let port = process.env.PORT;
+// if (port == null || port == "") {
+//   port = 8000;
+// }
+// app.listen(port);
+
