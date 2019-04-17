@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
 const User = require('../lib/models/User');
+const TweetsSchema = require('../lib/models/Tweet');
 
 describe('e2e user routes', () => {
   beforeAll(() => {
@@ -59,7 +60,6 @@ describe('e2e user routes', () => {
           .get(`/users/${createdUser._id}`);
       })
       .then(res => {
-        console.log(res.body);
         expect(res.body).toEqual({
           handle: 'sure',
           name: 'optimism',
@@ -108,6 +108,24 @@ describe('e2e user routes', () => {
       });
   });
 
-
 });
 
+xdescribe('e2e tweets', () => {
+
+  it('can create a new tweet', () => {
+    return request(app)
+      .post('/tweets')
+      .send({
+        handle: 'lonely loris',
+        body: 'dying alone is not too bad'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'lonely loris',
+          body: 'dying alone is not too bad',
+          _id: expect.any(String)
+        });
+      });
+  });
+
+});
