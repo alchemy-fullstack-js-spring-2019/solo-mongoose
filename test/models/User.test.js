@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('../../lib/models/User');
 
-describe.only('user model', () => {
+describe('user model', () => {
   it('has handle, name and email fields', () => {
     const user = new User({
       handle: 'hot_stuff',
