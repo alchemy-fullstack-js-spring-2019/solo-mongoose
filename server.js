@@ -3,8 +3,8 @@ const app = require('./lib/app');
 const mongoose = require('mongoose');
 
 mongoose.connect(process.env.MONGODB_URI, { 
-  useFindAndModify: false,
   useNewUrlParser: true,
+  useFindAndModify: false,
   useCreateIndex: true  
 });
 
