@@ -1,7 +1,7 @@
 const Users = require('../../lib/models/Users');
 const mongoose = require('mongoose');
 
-describe('creates Users', () => {
+describe('User model', () => {
   it('makes a user with a handle/name/email/image', () => {
     const users = new Users({
       handle: 'user1',
