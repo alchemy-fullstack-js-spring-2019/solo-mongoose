@@ -16,4 +16,14 @@ describe('Users', () => {
       _id: expect.any(mongoose.Types.ObjectId)
     });
   });
+
+  it('has a required handle field', () => {
+    const user = new User({
+      name: 'emily',
+      email: 'emily@ACL.com'
+    });
+
+    const errors = user.validateSync().errors;
+    expect(errors.handle.message).toEqual('Path `handle` is required.');
+  });  
 });
