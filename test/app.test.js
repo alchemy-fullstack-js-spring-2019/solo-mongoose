@@ -97,4 +97,25 @@ describe('tweet routes', () => {
         });
       });
   });
+
+  it('can create a new toy', () => {
+    return request(app)
+      .post('/toys')
+      .send({
+        name: 'the pickle', 
+        description: 'fuzzy pickle',
+        color: 'green',
+        condition: 'squeaker in critical condition'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'the pickle', 
+          description: 'fuzzy pickle',
+          color: 'green',
+          condition: 'squeaker in critical condition',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
 });
