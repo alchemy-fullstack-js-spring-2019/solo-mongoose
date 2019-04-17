@@ -182,17 +182,30 @@ describe('User routes', () => {
       });
   });
 
-  // it('can update an existing user', () => {
-  //   return User.create({
-  //     handle: 'mcnadams',
-  //     name: 'Bonnie McNeil',
-  //     email: 'a@b.com'
-  //   })
-  //     .then(newUser => newUser._id)
-  //     .then(id => {
-  //       return request(app)
-  //         .patch();
-  //     });
-  // });
+  it('can update an existing user email', () => {
+    return User.create({
+      handle: 'mcnadams',
+      name: 'Bonnie McNeil',
+      email: 'a@b.com'
+    })
+      .then(newUser => newUser._id)
+      .then(id => {
+        return request(app)
+          .patch(`/users/${id}`)
+          .send({
+            email: 'b@c.com' 
+          });
+      })
+      .then(res => {
+        console.log('response', res.body);
+        expect(res.body).toEqual({
+          handle: 'mcnadams',
+          name: 'Bonnie McNeil',
+          email: 'b@c.com',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
 
 });
