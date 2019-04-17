@@ -56,6 +56,14 @@ describe('tweet routes', () => {
       });
   });
   it('finds by id', () => {
-
+    return TweetSchema
+      .create({
+        handle: 'intro_mode',
+        body: 'tweet beep'
+      })
+      .then(res => res.body.id)
+      .then(console.log);
   });
 });
+
+
