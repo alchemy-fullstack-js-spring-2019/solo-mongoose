@@ -160,4 +160,34 @@ describe('tweet routes', () => {
         });
       });
   });
+
+  it('can update a toy', () => {
+    return Toy
+      .create({
+        name: 'the pickle', 
+        description: 'fuzzy pickle',
+        color: 'purple',
+        condition: 'squeaker in critical condition'
+      })
+      .then(createdToy => {
+        return request(app)
+          .put(`/toys/${createdToy._id}`)
+          .send({
+            name: 'the pickle', 
+            description: 'fuzzy pickle',
+            color: 'green',
+            condition: 'squeaker in critical condition'
+          })
+          .then(res => {
+            expect(res.body).toEqual({
+              name: 'the pickle', 
+              description: 'fuzzy pickle',
+              color: 'green',
+              condition: 'squeaker in critical condition',
+              _id: expect.any(String),
+              __v: 0
+            });
+          });
+      });
+  });
 });
