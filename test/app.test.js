@@ -7,26 +7,34 @@ describe('/tweets routes', () => {
   beforeAll(() => {
     return mongoose.connect(`${process.env.MONGODB_URI}`, { useNewUrlParser: true });
   });
-  afterEach(() => {
-    return mongoose.connection.dropDatabase();
-  });
-  afterAll(() => {
-    return mongoose.connection.close();
-  });
 
-  it.only('adds a tweet by user', () => {
+  let userId;
+  beforeEach(() => {
     return request(app)
       .post('/users').send({
         handle: 'sup.tommy',
         name: 'Tommy Tran',
         email: 'tommy@tran.com'
       })
-      .then(res => request(app)
-        .post(`/tweets/users/${res.body._id}`)
-        .send({
-          body: 'User tweet'
-        })
-      )
+      .then(res => {
+        userId = res.body._id;
+      });
+  });
+
+  afterEach(() => {
+    return mongoose.connection.dropDatabase();
+  });
+
+  afterAll(() => {
+    return mongoose.connection.close();
+  });
+
+  it('adds a tweet by user with POST', () => {
+    return request(app)
+      .post(`/tweets/users/${userId}`)
+      .send({
+        body: 'User tweet'
+      })
       .then(res => {
         expect(res.body).toEqual({
           user: expect.any(String),
@@ -37,46 +45,12 @@ describe('/tweets routes', () => {
         });
       });
   });
-  it('adds tweet (w/ tags) to database with POST', () => {
-    return request(app)
-      .post('/tweets').send({
-        handle: 'Tommy',
-        body: 'Tweet 5',
-        tags: ['testing', 'jest', 'supertest']
-      })
-      .then(res => {
-        expect(res.body).toEqual({
-          handle: 'Tommy',
-          body: 'Tweet 5',
-          tags: ['testing', 'jest', 'supertest'],
-          _id: expect.any(String),
-          __v: 0
-        });
-      });
-  });
-
-  it('adds tweet (w/o tags) to database with POST', () => {
-    return request(app)
-      .post('/tweets').send({
-        handle: 'Tommy',
-        body: 'Tweet 5',
-      })
-      .then(res => {
-        expect(res.body).toEqual({
-          handle: 'Tommy',
-          body: 'Tweet 5',
-          tags: [],
-          _id: expect.any(String),
-          __v: 0
-        });
-      });
-  });
 
   it('gets all the tweets in the database with GET', () => {
     return request(app)
-      .post('/tweets').send({
-        handle: 'Tommy',
-        body: 'Tweet 6',
+      .post(`/tweets/users/${userId}`)
+      .send({
+        body: 'User tweet'
       })
       .then(() => request(app).get('/tweets'))
       .then(res => {
@@ -87,40 +61,51 @@ describe('/tweets routes', () => {
 
   it('gets a tweet by id with GET', () => {
     return request(app)
-      .post('/tweets').send({
-        handle: 'Tommy',
-        body: 'Tweet 6',
-        tags: ['testing', 'jest', 'supertest']
+      .post(`/tweets/users/${userId}`)
+      .send({
+        body: 'User tweet',
+        tags: ['testing', 'jest', 'supertest'],
       })
       .then(res => request(app).get(`/tweets/${res.body._id}`))
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'Tommy',
-          body: 'Tweet 6',
+          user: expect.any(String),
+          body: 'User tweet',
           tags: ['testing', 'jest', 'supertest'],
           _id: expect.any(String)
         });
       });
   });
 
+  it('gets all tweet by a user with GET', () => {
+    return request(app)
+      .post(`/tweets/users/${userId}`)
+      .send({
+        body: 'User tweet'
+      })
+      .then(() => request(app).get(`/tweets/users/${userId}`))
+      .then(res => {
+        expect(res.body).toEqual(expect.any(Array));
+        expect(res.body).toHaveLength(1);
+      });
+  });
+
   it('patches a tweet by id with PATCH', () => {
     return request(app)
-      .post('/tweets').send({
-        handle: 'Tommy',
-        body: 'Tweet 5',
-        tags: ['testing', 'supertest']
+      .post(`/tweets/users/${userId}`)
+      .send({
+        body: 'User tweet'
       })
       .then(res => request(app)
         .patch(`/tweets/${res.body._id}`)
         .send({
-          handle: 'Tommy',
           body: 'Tweet 6',
           tags: ['jest']
         })
       )
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'Tommy',
+          user: expect.any(String),
           body: 'Tweet 6',
           tags: ['jest'],
           _id: expect.any(String)
@@ -130,15 +115,15 @@ describe('/tweets routes', () => {
 
   it('deletes a tweet by id with DELETE', () => {
     return request(app)
-      .post('/tweets').send({
-        handle: 'Tommy',
+      .post(`/tweets/users/${userId}`)
+      .send({
         body: 'Tweet 6',
-        tags: ['testing', 'jest', 'supertest']
+        tags: ['testing', 'jest', 'supertest'],
       })
       .then(res => request(app).delete(`/tweets/${res.body._id}`))
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'Tommy',
+          user: expect.any(String),
           body: 'Tweet 6',
           tags: ['testing', 'jest', 'supertest'],
           _id: expect.any(String)
@@ -172,6 +157,8 @@ describe('/users routes', () => {
           email: 'tommytran@email.com',
           _id: expect.any(String),
           __v: 0
+
+
         });
       });
   });
