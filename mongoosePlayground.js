@@ -46,29 +46,29 @@ const tweetSchema = new mongoose.Schema({
 const Tweet = mongoose.model('Tweet', tweetSchema);
 
 
-// User
-// .create({
-//   handle: 'cara',
-//   image: 'image url'
-// })
-// .then(createdUser => {
-//   return Tweet.create({
-//     user: createdUser._id,
-//     text: 'here is a tweet'
-//   })
-// })
-// .then(tweet => console.log(tweet))
-// .finally(() => mongoose.connection.close())
-
-Tweet
-.findById('5cb78b348fc75c4bc9f4fba3')
-.populate('user', 'handle')
-.select({
-  __v: false,
+User
+.create({
+  handle: 'cara',
+  image: 'image url'
 })
-.lean()
-.then(console.log)
-.finally(() => mongoose.connection.close());
+.then(createdUser => {
+  return Tweet.create({
+    user: createdUser._id,
+    text: 'here is a tweet'
+  })
+})
+.then(tweet => console.log(tweet))
+.finally(() => mongoose.connection.close())
+
+// Tweet
+// .findById('5cb78b348fc75c4bc9f4fba3')
+// .populate('user', 'handle')
+// .select({
+//   __v: false,
+// })
+// .lean()
+// .then(console.log)
+// .finally(() => mongoose.connection.close());
 
 
 
