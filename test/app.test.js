@@ -65,7 +65,7 @@ describe('app', () => {
       });
   });
 
-  it('gets by id and updates using patch', () => {
+  it('gets by id and updates body using patch', () => {
     return Tweet
       .create({ handle: 'steve', body: 'happy monday' })
       .then(createdTweet => {
@@ -77,6 +77,24 @@ describe('app', () => {
         expect(res.body).toEqual({ 
           handle: 'steve', 
           body: 'pretty close enough', 
+          _id: expect.any(String),
+          __v: 0 
+        });
+      });
+  });
+
+  it('gets by id and updates handle using patch', () => {
+    return Tweet
+      .create({ handle: 'steve', body: 'happy monday' })
+      .then(createdTweet => {
+        return request(app)
+          .patch(`/tweets/${createdTweet._id}`)
+          .send({ handle: 'jared' });
+      })
+      .then(res => {
+        expect(res.body).toEqual({ 
+          handle: 'jared', 
+          body: 'happy monday', 
           _id: expect.any(String),
           __v: 0 
         });
@@ -149,6 +167,74 @@ describe('user', () => {
           .then(res => {
             expect(res.body).toHaveLength(1);
           });
+      });
+  });
+
+  it('gets user by id', () => {
+    return User
+      .create({
+        handle: 'ivana Kumloudly',
+        name: 'skyler',
+        email: 'dragDom@email.com'
+      })
+      .then(createdUser => {
+        return request(app)
+          .get(`/users/${createdUser._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'ivana Kumloudly',
+          name: 'skyler',
+          email: 'dragDom@email.com',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it('gets user by id and updates handle', () => {
+    return User
+      .create({
+        handle: 'gia gun',
+        name: 'badPerson',
+        email: 'dragIdiot@email.net'
+      })
+      .then(createdUser => {
+        return request(app)
+          .patch(`/users/${createdUser._id}`)
+          .send({ handle: 'alaska thunderfuck 5000' });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'alaska thunderfuck 5000',
+          name: 'badPerson',
+          email: 'dragIdiot@email.net',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it('gets user by id and updates email', () => {
+    return User
+      .create({
+        handle: 'gia gun',
+        name: 'badPerson',
+        email: 'dragIdiot@email.net'
+      })
+      .then(createdUser => {
+        return request(app)
+          .patch(`/users/${createdUser._id}`)
+          .send({ email: 'person@place.com' });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'gia gun',
+          name: 'badPerson',
+          email: 'person@place.com',
+          _id: expect.any(String),
+          __v: 0
+        });
       });
   });
 
