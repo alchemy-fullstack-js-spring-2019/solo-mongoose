@@ -31,7 +31,7 @@ describe('app routing test', () => {
       })
       .then(result => {
         expect(result.body).toEqual({
-          _id: expect.any(String),
+          _id: expect.any(mongoose.Types.ObjectId),
           __v: 0,
           handle: id,
           body: 'i love icing!'
