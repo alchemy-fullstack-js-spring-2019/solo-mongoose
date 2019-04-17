@@ -79,4 +79,20 @@ describe('tweet routes', () => {
         });
       });
   });
+  it('finds by id and deletes', () => {
+    return Tweet
+      .create({ handle: 'megan', body: 'I am serious' })
+      .then((createdTweet) => {
+        return request(app)
+          .delete(`/tweets/${createdTweet._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'megan',
+          body: 'I am serious',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
 });
