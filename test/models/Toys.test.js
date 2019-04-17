@@ -18,5 +18,25 @@ describe('Toys model', () => {
       _id: expect.any(mongoose.Types.ObjectId)
     });
   });
+
+  it('has required name field', () => {
+    const toy = new Toy({
+      color: 'green'      
+    });
+
+    const errors = toy.validateSync().errors;
+    expect(errors.name.message).toEqual('Path `name` is required.');
+  });
+
+  it('has required description field', () => {
+    const toy = new Toy({
+      name: 'the pickle',
+      color: 'green'
+    });
+
+    const errors = toy.validateSync().errors;
+    expect(errors.description.message).toEqual('Path `description` is required.');
+  });
+
 });
 
