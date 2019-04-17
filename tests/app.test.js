@@ -30,8 +30,8 @@ describe('tweet routes', () => {
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'megs',
-          body: 'tweets are the best',
+          user: expect.any(String),
+          body: 'my tweet',
           _id: expect.any(String),
           __v: 0
         });
