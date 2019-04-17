@@ -40,8 +40,8 @@ describe('tweet routes', () => {
         return request(app)
           .get('/tweets');
       })
+      
       .then(res => {
-        console.log(res.text);
         expect(res.body).toHaveLength(1);
       });
   });
