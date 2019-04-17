@@ -140,4 +140,21 @@ describe('dog routes', () => {
         expect(res.body).toHaveLength(1);
       });
   });
+  it('can find a dog by id', () => {
+    return Dog
+      .create({ name: 'meggo', breed: 'pug', age: 10 })
+      .then((createdDog) => {
+        return request(app)
+          .get(`/dogs/${createdDog._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'meggo',
+          breed: 'pug',
+          age: 10, 
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
 });
