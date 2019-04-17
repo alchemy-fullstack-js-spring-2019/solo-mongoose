@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const Tweet = require('../../lib/models/Tweet');
-const request = require('supertest');
-const app = require('../../lib/app');
 
 describe('Tweet Schema', () => {
     it('has a handle and body field', () => {

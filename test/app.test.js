@@ -86,12 +86,10 @@ describe('tweet routes', () => {
     it('deletes a tweet by id', () => {
         return Tweet.create({ handle: 'Frank', body: 'Get this by ID', tag: 'findById'})
             .then(createdTweet => {
-                return request(app)
-                    .delete(`/${createdTweet._id}`)
+            request(app)
+                    .delete(`/tweets/${createdTweet._id}`)
                     .then(deletedTweet => {
-                        expect(deletedTweet.body).toEqual({
-                            deleted: 1
-                        });
+                        expect(deletedTweet.body).toEqual({});
                     });
             });
     });
