@@ -78,7 +78,7 @@ describe('app', () => {
       .then(res => {
         expect(res.body).toEqual({ 
           handle: 'steve', 
-          body: 'happy monday', 
+          body: 'pretty close enough', 
           _id: expect.any(String),
           __v: 0 
         });
