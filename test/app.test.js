@@ -152,8 +152,7 @@ describe('tweet routes', () => {
           description: 'fuzzy pickle',
           color: 'green',
           condition: 'squeaker in critical condition',
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
@@ -181,8 +180,7 @@ describe('tweet routes', () => {
               description: 'fuzzy pickle',
               color: 'green',
               condition: 'squeaker in critical condition',
-              _id: expect.any(String),
-              __v: 0
+              _id: expect.any(String)
             });
           });
       });
@@ -206,8 +204,7 @@ describe('tweet routes', () => {
           description: 'fuzzy pickle',
           color: 'green',
           condition: 'squeaker in critical condition',
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
