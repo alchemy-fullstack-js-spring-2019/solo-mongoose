@@ -58,8 +58,7 @@ describe('tweet routes', () => {
         expect(res.body).toEqual({
           handle: 'stitch', 
           body: 'gimmie a treat',
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   }); 
@@ -76,8 +75,7 @@ describe('tweet routes', () => {
         expect(res.body).toEqual({
           handle: 'banjo',
           body: 'stay away from me!',
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
@@ -93,8 +91,7 @@ describe('tweet routes', () => {
         expect(res.body).toEqual({  
           handle: 'dan', 
           body: 'I love data!',
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
