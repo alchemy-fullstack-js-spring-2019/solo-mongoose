@@ -16,7 +16,7 @@ describe('dog route', () => {
     return mongoose.connection.dropDatabase();
   });
 
-  afterEach(() => {
+  afterAll(() => {
     return mongoose.connection.close();
   });
 
