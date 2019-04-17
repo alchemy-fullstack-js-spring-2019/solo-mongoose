@@ -27,7 +27,7 @@ describe('routes', () => {
   const testNewUser = new User(testUser);
   const testFweet = { user: testNewUser._id, body: 'this is a tweet' };
 
-  it.only('creates a new fweet', () => {
+  it('creates a new fweet', () => {
     return request(app)
       .post('/fweet')
       .send(testFweet)
@@ -41,7 +41,7 @@ describe('routes', () => {
       });
   });
 
-  it.only('creates a new tweet and gives a random quote as body', () => {
+  it('creates a new tweet and gives a random quote as body', () => {
     return request(app)
       .post('/fweet?random=true')
       .send(testFweet)
