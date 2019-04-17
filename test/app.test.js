@@ -51,7 +51,7 @@ describe('routes', () => {
       });
   });
 
-  it.only('gets a fweet by id', () => {
+  it('gets a fweet by id', () => {
     return User
       .create(testUser)
       .then(createdUser => {
@@ -72,45 +72,48 @@ describe('routes', () => {
             _id: expect.any(String),
           },
           body: 'this is a tweet',
-          _id: expect.any(String),
+          _id: expect.any(String)
         });
       });
   
-    // return Fweet
-    //   .create(testFweet)
-    //   .then(createdFweet => {
-    //     return request(app)
-    //       .get(`/fweet/${createdFweet._id}`);
-    //   })
-    //   .then(res => {
-    //     expect(res.body).toEqual({ 
-    //       handle: testNewUser,
-    //       body: 'this is a tweet',
-    //       _id: expect.any(String),
-    //       __v: 0
-    //     });
-    //   });
   });
 
   it('deletes a fweet by id', () => {
-    return Fweet
-      .create(testFweet)
+    return User
+      .create(testUser)
+      .then(createdUser => {
+        return Fweet
+          .create({
+            handle: createdUser._id,
+            body: 'this is a tweet'
+          });
+      })
       .then(createdFweet => {
         return request(app)
           .delete(`/fweet/${createdFweet._id}`);
       })
       .then(res => {
         expect(res.body).toEqual({
-          ...testFweet,
-          _id: expect.any(String),
-          __v: 0
+          handle: {
+            handle: 'chris1',
+            _id: expect.any(String),
+          },
+          body: 'this is a tweet',
+          _id: expect.any(String)
         });
       });
   });
 
   it('updates the body of a fweet by id', () => {
-    return Fweet
-      .create(testFweet)
+    return User
+      .create(testUser)
+      .then(createdUser => {
+        return Fweet
+          .create({
+            handle: createdUser._id,
+            body: 'this is a tweet'
+          });
+      })
       .then(createdFweet => {
         return request(app)
           .patch(`/fweet/${createdFweet._id}`)
@@ -118,10 +121,12 @@ describe('routes', () => {
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'chris',
+          handle: {
+            handle: 'chris1',
+            _id: expect.any(String),
+          },
           body: 'this is an updated fweet',
           _id: expect.any(String),
-          __v: 0
         });
       });
   });
