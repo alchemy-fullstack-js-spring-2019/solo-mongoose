@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
 const Tweet = require('../lib/models/Tweet');
+const Users = require('../lib/models/Users');
 
 describe('tweet routes', () => {
   beforeAll(() => {
@@ -57,7 +58,6 @@ describe('tweet routes', () => {
           handle: 'laura',
           body: 'my tweet',
           _id: expect.any(String),
-          __v: 0
         });
       });
   });
@@ -74,7 +74,6 @@ describe('tweet routes', () => {
           handle: 'user2',
           body: 'textytext',
           _id: expect.any(String),
-          __v: 0
         });
       });
   });
@@ -90,7 +89,6 @@ describe('tweet routes', () => {
           handle: 'user2',
           body: 'textytext',
           _id: expect.any(String),
-          __v: 0
         });
       });
   });
