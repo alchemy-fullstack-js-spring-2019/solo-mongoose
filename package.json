@@ -13,7 +13,7 @@
     "url": "git+https://github.com/seanpatches/solo-mongoose.git"
   },
   "jest": {
-    "testEvironment": "node"
+    "testEnvironment": "node"
   },
   "keywords": [],
   "author": "",
