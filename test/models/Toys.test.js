@@ -37,6 +37,16 @@ describe('Toys model', () => {
     const errors = toy.validateSync().errors;
     expect(errors.description.message).toEqual('Path `description` is required.');
   });
+  
+  it('has required condition field', () => {
+    const toy = new Toy({
+      name: 'the pickle',
+      description: 'fuzzy pickle',
+      color: 'green'
+    });
 
+    const errors = toy.validateSync().errors;
+    expect(errors.condition.message).toEqual('Path `condition` is required.');
+  });
 });
 
