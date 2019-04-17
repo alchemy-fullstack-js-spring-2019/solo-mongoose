@@ -11,7 +11,7 @@ describe('tests the "properties", you could say, of the tweet schema/tweet model
       handle: 'intro_mode',
       body: 'tweet beep',
       _id: expect.any(mongoose.Types.ObjectId)
-      //why not string again?
+      //why are where saying toJSON?
     });
   });
   it('only has a handle, thus resulting in path "body" required error', () => {

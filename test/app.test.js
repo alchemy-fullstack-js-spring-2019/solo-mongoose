@@ -21,7 +21,6 @@ describe('tweet routes', () => {
   });
 
   it('can create a new tweet', () => {
-    //why do we say request(app) here but TweetSchema below?
     //so request(app) is saying request express with supertest?
     return request(app)
       .post('/tweets')
@@ -82,7 +81,7 @@ describe('tweet routes', () => {
         });
       });
   });
-  it.skip('finds by ID and updates', () => {
+  it('finds by ID and updates', () => {
     return TweetSchema
       .create({
         handle: 'intro_mode',
@@ -106,6 +105,31 @@ describe('tweet routes', () => {
         });
       });
   });
+});
+
+describe('user routes', () => {
+  beforeAll(() => {
+    return mongoose.connect('mongodb://localhost:27017/Tweets', {
+      useNewUrlParser: true,
+      useFindAndModify: false,
+      useCreateIndex: true
+    });
+  });
+  afterAll(() => {
+    return mongoose.connected.close();
+  });
+
+  beforeEach(() => {
+    return mongoose.connection.dropDatabase();
+  });
+
+  // it('creates a user', () => {
+  //   return request(app)
+  //     .post('/users')
+  //     .send({
+
+  //     })
+  // });
 });
 
 
