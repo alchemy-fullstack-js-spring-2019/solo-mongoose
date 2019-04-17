@@ -87,6 +87,15 @@ describe('/tweets routes', () => {
       .then(res => {
         expect(res.body).toEqual(expect.any(Array));
         expect(res.body).toHaveLength(1);
+        expect(res.body).toContainEqual({
+          body: 'User tweet',
+          _id: expect.any(String),
+          tags: [],
+          user: {
+            _id: expect.any(String),
+            handle: 'sup.tommy'
+          }
+        });
       });
   });
 
@@ -157,8 +166,6 @@ describe('/users routes', () => {
           email: 'tommytran@email.com',
           _id: expect.any(String),
           __v: 0
-
-
         });
       });
   });
