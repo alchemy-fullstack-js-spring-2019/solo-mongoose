@@ -49,12 +49,31 @@ describe('tweet routes', () => {
       .create({ handle: 'ollie', body: 'I am the best tweeter' })
       .then((createdTweet) => {
         return request(app)
-          .get(`/tweets/${createdTweet.id}`);
+          .get(`/tweets/${createdTweet._id}`);
       })
       .then(res => {
         expect(res.body).toEqual({
           handle: 'ollie',
           body: 'I am the best tweeter',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+  it('can find a tweet by id and update', () => {
+    return Tweet
+      .create({ handle: 'simon', body: 'I\'m an Aussie' })
+      .then((createdTweet) => {
+        return request(app)
+          .patch(`/tweets/${createdTweet._id}`)
+          .send({
+            body: 'I\'m a Kiwi'
+          });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'simon',
+          body: 'I\'m a Kiwi',
           _id: expect.any(String),
           __v: 0
         });
