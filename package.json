@@ -32,6 +32,7 @@
   "dependencies": {
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
+    "heroku": "^7.22.9",
     "mongoose": "^5.5.2"
   }
 }
