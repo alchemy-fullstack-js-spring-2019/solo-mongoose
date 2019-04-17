@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
 const Fweet = require('../lib/models/Fweet');
+const User = require('../lib/models/User');
 
-describe('tweet routes', () => {
+describe('routes', () => {
   beforeAll(() => {
     return mongoose.connect('mongodb://127.0.0.1:27017/fweet', {
       useNewUrlParser: true,
@@ -95,6 +96,33 @@ describe('tweet routes', () => {
           _id: expect.any(String),
           __v: 0
         });
+      });
+  });
+
+  const testUser = { handle: 'chris1', name: 'chris', email: 'test@test.com' };
+
+  it('creates a new user', () => {
+    return request(app)
+      .post('/user')
+      .send(testUser)
+      .then(res => {
+        expect(res.body).toEqual({
+          ...testUser,
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it.only('returns a list of all users', () => {
+    return User
+      .create(testUser)
+      .then(() => {
+        return request(app)
+          .get('/user');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(1);
       });
   });
 });

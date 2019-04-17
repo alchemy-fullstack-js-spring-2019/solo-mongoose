@@ -57,6 +57,6 @@ describe('Fweet model', () => {
     });
 
     const errors = fweet.validateSync().errors;
-    expect(errors.tags.message).toBe('`badtag` is not a valid enum value for path `tags`.')
+    expect(errors.tags.message).toBe('`badtag` is not a valid enum value for path `tags`.');
   });
 });
