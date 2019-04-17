@@ -2,6 +2,7 @@ const request = require('supertest');
 const app = require('../lib/app');
 const mongoose = require('mongoose');
 const Tweet = require('../lib/models/Tweet');
+const User = require('../lib/models/User');
 
 describe('tweet routes', () => {
     beforeAll(() => {
@@ -18,21 +19,23 @@ describe('tweet routes', () => {
         return mongoose.connection.close();
     })
 
-    it('creates a new tweet', () => {
-        return request(app)
-            .post('/tweets')
-            .send({
-                user: 'Colin',
-                body: 'test if this was created',
-                tag: 'cats'
+    it.only('creates a new tweet', () => {
+        return User.create({ handle: 'Colin', image: ''})
+            .then(createdUser => {
+                return request(app)
+                    .post('/tweets')
+                    .send({
+                        user: createdUser._id,
+                        body: 'my first tweet'
+                    });
             })
             .then(createdTweet => {
+                console.log(createdTweet.body)
                 expect(createdTweet.body).toEqual({
-                    user: 'Colin',
-                    body: 'test if this was created',
-                    tag: 'cats',
-                    _id: expect.any(String),
-                    __v: 0
+                    user: expect.any(String),
+                    body: 'my first tweet',
+                    __v: 0,
+                    _id: expect.any(String)
                 });
             });
     });
