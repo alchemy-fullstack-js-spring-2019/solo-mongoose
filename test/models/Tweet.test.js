@@ -16,14 +16,14 @@ describe('Tweet model', () => {
     });
   });
 
-  it('has a required handle field', () => {
+  it('has a required toyUser field', () => {
     const tweet = new Tweet({
       body: 'who needs a stinking handle'
     });
 
     const errors = tweet.validateSync().errors;
 
-    expect(errors.handle.message).toEqual('Path `handle` is required.');
+    expect(errors.toyUser.message).toEqual('Path `toyUser` is required.');
   });
   
   it('has a required body field', () => {
