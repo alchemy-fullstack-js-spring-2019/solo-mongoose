@@ -43,8 +43,8 @@ describe('tweet routes', () => {
       .then(res => {
         console.log(res.text);
         expect(res.body).toHaveLength(1);
-      })
-  })
+      });
+  });
   it('find a specific tweet by id', () => {
     return Tweet
       .create({ handle: 'laura', body: 'my tweet' })
@@ -61,11 +61,25 @@ describe('tweet routes', () => {
         });
       });
   });
-  it('updates a tweet by id',  () => {
+  it('updates a tweet by id', () => {
     return Tweet
       .create({ handle: 'user2', body: 'textytext' })
       .then(createdTweet => {
         return request(app)
+          .put(`/tweets/${createdTweet._id}`)
+          .send({ handle: 'user2', body: 'textytext' });
       })
-  })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'user2',
+          body: 'textytext',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+  // it('deletes an tweet by id', () => {
+  //   return Tweet
+  //     .create({ handle: 'laura'})
+  // })
 });
