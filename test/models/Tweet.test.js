@@ -2,14 +2,15 @@ const Tweet = require('../../lib/models/Tweet');
 const mongoose = require('mongoose');
 
 describe('schema test', () => {
-  it('has a handle and body field', () => {
+  it('has a user and text field', () => {
+    const id = new mongoose.Types.ObjectId;
     const tweet = new Tweet({
-      handle: 'cara',
+      user: id,
       text: 'a tweety tweet'
     });
 
     expect(tweet.toJSON()).toEqual({
-      handle: 'cara',
+      user: id,
       text: 'a tweety tweet',
       _id: expect.any(mongoose.Types.ObjectId)
     });
@@ -17,20 +18,20 @@ describe('schema test', () => {
 
   it('has a required text and field', () => {
     const tweet = new Tweet({
-      handle: 'cara'
+      user: 'cara'
     });
 
     const errors = tweet.validateSync().errors;
     expect(errors.text.message).toEqual('Path `text` is required.');
   });
 
-  it('has a required handle and field', () => {
+  it('has a required user and field', () => {
     const tweet = new Tweet({
       text: 'these tests are not working'
     });
 
     const errors = tweet.validateSync().errors;
-    expect(errors.handle.message).toEqual('Path `handle` is required.');
+    expect(errors.user.message).toEqual('Path `user` is required.');
   });
 
 

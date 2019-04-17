@@ -20,25 +20,37 @@ describe('tweet routes', () => {
   });
 
   it('can create a new tweet', () => {
-    return request(app)
-      .post('/tweets')
-      .send({
-        handle: 'cara',
-        text: 'tweets have text'
+    return User
+      .create({ handle: 'create test', name: 'a name', email: 'an@email.add' })
+      .then(user => {
+        return Tweet
+          .create({ user: user._id, text: 'a new tweet' });
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'cara',
-          text: 'tweets have text',
-          _id: expect.any(String),
-          __v: 0
+          user: {
+            _id: expect.any(String),
+            handle: 'create test'
+          }, 
+          text: 'a new tweet', 
+          _id: expect.any(String)
         });
       });
   });
 
   it('can get all the tweets', () => {
-    return Tweet
-      .create({ handle: 'cara', text: 'I am a tweet' })
+    return User
+      .create({
+        handle: 'get test',
+        name: 'a name',
+        email: 'an@email.add'
+      })
+      .then(createdUser => {
+        return Tweet.create({
+          user: createdUser._id,
+          text: 'tweets have text!'
+        });
+      })
       .then(() => {
         return request(app)
           .get('/tweets');
@@ -48,65 +60,88 @@ describe('tweet routes', () => {
       });
   });
 
-  it.only('can get a tweet by id', () => {
+  it('can get a tweet by id', () => {
     User
       .create({
-        handle: 'cara',
-        image: 'image url'
+        handle: 'get id test',
+        name: 'a name',
+        email: 'an@email.add'
       })
       .then(createdUser => {
         return Tweet.create({
           user: createdUser._id,
-          text: 'here is some text'
+          text: 'find me by id'
         });
       })
       .then(res => {
         expect(res.body).toEqual({ 
           user: {
             _id: expect.any(String),
-            handle: 'cara',
+            handle: 'get id test',
           }, 
-          text: 'here is some text', 
+          text: 'find me by id', 
           _id: expect.any(String),
         });
       });
   });
 
   it('can find a tweet by id and update', () => {
-    return Tweet
-      .create({ handle: 'cara', text: 'here is some text' })
+    User
+      .create({
+        handle: 'update test',
+        name: 'a name',
+        email: 'an@email.add'
+      })
+      .then(createdUser => {
+        return Tweet.create({
+          user: createdUser._id,
+          text: 'text to update'
+        });
+      })
       .then(newTweet => {
         return request(app)
           .patch(`/tweets/${newTweet._id}`)
           .send({
-            handle: 'cara',
             text: 'new text new text'
           });
       })
       .then(res => {
         expect(res.body).toEqual({ 
-          handle: 'cara', 
+          user: {
+            _id: expect.any(String),
+            handle: 'create test',
+          }, 
           text: 'new text new text', 
           _id: expect.any(String),
-          __v: 0 
         });
       });
   });
 
   it('can delete a tweet by id', () => {
-    const aTweet = { handle: 'cara', text: 'here is some text' };
-    return Tweet
-      .create(aTweet)
+    User
+      .create({
+        handle: 'delete test',
+        name: 'a name',
+        email: 'an@email.add'
+      })
+      .then(createdUser => {
+        return Tweet.create({
+          user: createdUser._id,
+          text: 'tweets are deleted'
+        });
+      })
       .then(newTweet => {
         return request(app)
           .delete(`/tweets/${newTweet._id}`);
       })
       .then(res => {
         expect(res.body).toEqual({ 
-          handle: 'cara', 
-          text: 'here is some text', 
+          user: {
+            _id: expect.any(String),
+            handle: 'delete test',
+          }, 
+          text: 'tweets are deleted!', 
           _id: expect.any(String),
-          __v: 0 
         });
       });
   });
