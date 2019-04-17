@@ -22,13 +22,13 @@ describe('tweet routes', () => {
         return request(app)
             .post('/tweets')
             .send({
-                handle: 'Colin',
+                user: 'Colin',
                 body: 'test if this was created',
                 tag: 'cats'
             })
             .then(createdTweet => {
                 expect(createdTweet.body).toEqual({
-                    handle: 'Colin',
+                    user: 'Colin',
                     body: 'test if this was created',
                     tag: 'cats',
                     _id: expect.any(String),
