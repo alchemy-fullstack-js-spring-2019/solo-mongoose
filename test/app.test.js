@@ -238,4 +238,51 @@ describe('user', () => {
       });
   });
 
+  it('gets user by id and updates email and handle', () => {
+    return User
+      .create({
+        handle: 'gia gun',
+        name: 'badPerson',
+        email: 'dragIdiot@email.net'
+      })
+      .then(createdUser => {
+        return request(app)
+          .patch(`/users/${createdUser._id}`)
+          .send({ email: 'person@place.com', handle: 'whoman21' });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'whoman21',
+          name: 'badPerson',
+          email: 'person@place.com',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it('get user by id and deletes', () => {
+    return User
+      .create({
+        handle: 'ivana Kumloudly',
+        name: 'skyler',
+        email: 'dragDom@email.com'
+      })
+      .then(createdUser => {
+        return request(app)
+          .delete(`/users/${createdUser._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'ivana Kumloudly',
+          name: 'skyler',
+          email: 'dragDom@email.com',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
 });
+
+
