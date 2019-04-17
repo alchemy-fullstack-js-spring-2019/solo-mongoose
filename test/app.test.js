@@ -51,33 +51,18 @@ describe('e2e user routes', () => {
       });
   });
 
-  // it('can return a specific user based on path', () => {
-  //   return User
-  //     .create({
-  //       handle: 'Rabid Rabbit',
-  //       name: 'Sigmund',
-  //     })
-  //     .then(() => {
-  //       return request(app)
-  //         .get('/:id');
-  //     })
-  //     .then(res => {
-  //       expect(res.body).toHaveLength(1);
-  //     });
-  // });
-
   it('can get a user by id', () => {
     return User
-      .create({ handle: 'whatever', name: 'exhaustion' })
+      .create({ handle: 'sure', name: 'optimism' })
       .then(createdUser => {
         return request(app)
-          .get(`/users/${createdUser._id}`)
-          .send({ handle: 'sure', name: 'optimism' });
+          .get(`/users/${createdUser._id}`);
       })
       .then(res => {
+        console.log(res.body);
         expect(res.body).toEqual({
           handle: 'sure',
-          body: 'optimism',
+          name: 'optimism',
           _id: expect.any(String),
           __v: 0
         });
@@ -101,7 +86,8 @@ describe('e2e user routes', () => {
         expect(res.body).toEqual({
           handle: 'monstrous crab', 
           name: 'directionless ennui',
-          _id: expect.any(String)
+          _id: expect.any(String),
+          __v: 0
         });
       });
   });
