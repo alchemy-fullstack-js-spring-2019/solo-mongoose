@@ -12,7 +12,7 @@ describe('userSchema tests', () => {
     const user = new User({
       handle: 'sup.tommy',
       name: 'Tommy Tran',
-      email: 'tommytran@email.com',
+      email: 'tommytran@email.com'
     });
     const error = user.validateSync();
     
@@ -24,7 +24,7 @@ describe('userSchema tests', () => {
     const user = new User({
       handle: 'sup.tommy',
       name: 'Tommy Tran',
-      email: 'tommytranemail.com',
+      email: 'tommytranemail.com'
     });
     const error = user.validateSync();
     
