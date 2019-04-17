@@ -120,7 +120,7 @@ describe('tweet routes', () => {
       });
   });
 
-  it.only('can get a list of toys', () => {
+  it('can get a list of toys', () => {
     return Toy
       .create({ 
         name: 'the pickle', 
@@ -134,6 +134,30 @@ describe('tweet routes', () => {
       })
       .then(res => {
         expect(res.body).toHaveLength(1);
+      });
+  });
+
+  it('can get a toy by id', () => {
+    return Toy 
+      .create({
+        name: 'the pickle', 
+        description: 'fuzzy pickle',
+        color: 'green',
+        condition: 'squeaker in critical condition'
+      })
+      .then(createdToy => {
+        return request(app)
+          .get(`/toys/${createdToy._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'the pickle', 
+          description: 'fuzzy pickle',
+          color: 'green',
+          condition: 'squeaker in critical condition',
+          _id: expect.any(String),
+          __v: 0
+        });
       });
   });
 });
