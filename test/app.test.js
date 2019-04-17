@@ -43,4 +43,16 @@ describe('dog route', () => {
       })
       .then(res => expect(res.body).toHaveLength(1));
   });
+    
+  it('get dog by ID', () => {
+    return Dog
+      .create({ name: 'Trevor', age: 600 })
+      .then(createdDog => {
+        return request(app)
+          .get(`/dogs/${createdDog._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({ name: 'Trevor', age: 600, __v: 0, _id: expect.any(String) });
+      });
+  });
 });
