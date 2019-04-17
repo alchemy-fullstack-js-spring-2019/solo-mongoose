@@ -40,4 +40,59 @@ describe('tweet routes', () => {
                 expect(res.body).toHaveLength(1);
             });
     });
+
+    it('gets a tweet by id', () => {
+        return Tweet.create({ 
+            handle: 'tweetById', 
+            body: 'gotta list just one' 
+        })
+            .then(tweet => {
+                return request(app)
+                    .get(`/tweet/${tweet._id}`);
+            })
+            .then(res => {
+                expect(res.body).toEqual({
+                    handle: 'tweetById', 
+                    body: 'gotta list just one',
+                    _id: expect.any(String),
+                });
+            });
+    });
+
+    it('updates a tweet', () => {
+        return Tweet.create({ 
+            handle: 'name', 
+            body: 'not updated' 
+        })
+            .then(tweet => {
+                return request(app)
+                    .patch(`/tweet/${tweet._id}`)
+                    .send({ body: 'updated' });
+            })
+            .then(res => {
+                expect(res.body).toEqual({
+                    handle: 'name', 
+                    body: 'updated',
+                    _id: expect.any(String),
+                });
+            });
+    });
+
+    it('deletes a tweet', () => {
+        return Tweet.create({ 
+            handle: 'name', 
+            body: 'delete me' 
+        })
+            .then(tweet => {
+                return request(app)
+                    .delete(`/tweet/${tweet._id}`);
+            })
+            .then(res => {
+                expect(res.body).toEqual({ 
+                    handle: 'name', 
+                    body: 'delete me',
+                    _id: expect.any(String)
+                });
+            });
+    });
 });
