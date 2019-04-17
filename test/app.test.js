@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const app = require('../lib/app');
 const request = require('supertest');
 const Ninja = require('../lib/models/Ninja');
+const User = require('../lib/models/User');
 require('dotenv').config();
 
 describe('APP TESTS', () => {
@@ -102,6 +103,94 @@ describe('APP TESTS', () => {
               nickname: 'delete', 
               age: 0, 
               tagline: 'me deleted',
+              _id: expect.any(String),
+              __v: 0
+            });
+          });
+      });
+  });
+
+  const newUser = { nickname: 'user', name: 'userName', email: 'test@fake.com' };
+
+  it('creates a new user', () => {
+    return request(app)
+      .post('/users')
+      .send(newUser)
+      .then(res => {
+        expect(res.body).toEqual({
+          nickname: 'user', 
+          name: 'userName', 
+          email: 'test@fake.com',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it('find a list of users', () => {
+    return User
+      .create(newUser)
+      .then(() => {
+        return request(app)
+          .get('/users');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(1);
+      });
+  });
+
+  it('find user by id', () => {
+    return User
+      .create(newUser)
+      .then(data => {
+        return request(app)
+          .get(`/users/${data._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          nickname: 'user', 
+          name: 'userName', 
+          email: 'test@fake.com',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it('update USER by id', () => {
+    return User
+      .create(newUser)
+      .then(user => {
+        return request(app)
+          .put(`/users/${user._id}`)
+          .send({
+            nickname: 'updatednickname', 
+            name: 'userName', 
+            email: 'test@fake.com'
+          });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          nickname: 'updatednickname', 
+          name: 'userName', 
+          email: 'test@fake.com',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it('delete by id', () => {
+    return User
+      .create(newUser)
+      .then(data => {
+        return request(app)
+          .delete(`/users/${data._id}`)
+          .then(res => {
+            expect(res.body).toEqual({
+              nickname: 'user', 
+              name: 'userName', 
+              email: 'test@fake.com',
               _id: expect.any(String),
               __v: 0
             });
