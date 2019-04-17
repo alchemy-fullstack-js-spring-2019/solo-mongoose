@@ -4,19 +4,19 @@ const mongoose = require('mongoose');
 const Tweet = require('../lib/models/Tweet');
 
 describe('tweet routes', () => {
-    beforeAll(() => {
-        return mongoose.connect('mongodb://localhost:27017/tweets', {
-            useFindAndModify: false,
-            useNewUrlParse: true,
-            useCreateIndex: true
-        });
-    });
-    beforeEach(() => {
-        return mongoose.connection.dropDatabase();
-    });
-    afterAll(() => {
-        return mongoose.connection.close();
-    })
+    // beforeAll(() => {
+    //     return mongoose.connect('mongodb://localhost:27017/tweets', {
+    //         useFindAndModify: false,
+    //         useNewUrlParse: true,
+    //         useCreateIndex: true
+    //     });
+    // });
+    // beforeEach(() => {
+    //     return mongoose.connection.dropDatabase();
+    // });
+    // afterAll(() => {
+    //     return mongoose.connection.close();
+    // })
 
     it('creates a new tweet', () => {
         return request(app)
