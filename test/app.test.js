@@ -161,7 +161,25 @@ describe('User routes', () => {
   });
 
   it('can get a user by id', () => {
-
+    return User.create({
+      handle: 'mcnadams',
+      name: 'Bonnie McNeil',
+      email: 'a@b.com'
+    })
+      .then(newUser => newUser._id)
+      .then(id => {
+        return request(app)
+          .get(`/users/${id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'mcnadams',
+          name: 'Bonnie McNeil',
+          email: 'a@b.com',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
   });
 
 });
