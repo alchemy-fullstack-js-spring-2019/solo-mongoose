@@ -10,6 +10,6 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 const PORT = process.env.PORT || 5500;
 
-app.listen(5500, () => {
+app.listen(PORT, () => {
   console.log(`Started port on ${PORT}`);
 });
