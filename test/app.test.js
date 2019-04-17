@@ -51,5 +51,20 @@ describe('e2e user routes', () => {
       });
   });
 
+  it('can return a specific user user based on path', () => {
+    return User
+      .create({
+        handle: 'Rabid Rabbit',
+        name: 'Sigmund',
+      })
+      .then(() => {
+        return request(app)
+          .get('/users');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(1);
+      });
+  });
+
 });
 
