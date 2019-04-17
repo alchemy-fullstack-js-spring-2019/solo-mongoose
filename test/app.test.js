@@ -85,4 +85,21 @@ describe('app', () => {
       });
   });
 
+  it('gets tweet by id and deletes', () => {
+    return Tweet
+      .create({ handle: 'jessy', body: 'shurdu' })
+      .then(createdTweet => {
+        return request(app)
+          .delete(`/tweets/${createdTweet._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'jessy',
+          body: 'shurdu',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
 });
