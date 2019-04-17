@@ -16,12 +16,6 @@ describe('Tweet model', () => {
     });
   });
 
-  it('has a required handle', () => {
-    const tweet = new Tweet({ user: id });
-    const errors = tweet.validateSync().errors;
-    expect(errors.body.message).toEqual('Path `body` is required.');
-  });
-
   it('has required body', () => {
     const tweet = new Tweet({ body: 'pizza is life' });
     const errors = tweet.validateSync().errors;
