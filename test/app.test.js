@@ -60,6 +60,28 @@ describe('tweets', () => {
       });
   });
 
+  it('creates a tweet with random quote', () => {
+    return User
+      .create({
+        handle: 'jimmy no pants',
+        name: 'jimithy',
+        email: 'aintGotNoEmail.email.com'
+      })
+      .then(createdUser => {
+        return request(app)
+          .post('/tweets')
+          .send({ user: createdUser._id })
+          .then(res => {
+            expect(res.body).toEqual({ 
+              body: expect.any(String),
+              _id: expect.any(String),
+              __v: 0,
+              user: expect.any(String)
+            });
+          });
+      });
+  });
+
   it('gets list of all tweets', () => {
     return createTweet()
       .then(() => {
