@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app.js');
-const TweetSchema = require('../lib/routes/tweetRoutes.js');
+const TweetSchema = require('../lib/models/tweetSchema.js');
 
 describe('tweet routes', () => {
   beforeAll(() => {
@@ -10,7 +10,7 @@ describe('tweet routes', () => {
       useFindAndModify: false,
       useCreateIndex: true
     });
-});
+  });
 
   afterAll(() => {
     return mongoose.connection.close();
@@ -21,6 +21,8 @@ describe('tweet routes', () => {
   });
 
   it('can create a new tweet', () => {
+    //why do we say request(app) here but TweetSchema below?
+    //so request(app) is saying request express with supertest?
     return request(app)
       .post('/tweets')
       .send({
@@ -37,6 +39,20 @@ describe('tweet routes', () => {
           //is _v the schema version??
           __v: 0
         });
+      });
+  });
+  it('finds and returns a list of all tweets in the database', () => {
+    return TweetSchema
+      .create({
+        handle: 'intro_mode',
+        body: 'tweet beep'
+      })
+      .then(() => {
+        return request(app)
+          .get('/tweets');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(1);
       });
   });
 });
