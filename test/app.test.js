@@ -59,7 +59,7 @@ describe('tweet routes', () => {
       });
   });
 
-  it.only('can get a tweet by id', () => {
+  it('can get a tweet by id', () => {
     return createTweet()
       .then(tweet => {
         return request(app)
@@ -79,29 +79,30 @@ describe('tweet routes', () => {
   });
 
   it('can update an existing tweet', () => {
-    return Tweet
-      .create({ handle: 'barry', body: 'meow' })
+    return createTweet()
       .then(createdTweet => createdTweet._id)
       .then(id => {
         return request(app)
           .patch(`/tweets/${id}`)
           .send({
-            body: 'meow meow!'
+            body: 'meow'
           });
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'barry',
-          body: 'meow meow!',
-          _id: expect.any(String),
-          __v: 0
+          user: {
+            _id: expect.any(String),
+            handle: 'Bonnie', 
+            image: 'https://via.placeholder.com/250'
+          },
+          body: 'meow',
+          _id: expect.any(String)
         });
       });
   });
 
   it('deletes a tweet', () => {
-    return Tweet
-      .create({ handle: 'deleter', body: 'doesn\'t matter cause we\'ll delete it immediately' })
+    return createTweet()
       .then(createdTweet => {
         return request(app)
           .delete(`/tweets/${createdTweet._id}`)
