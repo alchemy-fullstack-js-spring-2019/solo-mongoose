@@ -10,4 +10,12 @@ describe('tweet routes', () => {
       useCreateIndex: true
     });
   });
+
+  beforeEach(() => {
+    return mongoose.connection.dropDatabase();
+  });
+
+  afterAll(() => {
+    return mongoose.connection.close();
+  });
 });
