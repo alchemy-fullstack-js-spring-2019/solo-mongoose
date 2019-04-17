@@ -96,13 +96,18 @@ describe('tweet routes', () => {
             });
     })
     it('deletes a tweet by id', () => {
-        return Tweet.create({ handle: 'Frank', body: 'Get this by ID', tag: 'findById'})
+        return createTweet()
             .then(createdTweet => {
-            request(app)
-                    .delete(`/tweets/${createdTweet._id}`)
-                    .then(deletedTweet => {
-                        expect(deletedTweet.body).toEqual({});
-                    });
+                return Promise.all([
+                    Promise.resolve(createdTweet._id.toString()),
+                    request(app)
+                        .delete(`/tweets/${createdTweet._id}`)
+                ]);
+            })
+            .then(([_id, res]) => {
+                expect(res.body).toEqual({
+                    _id
+                });
             });
     });
 });
