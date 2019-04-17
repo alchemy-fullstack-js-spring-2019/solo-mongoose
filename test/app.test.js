@@ -71,21 +71,29 @@ describe('e2e user routes', () => {
       .create({ handle: 'whatever', name: 'exhaustion' })
       .then(createdUser => {
         return request(app)
-          .get(`/users/${createdUser._id}`);
+          .get(`/users/${createdUser._id}`)
+          .send({ handle: 'sure', name: 'optimism' });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'sure',
+          body: 'optimism',
+          _id: expect.any(String),
+          __v: 0
+        });
       });
   });
 
   it('it can update userinfo by ID', () => {
-    return User
-      .create({ 
-        handle: 'cretinous crab',
-        name: 'arrogant ass',
-      })
+    return User.create({ 
+      handle: 'cretinous crab',
+      name: 'arrogant ass',
+    })
       .then(createdUser => {
         return request(app)
           .put(`/users/${createdUser._id}`)
           .send({ 
-            handle: 'cretinous crab',
+            handle: 'monstrous crab',
             name: 'directionless ennui' 
           });
       })
@@ -93,9 +101,11 @@ describe('e2e user routes', () => {
         expect(res.body).toEqual({
           handle: 'monstrous crab', 
           name: 'directionless ennui',
+          _id: expect.any(String)
         });
       });
   });
+
 
 });
 
