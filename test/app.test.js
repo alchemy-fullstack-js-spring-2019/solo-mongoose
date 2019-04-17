@@ -29,11 +29,11 @@ describe('/tweets routes', () => {
       )
       .then(res => {
         expect(res.body).toEqual({
+          user: expect.any(String),
           body: 'User tweet',
           tags: [],
           _id: expect.any(String),
-          __v: 0,
-          handle: expect.any(String)
+          __v: 0
         });
       });
   });
