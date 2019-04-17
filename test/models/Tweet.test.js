@@ -34,4 +34,16 @@ describe('Tweet model', () => {
     
     expect(errors.body.message).toEqual('Path `body` is required.');
   });
+
+  it('has a body with max length of 256', () => {
+    const body = 'a'.repeat(300);
+    const tweet = new Tweet({
+      handle: 'cheri',
+      body
+    });
+
+    const errors = tweet.validateSync().errors;
+
+    expect(errors.body.message).toEqual(`Path \`body\` (\`${body}\`) is longer than the maximum allowed length (256).`);
+  });
 });
