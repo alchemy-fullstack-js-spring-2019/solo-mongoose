@@ -44,7 +44,7 @@ describe('tweet routes', () => {
             })
             .then(res => {
                 console.log(res.body);
-                expect(res.body).toHaveLength(2);
+                expect(res.body).toHaveLength(1);
             });
     })
     it('returns a tweet by id', () => {

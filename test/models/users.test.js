@@ -25,7 +25,6 @@ describe('User routes', () => {
                 image: 'something'
             })
             .then(createdUser => {
-                // console.log('CHECK THIS OUT-----', createdUser.body)
                 expect(createdUser.body).toEqual({
                     handle: 'Blimpy',
                     image: 'something',
@@ -48,7 +47,7 @@ describe('User routes', () => {
                 });
             });
     });
-    it.only('returns a user by id', () => {
+    it('returns a user by id', () => {
         return User.create({ handle: 'Some', image: 'Something' })
             .then(createdUser => {
                 return request(app)
@@ -74,6 +73,7 @@ describe('User routes', () => {
                     })
             })
             .then(updatedUser => {
+                console.log('UDATED USER', updatedUser.body)
                 expect(updatedUser.body).toEqual({
                     handle: 'New',
                     image: 'Something',
