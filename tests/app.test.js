@@ -56,8 +56,7 @@ describe('tweet routes', () => {
         expect(res.body).toEqual({
           handle: 'ollie',
           body: 'I am the best tweeter',
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
@@ -75,8 +74,7 @@ describe('tweet routes', () => {
         expect(res.body).toEqual({
           handle: 'simon',
           body: 'I\'m a Kiwi',
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
@@ -91,8 +89,7 @@ describe('tweet routes', () => {
         expect(res.body).toEqual({
           handle: 'megan',
           body: 'I am serious',
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
@@ -152,8 +149,7 @@ describe('dog routes', () => {
           name: 'meggo',
           handle: 'pug',
           email: 'meggo@pug.com', 
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
@@ -172,8 +168,7 @@ describe('dog routes', () => {
           name: 'meggo',
           handle: 'pug',
           email: 'meggo@dog.com', 
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
@@ -189,8 +184,7 @@ describe('dog routes', () => {
           name: 'meggo',
           handle: 'pug',
           email: 'meggo@pug.com', 
-          _id: expect.any(String),
-          __v: 0
+          _id: expect.any(String)
         });
       });
   });
