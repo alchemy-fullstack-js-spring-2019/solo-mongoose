@@ -11,10 +11,11 @@
   "devDependencies": {
     "eslint": "^5.16.0",
     "jest": "^24.7.1",
+    "nodemon": "^1.18.11",
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest -verbose --runInBand",
     "test:watch": "npm run test -- --watch",
     "start:watch": "nodemon server.js",
     "start": "node server.js"
