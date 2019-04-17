@@ -4,6 +4,8 @@ const app = require('../lib/app');
 const Fweet = require('../lib/models/Fweet');
 const User = require('../lib/models/User');
 
+jest.mock('../lib/services/futurama-api.js');
+
 describe('routes', () => {
   beforeAll(() => {
     return mongoose.connect('mongodb://127.0.0.1:27017/fweet', {
@@ -25,7 +27,7 @@ describe('routes', () => {
   const testNewUser = new User(testUser);
   const testFweet = { user: testNewUser._id, body: 'this is a tweet' };
 
-  it('creates a new fweet', () => {
+  it.only('creates a new fweet', () => {
     return request(app)
       .post('/fweet')
       .send(testFweet)
@@ -33,6 +35,20 @@ describe('routes', () => {
         expect(res.body).toEqual({ 
           user: testNewUser._id.toString(), 
           body: 'this is a tweet',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it.only('creates a new tweet and gives a random quote as body', () => {
+    return request(app)
+      .post('/fweet?random=true')
+      .send(testFweet)
+      .then(res => {
+        expect(res.body).toEqual({ 
+          user: testNewUser._id.toString(), 
+          body: 'This is a Futurama quote',
           _id: expect.any(String),
           __v: 0
         });
