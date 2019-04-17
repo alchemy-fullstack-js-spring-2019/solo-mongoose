@@ -151,15 +151,17 @@ describe('User routes', () => {
       users.map(user => {
         return User.create(user);
       }))
-      .then(([user1, user2]) => {
-        console.log(user1);
-        console.log(user2);
+      .then(() => {
         return request(app)
           .get('/users');
       })
       .then(res => {
         expect(res.body).toHaveLength(2);
       });
+  });
+
+  it('can get a user by id', () => {
+
   });
 
 });
