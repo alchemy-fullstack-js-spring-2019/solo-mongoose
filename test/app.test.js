@@ -180,4 +180,29 @@ describe('user routes', ()=> {
         });
       });
   });
+
+  it('can update a user by id', ()=> {
+    return User
+      .create({ 
+        handle: 'emilybemily', 
+        name: 'emily',
+        email: 'testemail@test.com' })
+      .then(createdUser => {
+        return request(app)
+          .put(`/users/${createdUser._id}`)
+          .send({
+            handle: 'emilybemily1',
+            name: 'emily',
+            email: 'testemail@test.com'
+          });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'emilybemily1',
+          name: 'emily',
+          email: 'testemail@test.com',
+          _id: expect.any(String)
+        });
+      });
+  });
 });
