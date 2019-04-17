@@ -21,7 +21,7 @@ describe('APP TESTS', () => {
     return mongoose.connection.close();
   });
 
-  it('creates a new ninja', () => {
+  it('creates a new NINJA', () => {
     return request(app)
       .post('/ninjas')
       .send({ nickname: 'nino', age: 20, tagline: 'death' })
@@ -36,7 +36,7 @@ describe('APP TESTS', () => {
       });
   });
 
-  it('find a list of ninjas', () => {
+  it('find a list of NINJAS', () => {
     return Ninja
       .create([
         { nickname: 'nino', age: 20, tagline: 'death' },
@@ -51,7 +51,7 @@ describe('APP TESTS', () => {
       });
   });
 
-  it('find by id', () => {
+  it('find NINJA by id', () => {
     return Ninja
       .create({ nickname: 'tim', age: 33, tagline: 'winning' })
       .then(data => {
@@ -69,7 +69,7 @@ describe('APP TESTS', () => {
       });
   });
 
-  it('update by id', () => {
+  it('update NINJA by id', () => {
     return Ninja
       .create({ nickname: 'tim', age: 33, tagline: 'winning' })
       .then(ninja => {
@@ -92,7 +92,7 @@ describe('APP TESTS', () => {
       });
   });
 
-  it('delete by id', () => {
+  it('delete NINJA by id', () => {
     return Ninja
       .create({ nickname: 'delete', age: 0, tagline: 'me deleted' })
       .then(data => {
@@ -110,9 +110,11 @@ describe('APP TESTS', () => {
       });
   });
 
+  //////////////- USERS -\\\\\\\\\\\\\\\
+
   const newUser = { nickname: 'user', name: 'userName', email: 'test@fake.com' };
 
-  it('creates a new user', () => {
+  it('creates a new USER', () => {
     return request(app)
       .post('/users')
       .send(newUser)
@@ -127,7 +129,7 @@ describe('APP TESTS', () => {
       });
   });
 
-  it('find a list of users', () => {
+  it('find a list of USERS', () => {
     return User
       .create(newUser)
       .then(() => {
@@ -139,7 +141,7 @@ describe('APP TESTS', () => {
       });
   });
 
-  it('find user by id', () => {
+  it('find USER by id', () => {
     return User
       .create(newUser)
       .then(data => {
@@ -152,21 +154,18 @@ describe('APP TESTS', () => {
           name: 'userName', 
           email: 'test@fake.com',
           _id: expect.any(String),
-          __v: 0
         });
       });
   });
 
-  it('update USER by id', () => {
+  it('update USER nickname by id', () => {
     return User
       .create(newUser)
       .then(user => {
         return request(app)
-          .put(`/users/${user._id}`)
+          .patch(`/users/${user._id}`)
           .send({
-            nickname: 'updatednickname', 
-            name: 'userName', 
-            email: 'test@fake.com'
+            nickname: 'updatednickname',
           });
       })
       .then(res => {
@@ -175,12 +174,54 @@ describe('APP TESTS', () => {
           name: 'userName', 
           email: 'test@fake.com',
           _id: expect.any(String),
-          __v: 0
+        });
+      });
+  });
+  
+  it('update USER email & name by id', () => {
+    return User
+      .create(newUser)
+      .then(user => {
+        return request(app)
+          .patch(`/users/${user._id}`)
+          .send({
+            email: 'updated@fake.com',
+            name: 'fake'
+          });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          nickname: 'user', 
+          name: 'fake', 
+          email: 'updated@fake.com',
+          _id: expect.any(String),
         });
       });
   });
 
-  it('delete by id', () => {
+  it('update USER nickname, email & name by id', () => {
+    return User
+      .create(newUser)
+      .then(user => {
+        return request(app)
+          .patch(`/users/${user._id}`)
+          .send({
+            email: 'updated@fake.com',
+            name: 'updated',
+            nickname: 'updated'
+          });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          nickname: 'updated', 
+          name: 'updated', 
+          email: 'updated@fake.com',
+          _id: expect.any(String),
+        });
+      });
+  });
+
+  it('delete USER by id', () => {
     return User
       .create(newUser)
       .then(data => {
@@ -192,7 +233,6 @@ describe('APP TESTS', () => {
               name: 'userName', 
               email: 'test@fake.com',
               _id: expect.any(String),
-              __v: 0
             });
           });
       });
