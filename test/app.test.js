@@ -35,7 +35,7 @@ describe('dog route', () => {
       });
   });
 
-  it.only('get list of dogs', () => {
+  it('get list of dogs', () => {
     return Dog
       .create({ name: 'Trevor', age: 600 })
       .then(() => {
@@ -100,7 +100,7 @@ describe('owner route', () => {
     return mongoose.connection.close();
   });
 
-  it.only('create a new user', () => {
+  it('create a new owner', () => {
     return request(app)
       .post('/owners')
       .send({ name: 'Clem', email: 'clemjim90@hotmail.com' })
@@ -113,4 +113,15 @@ describe('owner route', () => {
         });
       });
   });
+
+  it('get list of owners', () => {
+    return Owner
+      .create({ name: 'Clem', email: 'clemjim90@hotmail.com' })
+      .then(() => {
+        return request(app)
+          .get('/owners');
+      })
+      .then(res => expect(res.body).toHaveLength(1));
+  });
+
 });
