@@ -3,57 +3,34 @@ const User = require('../../lib/models/User');
 
 describe('User model', () => {
 
-  it('has handle, email, and body fields', () => {
+  it('has a handle', () => {
     const user = new User({
-      handle: 'bonnie',
-      name: 'Bonnie McNeil',
-      email: 'bonnie@mcneil.com'
+      handle: 'bonnie' 
     });
-
     expect(user.toJSON()).toEqual({
-      handle: 'bonnie',
-      name: 'Bonnie McNeil',
-      email: 'bonnie@mcneil.com',
-      _id: expect.any(mongoose.Types.ObjectId)
+      _id: expect.any(mongoose.Types.ObjectId),
+      handle: 'bonnie'
     });  
   });
 
   it('has a required handle field', () => {
     const user = new User({
-      name: 'bonnie', 
-      email: 'email@a.com'
+      image: './image.file'
     });
     const errors = user.validateSync().errors;
     expect(errors.handle.message).toEqual('Path `handle` is required.');
   });
 
-  it('has a required name field', () => {
+  it('has an image', () => {
     const user = new User({
-      handle: 'bonnie', 
-      email: 'email@a.com'
+      handle: 'bbm',
+      image: './image.file'
     });
-    const errors = user.validateSync().errors;
-    expect(errors.name.message).toEqual('Path `name` is required.');
-  });
-
-  it('has a required email field', () => {
-    const user = new User({
-      handle: 'bonnie', 
-      name: 'B McNeil'
-    });
-    const errors = user.validateSync().errors;
-    expect(errors.email.message).toEqual('Path `email` is required.');
-  });
-
-  it('validates user email using regex', () => {
-    const user = new User({
-      handle: 'mcnadams',
-      name: 'Bonnie McNeil',
-      email: 'not an email address'
-    });
-    const errors = user.validateSync().errors;
-    expect(errors.email.message).toEqual(`Path \`email\` is invalid (${user.email}).`);
-
+    expect(user.toJSON()).toEqual({
+      _id: expect.any(mongoose.Types.ObjectId),
+      handle: 'bbm',
+      image: './image.file'
+    });  
   });
 
 });
