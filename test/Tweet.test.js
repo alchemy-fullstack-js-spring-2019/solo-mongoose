@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Tweet = require('../lib/models/Tweet');
 
 describe('Tweet model', () => {

@@ -23,7 +23,7 @@ describe('tweet routes', () => {
             .post('/tweet')
             .send({ handle: 'Anna', body: 'this is my tweet' })
             .then(res => {
-                expect(res.body).toEqual({ handle: 'Anna', body: 'this is my tweet', _id: expect.any(String), __v: 0 })
+                expect(res.body).toEqual({ handle: 'Anna', body: 'this is my tweet', _id: expect.any(String), __v: 0 });
             });
     });
 

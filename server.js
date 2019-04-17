@@ -11,5 +11,6 @@ mongoose.connect(process.env.MONGODB_URI, {
 // const PORT = process.env.PORT || 7890;
 
 app.listen(7890, () => {
+    // eslint-disable-next-line no-console
     console.log('Listening on port 7890');
 });
