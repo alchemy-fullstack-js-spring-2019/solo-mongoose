@@ -1,74 +1,40 @@
 const mongoose = require('mongoose');
+const User = require('./lib/models/User');
+const Tweet = require('./lib/models/Tweet');
 
 // connect to mongodb database
-mongoose.connect('mongodb://localhost:27017/tweets', { 
+mongoose.connect('mongodb://localhost:27017/twitter_clone1', { 
   useNewUrlParser: true,
   useFindAndModify: false
 });
 
-// create tweet schema
-const tweetSchema = new mongoose.Schema({
-  handle: {
-    type: String,
-    required: true
-  },
-  body: {
-    type: String,
-    minLength: 10,
-    maxLength: 256
-  },
-  tag: {
-    type: String,
-    required: true,
-    enum: ['person', 'dog', 'db']
-  },
-  likes: {
-    type: Number,
-    required: true,
-    default: 0,
-    min: 0
-  },
-  retweets: {
-    type: [String]
-  }
-});
-
-// create tweet model
-const Tweet = mongoose.model('Tweet', tweetSchema);
-
-// create a new tweet
-Tweet
-  .create({ 
-    handle: 'leland', 
-    body: 'tweet number three',
-    tag: 'person'
+User
+  .create({
+    handle: 'bonnie',
+    image: 'https://via.placeholder.com/250'
   })
-  .then(createdTweet => console.log('\ncreated tweet:\n', createdTweet));
-
-Tweet
-  .find()
-  .then(allTweets => console.log('\nAll stored tweets:\n', allTweets));
-    
-Tweet.findByIdAndUpdate('5cb625286aafee7bb1224b4c', { body: 'this is the first tweet, and it has been updated' })
-  .then(updatedTweet => console.log('\nupdated tweet:\n', updatedTweet));
-    
-Tweet
-  .create({ handle: 'mongo', body: 'the database tweets to itself again, but in vain', tag: 'db' })
-  .then(createdTweet => createdTweet._id)
-  .then(id => {
-    return Tweet.findById(id);
+  .then(createdUser => {
+    console.log('Created user', createdUser);
+    return createdUser;
   })
-  .then(foundTweet => {
-    console.log('\nFound Tweet:\n', foundTweet);
-    return foundTweet._id;
+  .then(createdUser => {
+    return Tweet.create({
+      // associate user with tweet
+      user: createdUser._id,
+      body: 'my first tweet'
+    });
   })
-  .then(id => {
-    return Tweet.findByIdAndDelete(id)
-      .then(deletedTweet => console.log('\nDeleted Tweet:\n', deletedTweet));
-  })
-  .finally(() => {
-    mongoose.connection.close();
+  .then(tweet => {
+    console.log('tweet', tweet);
   });
-    
+ 
+User
+  .findById('5cb7926ae27478d4a4ed8625')
+  .then(res => console.log('find user', res));
+
+      
+
+
+
 
 
