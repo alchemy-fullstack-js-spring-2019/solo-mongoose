@@ -7,6 +7,8 @@ mongoose.connect('mongodb://localhost:27017/Tweets', {
   useCreateIndex: true
 });
 
-app.listen(3355, () => {
-  console.log('listening on port 3355');
+const PORT = process.env.PORT || 3355;
+
+app.listen(PORT, () => {
+  console.log(`listening on port ${PORT}`);
 });
