@@ -50,4 +50,22 @@ describe('APP TESTS', () => {
       });
   });
 
+  it('find by id', () => {
+    return Ninja
+      .create({ nickname: 'tim', age: 33, tagline: 'winning' })
+      .then(data => {
+        return request(app)
+          .get(`/ninjas/${data._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          nickname: 'tim', 
+          age: 33, 
+          tagline: 'winning',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
 });
