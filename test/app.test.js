@@ -124,7 +124,7 @@ describe('owner route', () => {
       .then(res => expect(res.body).toHaveLength(1));
   });
 
-  it.only('get owner by ID', () => {
+  it('get owner by ID', () => {
     return Owner
       .create({ name: 'Clem', email: 'clemjim90@hotmail.com' })
       .then(createdOwner => {
@@ -133,6 +133,31 @@ describe('owner route', () => {
       })
       .then(res => {
         expect(res.body).toEqual({ name: 'Clem', email: 'clemjim90@hotmail.com', _id: expect.any(String) });
+      });
+  });
+
+  it('update owner by ID', () => {
+    return Owner
+      .create({ name: 'Clem', email: 'clemjim90@hotmail.com' })
+      .then(owner => {
+        return request(app)
+          .put(`/owners/${owner._id}`)
+          .send({ name: 'Phleghm', email: 'phleghmjim90@hotmail.com' });
+      })
+      .then(res => {
+        expect(res.body).toEqual({ name: 'Phleghm', email: 'phleghmjim90@hotmail.com', _id: expect.any(String) });
+      });
+  });
+
+  it('delete by ID', () => {
+    return Owner
+      .create({ name: 'Clem', email: 'clemjim90@hotmail.com' })
+      .then(owner => {
+        return request(app)
+          .delete(`/owners/${owner._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({ _id: expect.any(String) });
       });
   });
 });
