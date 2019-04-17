@@ -6,6 +6,16 @@ const Tweet = require('../lib/models/Tweet');
 const User = require('../lib/models/User');
 
 describe('tweet routes', () => {
+  const createTweet = () => {
+    return User.create({ handle: 'Bonnie' })
+      .then(user => {
+        return Tweet.create({
+          user: user._id,
+          body: 'hello world'
+        });
+      });
+  };
+
   beforeAll(() => {
     mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true
@@ -18,7 +28,7 @@ describe('tweet routes', () => {
     return mongoose.connection.close();
   });
 
-  it.only('can create a new tweet', () => {
+  it('can create a new tweet', () => {
     return User.create({ handle: 'Bonnie' })
       .then(user => {
         return request(app)
@@ -36,12 +46,10 @@ describe('tweet routes', () => {
           __v: 0
         });
       });
-
   });
 
-  it('can get all tweets', () => {
-    return Tweet
-      .create({ handle: 'bonnie', body: 'tweet' })
+  it.only('can get all tweets', () => {
+    return createTweet()
       .then(() => {
         return request(app)
           .get('/tweets');
