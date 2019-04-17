@@ -33,17 +33,40 @@ describe('tweet routes', () => {
         });
       });
   });
-  // it('can get a list of tweets', () => {
-  //   return Tweet
-  //     .create({ handle: 'laura', body: 'my tweet' })
-  //     .then(() => {
-  //       return request(app)
-  //         .get('/tweets');
-  //     })
-  //     .then(res => {
-  //       console.log(res.text);
-  //       expect(res.body).toEqual({ handle: 'laura', body: 'my tweet' });
-  //     })
-  // })
-
+  it('can find all tweets', () => {
+    return Tweet
+      .create({ handle: 'laura', body: 'my tweet' })
+      .then(() => {
+        return request(app)
+          .get('/tweets');
+      })
+      .then(res => {
+        console.log(res.text);
+        expect(res.body).toHaveLength(1);
+      })
+  })
+  it('find a specific tweet by id', () => {
+    return Tweet
+      .create({ handle: 'laura', body: 'my tweet' })
+      .then(createdTweet => {
+        return request(app)
+          .get(`/tweets/${createdTweet._id}`);
+      })
+      .then(returnedTweet => {
+        expect(returnedTweet.body).toEqual({
+          handle: 'laura',
+          body: 'my tweet',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+  it('updates a tweet by id',  () => {
+    return Tweet
+      .create({ handle: 'user2', body: 'textytext' })
+      .then(createdTweet => {
+        return request(app)
+      
+      })
+  })
 });
