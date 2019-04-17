@@ -39,7 +39,7 @@ describe('user routes', () => {
 
   it('can get all the users', () => {
     return User
-      .create({ handle: 'cara_handler', name: 'Iam A Person', email: 'email@internets.com' })
+      .create({ handle: 'cara_handler', name: 'Iam A Person', email: 'email@email.com' })
       .then(() => {
         return request(app)
           .get('/users');
