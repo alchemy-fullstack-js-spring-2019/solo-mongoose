@@ -22,7 +22,7 @@ describe('Tweet model', () => {
 
         const errors = tweet.validateSync().errors;
 
-        expect(errors.handle.message).toEqual('Path handle is...');
+        expect(errors.handle.message).toEqual('Path `handle` is required.');
     });
 
     it('hase a required body field', () => {
@@ -32,17 +32,18 @@ describe('Tweet model', () => {
 
         const errors = tweet.validateSync().errors;
 
-        expect(errors.body.message).toEqual('Path body...');
+        expect(errors.body.message).toEqual('Path `body` is required.');
     });
 
     it('has a body with maxLength 256', () => {
+        const body = 'a'.repeat(300);
         const tweet = new Tweet({
             handle: 'ryan',
-            body: 'a'.repeat(3000)
+            body
         });
 
         const errors = tweet.validateSync().errors;
 
-        expect(errors.body.message).toEqual(`Path \ body\ (\`${body}\`) is loner than the maximum allowed legnth (256)`);
+        expect(errors.body.message).toEqual(`Path \`body\` (\`${body}\`) is longer than the maximum allowed length (256).`);
     });
 });
