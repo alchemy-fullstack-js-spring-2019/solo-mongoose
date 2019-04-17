@@ -78,8 +78,20 @@ describe('tweet routes', () => {
         });
       });
   });
-  // it('deletes an tweet by id', () => {
-  //   return Tweet
-  //     .create({ handle: 'laura'})
-  // })
+  it('deletes an tweet by id', () => {
+    return Tweet
+      .create({ handle: 'user2', body: 'textytext' })
+      .then(createdTweet => {
+        return request(app)
+          .delete(`/tweets/${createdTweet._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'user2',
+          body: 'textytext',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
 });
