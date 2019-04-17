@@ -45,4 +45,15 @@ describe('User model', () => {
     expect(errors.email.message).toEqual('Path `email` is required.');
   });
 
+  it('validates user email using regex', () => {
+    const user = new User({
+      handle: 'mcnadams',
+      name: 'Bonnie McNeil',
+      email: 'not an email address'
+    });
+    const errors = user.validateSync().errors;
+    expect(errors.email.message).toEqual(`Path \`email\` is invalid (${user.email}).`);
+
+  });
+
 });
