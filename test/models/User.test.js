@@ -9,7 +9,8 @@ describe('User model', () => {
     });
     expect(user.toJSON()).toEqual({
       _id: expect.any(mongoose.Types.ObjectId),
-      handle: 'bonnie'
+      handle: 'bonnie',
+      image: 'https://via.placeholder.com/250'
     });  
   });
 

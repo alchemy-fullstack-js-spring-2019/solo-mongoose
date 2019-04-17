@@ -18,21 +18,25 @@ describe('tweet routes', () => {
     return mongoose.connection.close();
   });
 
-  it('can create a new tweet', () => {
-    return request(app)
-      .post('/tweets')
-      .send({
-        handle: 'bonnie',
-        body: 'my first tweet'
+  it.only('can create a new tweet', () => {
+    return User.create({ handle: 'Bonnie' })
+      .then(user => {
+        return request(app)
+          .post('/tweets')
+          .send({
+            user: user._id,
+            body: 'asinine opinions'
+          });
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'bonnie',
-          body: 'my first tweet',
+          user: expect.any(String),
+          body: 'asinine opinions',
           _id: expect.any(String),
           __v: 0
         });
       });
+
   });
 
   it('can get all tweets', () => {
