@@ -71,8 +71,6 @@ describe('app routing test', () => {
         expect(res.body).toEqual({
           user: {
             handle: 'figgypuddingpop',
-            name: 'Samantha Whetsworth',
-            email: 'chickletqueen@yahoo.com',
             _id: expect.any(String)
           },
           body: 'a spicy tweet',
@@ -92,8 +90,6 @@ describe('app routing test', () => {
         expect(res.body).toEqual({
           user: {
             handle: 'figgypuddingpop',
-            name: 'Samantha Whetsworth',
-            email: 'chickletqueen@yahoo.com',
             _id: expect.any(String)
           },
           body: 'a juicy tweet',
