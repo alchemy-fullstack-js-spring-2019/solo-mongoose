@@ -63,4 +63,38 @@ describe('tweet routes', () => {
         });
       });
   });
+
+  it('deletes a fweet by id', () => {
+    return Fweet
+      .create(testFweet)
+      .then(createdFweet => {
+        return request(app)
+          .delete(`/fweet/${createdFweet._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          ...testFweet,
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it('updates the body of a fweet by id', () => {
+    return Fweet
+      .create(testFweet)
+      .then(createdFweet => {
+        return request(app)
+          .patch(`/fweet/${createdFweet._id}`)
+          .send({ body: 'this is an updated fweet' });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'chris',
+          body: 'this is an updated fweet',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
 });
