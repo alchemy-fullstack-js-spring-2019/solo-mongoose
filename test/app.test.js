@@ -52,7 +52,7 @@ describe('dog route', () => {
           .get(`/dogs/${createdDog._id}`);
       })
       .then(res => {
-        expect(res.body).toEqual({ name: 'Trevor', age: 600, __v: 0, _id: expect.any(String) });
+        expect(res.body).toEqual({ name: 'Trevor', age: 600 });
       });
   });
 
@@ -65,7 +65,7 @@ describe('dog route', () => {
           .send({ name: 'Ted', age: 3 });
       })
       .then(res => {
-        expect(res.body).toEqual({ name: 'Ted', age: 3, __v:0, _id: expect.any(String) });
+        expect(res.body).toEqual({ name: 'Ted', age: 3 });
       });
   });
 
@@ -77,7 +77,7 @@ describe('dog route', () => {
           .delete(`/dogs/${dog._id}`);
       })
       .then(res => {
-        expect(res.body).toEqual({ name: 'Trevor', age: 600, __v: 0, _id: expect.any(String) });
+        expect(res.body).toEqual({ name: 'Trevor', age: 600, _id: expect.any(String) });
       });
   });
 });
