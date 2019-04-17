@@ -126,7 +126,7 @@ describe('routes', () => {
       });
   });
 
-  it.only('returns a user by id', () => {
+  it('returns a user by id', () => {
     return User 
       .create(testUser)
       .then(createdUser => {
@@ -142,7 +142,7 @@ describe('routes', () => {
       });
   });
 
-  it.only('updates a user\'s name by id', () => {
+  it('updates a user\'s name by id', () => {
     return User
       .create(testUser)
       .then(createdUser => {
@@ -155,6 +155,60 @@ describe('routes', () => {
           handle: 'chris1',
           name: 'dave',
           email: 'test@test.com',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it('updates a user\'s email by id', () => {
+    return User
+      .create(testUser)
+      .then(createdUser => {
+        return request(app)
+          .patch(`/user/${createdUser._id}`)
+          .send({ email: 'new@test.com' });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'chris1',
+          name: 'chris',
+          email: 'new@test.com',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it('updates a user\'s email and name', () => {
+    return User
+      .create(testUser)
+      .then(createdUser => {
+        return request(app)
+          .patch(`/user/${createdUser._id}`)
+          .send({ name: 'john', email: 'hi@test.com' });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'chris1',
+          name: 'john',
+          email: 'hi@test.com',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it('deletes a user', () => {
+    return User
+      .create(testUser)
+      .then(createdUser => {
+        return request(app)
+          .delete(`/user/${createdUser._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          ...testUser,
           _id: expect.any(String),
           __v: 0
         });
