@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
 const Tweet = require('../lib/models/Tweet');
+const User = require('../lib/models/User');
 require('dotenv').config();
 
 describe('tweet routes', () => {
@@ -94,6 +95,40 @@ describe('tweet routes', () => {
           .then(res => {
             expect(res.body._id).toEqual(createdTweet._id.toString());
           });
+      });
+  });
+
+});
+
+describe('User routes', () => {
+  beforeAll(() => {
+    mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true
+    });
+  });
+  beforeEach(() => {
+    return mongoose.connection.dropDatabase();
+  });
+  afterAll(() => {
+    return mongoose.connection.close();
+  });
+
+  it('can create a new user', () => {
+    return request(app)
+      .post('/users')
+      .send({
+        handle: 'mcnadams',
+        name: 'Bonnie McNeil',
+        email: 'a@b.com'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'mcnadams',
+          name: 'Bonnie McNeil',
+          email: 'a@b.com',
+          _id: expect.any(String),
+          __v: 0
+        });
       });
   });
 
