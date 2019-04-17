@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const app = require('../lib/app');
 const request = require('supertest');
-// const Ninja = require('../lib/models/Ninja');
+const Ninja = require('../lib/models/Ninja');
 require('dotenv').config();
 
 describe('APP TESTS', () => {
+  
   beforeAll(() => {
     return mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
@@ -12,7 +13,13 @@ describe('APP TESTS', () => {
       useCreateIndex: true
     });
   });
-  
+  beforeEach(() => {
+    return mongoose.connection.dropDatabase();
+  });
+  afterAll(() => {
+    return mongoose.connection.close();
+  });
+
   it('creates a new ninja', () => {
     return request(app)
       .post('/ninjas')
@@ -27,4 +34,20 @@ describe('APP TESTS', () => {
         });
       });
   });
+
+  it('find a list of ninjas', () => {
+    return Ninja
+      .create([
+        { nickname: 'nino', age: 20, tagline: 'death' },
+        { nickname: 'tim', age: 33, tagline: 'winning' }
+      ])
+      .then(() => {
+        return request(app)
+          .get('/ninjas');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(2);
+      });
+  });
+
 });
