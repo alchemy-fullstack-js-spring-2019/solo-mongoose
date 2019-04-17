@@ -21,7 +21,9 @@ describe('routes', () => {
     return mongoose.connection.close();
   });
 
-  const testFweet = { handle: 'chris', body: 'this is a tweet' };
+  const testUser = { handle: 'chris1', name: 'chris', email: 'test@test.com' };
+  const testNewUser = new User(testUser);
+  const testFweet = { handle: testNewUser._id, body: 'this is a tweet' };
 
   it('creates a new fweet', () => {
     return request(app)
@@ -29,7 +31,7 @@ describe('routes', () => {
       .send(testFweet)
       .then(res => {
         expect(res.body).toEqual({ 
-          handle: 'chris', 
+          handle: testNewUser._id.toString(), 
           body: 'this is a tweet',
           _id: expect.any(String),
           __v: 0
@@ -49,20 +51,45 @@ describe('routes', () => {
       });
   });
 
-  it('gets a fweet by id', () => {
-    return Fweet
-      .create(testFweet)
+  it.only('gets a fweet by id', () => {
+    return User
+      .create(testUser)
+      .then(createdUser => {
+        return Fweet
+          .create({
+            handle: createdUser._id,
+            body: 'this is a tweet'
+          });
+      })
       .then(createdFweet => {
         return request(app)
           .get(`/fweet/${createdFweet._id}`);
       })
       .then(res => {
-        expect(res.body).toEqual({ 
-          ...testFweet,
+        expect(res.body).toEqual({
+          handle: {
+            handle: 'chris1',
+            _id: expect.any(String),
+          },
+          body: 'this is a tweet',
           _id: expect.any(String),
-          __v: 0
         });
       });
+  
+    // return Fweet
+    //   .create(testFweet)
+    //   .then(createdFweet => {
+    //     return request(app)
+    //       .get(`/fweet/${createdFweet._id}`);
+    //   })
+    //   .then(res => {
+    //     expect(res.body).toEqual({ 
+    //       handle: testNewUser,
+    //       body: 'this is a tweet',
+    //       _id: expect.any(String),
+    //       __v: 0
+    //     });
+    //   });
   });
 
   it('deletes a fweet by id', () => {
@@ -98,8 +125,6 @@ describe('routes', () => {
         });
       });
   });
-
-  const testUser = { handle: 'chris1', name: 'chris', email: 'test@test.com' };
 
   it('creates a new user', () => {
     return request(app)
