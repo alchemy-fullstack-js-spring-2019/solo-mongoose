@@ -19,22 +19,7 @@ describe('app', () => {
   afterAll(() => {
     return mongoose.connection.close();
   });
-  it('creates a tweet', () => {
-    return request(app)
-      .post('/tweets')
-      .send({ 
-        handle: 'gustof', 
-        body: 'yo hey there friends' 
-      })
-      .then(res => {
-        expect(res.body).toEqual({ 
-          handle: 'gustof', 
-          body: 'yo hey there friends',
-          _id: expect.any(String),
-          __v: 0
-        });
-      });
-  });
+
   
   it('gets list of all tweets', () => {
     return Tweet
@@ -112,6 +97,23 @@ describe('app', () => {
         expect(res.body).toEqual({
           handle: 'jessy',
           body: 'shurdu',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it('creates a tweet', () => {
+    return request(app)
+      .post('/tweets')
+      .send({ 
+        handle: 'gustof', 
+        body: 'yo hey there friends' 
+      })
+      .then(res => {
+        expect(res.body).toEqual({ 
+          handle: 'gustof', 
+          body: 'yo hey there friends',
           _id: expect.any(String),
           __v: 0
         });
