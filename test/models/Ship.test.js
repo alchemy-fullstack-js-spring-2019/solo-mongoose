@@ -26,5 +26,13 @@ describe('Testing Ship model', () => {
       _id: expect.any(mongoose.Types.ObjectId)
     });
   });
-  it()
+  it('requires a ship name', () => {
+    const newShip = new Ship({
+      owner: 'Davy Jones',
+      sailCount: 4 
+    });
+    const errors = newShip.validateSync().errors;
+
+    expect(errors.name.message).toEqual('Path `name` is required.');
+  });
 });
