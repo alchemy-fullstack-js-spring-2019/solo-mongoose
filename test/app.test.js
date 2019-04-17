@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 describe('/tweets routes', () => {
   beforeAll(() => {
-    return mongoose.connect(`${process.env.MONGODB_URI}/tweets`, { useNewUrlParser: true });
+    return mongoose.connect(`${process.env.MONGODB_URI}`, { useNewUrlParser: true });
   });
   afterEach(() => {
     return mongoose.connection.dropDatabase();
@@ -129,7 +129,7 @@ describe('/tweets routes', () => {
 
 describe('/users routes', () => {
   beforeAll(() => {
-    return mongoose.connect(`${process.env.MONGODB_URI}/users`, { useNewUrlParser: true });
+    return mongoose.connect(`${process.env.MONGODB_URI}`, { useNewUrlParser: true });
   });
   afterEach(() => {
     return mongoose.connection.dropDatabase();
