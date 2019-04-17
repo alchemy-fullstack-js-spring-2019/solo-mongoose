@@ -43,7 +43,8 @@ describe('tweet routes', () => {
                     .get('/tweets')
             })
             .then(res => {
-                expect(res.body).toHaveLength(1);
+                console.log(res.body);
+                expect(res.body).toHaveLength(2);
             });
     })
     it('returns a tweet by id', () => {
@@ -57,8 +58,7 @@ describe('tweet routes', () => {
                     handle: 'Frank',
                     body: 'Get this by ID',
                     tag: 'findById',
-                    _id: expect.any(String),
-                    __v: 0
+                    _id: expect.any(String)
                 });
             });
     });
@@ -78,8 +78,7 @@ describe('tweet routes', () => {
                     handle: 'Gary',
                     body: 'Get this by ID',
                     tag: 'findByIdAndUpdate',
-                    _id: expect.any(String),
-                    __v: 0
+                    _id: expect.any(String)
                 });
             });
     })

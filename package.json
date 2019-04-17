@@ -5,7 +5,7 @@
   "main": "mongoose-playground.js",
   "scripts": {
     "test": "jest --verbose",
-    "test:watch": "npm run test -- --watch",
+    "test:watch": "npm run test -- --watch --verbose --runInBand",
     "start": "node server.js",
     "start:watch": "nodemon server.js"
   },
