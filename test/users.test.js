@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
+const Users = require('../lib/models/Users');
+
 
 describe('user routes', () => {
   beforeAll(() => {
@@ -33,5 +35,19 @@ describe('user routes', () => {
         });
       });
   });
+  it('can find all users', () => {
+    return Users
+      .create({ handle: 'user1', name: 'name', email:'name@email.com' })
+      .then(() => {
+        return request(app)
+          .get('/users');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(1);
+      });
+  });
+  // it('find a specific user by id', () => {
+
+  // })
 
 });

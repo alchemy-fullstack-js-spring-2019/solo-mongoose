@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
 const Tweet = require('../lib/models/Tweet');
-const Users = require('../lib/models/Users');
 
 describe('tweet routes', () => {
   beforeAll(() => {
