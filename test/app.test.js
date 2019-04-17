@@ -23,7 +23,7 @@ describe('routes', () => {
 
   const testUser = { handle: 'chris1', name: 'chris', email: 'test@test.com' };
   const testNewUser = new User(testUser);
-  const testFweet = { handle: testNewUser._id, body: 'this is a tweet' };
+  const testFweet = { user: testNewUser._id, body: 'this is a tweet' };
 
   it('creates a new fweet', () => {
     return request(app)
@@ -31,7 +31,7 @@ describe('routes', () => {
       .send(testFweet)
       .then(res => {
         expect(res.body).toEqual({ 
-          handle: testNewUser._id.toString(), 
+          user: testNewUser._id.toString(), 
           body: 'this is a tweet',
           _id: expect.any(String),
           __v: 0
@@ -57,7 +57,7 @@ describe('routes', () => {
       .then(createdUser => {
         return Fweet
           .create({
-            handle: createdUser._id,
+            user: createdUser._id,
             body: 'this is a tweet'
           });
       })
@@ -67,7 +67,7 @@ describe('routes', () => {
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: {
+          user: {
             handle: 'chris1',
             _id: expect.any(String),
           },
@@ -84,7 +84,7 @@ describe('routes', () => {
       .then(createdUser => {
         return Fweet
           .create({
-            handle: createdUser._id,
+            user: createdUser._id,
             body: 'this is a tweet'
           });
       })
@@ -94,7 +94,7 @@ describe('routes', () => {
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: {
+          user: {
             handle: 'chris1',
             _id: expect.any(String),
           },
@@ -110,7 +110,7 @@ describe('routes', () => {
       .then(createdUser => {
         return Fweet
           .create({
-            handle: createdUser._id,
+            user: createdUser._id,
             body: 'this is a tweet'
           });
       })
@@ -121,7 +121,7 @@ describe('routes', () => {
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: {
+          user: {
             handle: 'chris1',
             _id: expect.any(String),
           },

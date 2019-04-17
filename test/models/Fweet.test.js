@@ -5,35 +5,35 @@ describe('Fweet model', () => {
   
   const id = new mongoose.Types.ObjectId;
 
-  it('creates a fweet with a handle (id), body, and tags', () => {
+  it('creates a fweet with a user (id), body, and tags', () => {
 
     const fweet = new Fweet({
-      handle: id,
+      user: id,
       body: 'this is a tweet',
       tags: 'JS'
     });
 
     expect(fweet.toJSON()).toEqual({
-      handle: id,
+      user: id,
       body: 'this is a tweet',
       tags: 'JS',
       _id: expect.any(mongoose.Types.ObjectId)
     });
   });
 
-  it('has a required handle field', () => {
+  it('has a required user field', () => {
     const fweet = new Fweet({
-      body: 'this is a tweet without a handle'
+      body: 'this is a tweet without a user'
     });
 
     const errors = fweet.validateSync().errors;
 
-    expect(errors.handle.message).toBe('Path `handle` is required.');
+    expect(errors.user.message).toBe('Path `user` is required.');
   }); 
 
   it('has a required body field', () => {
     const fweet = new Fweet({
-      handle: 'nobody'
+      user: 'nobody'
     });
 
     const errors = fweet.validateSync().errors;
@@ -44,7 +44,7 @@ describe('Fweet model', () => {
   it('has a maxlength of 140 in body field', () => {
     const body = 'hi'.repeat(71);
     const fweet = new Fweet({
-      handle: 'chris',
+      user: 'chris',
       body
     });
 
@@ -55,7 +55,7 @@ describe('Fweet model', () => {
 
   it('has tags which can only be certain strings', () => {
     const fweet = new Fweet({
-      handle: id,
+      user: id,
       body: 'this is a tweet',
       tags: 'badtag'
     });
