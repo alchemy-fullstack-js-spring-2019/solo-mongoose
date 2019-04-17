@@ -25,5 +25,5 @@ describe('Users', () => {
 
     const errors = user.validateSync().errors;
     expect(errors.handle.message).toEqual('Path `handle` is required.');
-  });  
+  });
 });
