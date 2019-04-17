@@ -48,7 +48,7 @@ describe('tweet routes', () => {
       });
   });
 
-  it.only('can get all tweets', () => {
+  it('can get all tweets', () => {
     return createTweet()
       .then(() => {
         return request(app)
@@ -59,20 +59,21 @@ describe('tweet routes', () => {
       });
   });
 
-  it('can get a tweet by id', () => {
-    return Tweet
-      .create({ handle: 'barry', body: 'meow' })
-      .then(createdTweet => createdTweet._id)
-      .then(id => {
+  it.only('can get a tweet by id', () => {
+    return createTweet()
+      .then(tweet => {
         return request(app)
-          .get(`/tweets/${id}`);
+          .get(`/tweets/${tweet._id}`);
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'barry',
-          body: 'meow',
-          _id: expect.any(String),
-          __v: 0
+          user: {
+            _id: expect.any(String),
+            handle: 'Bonnie', 
+            image: 'https://via.placeholder.com/250'
+          },
+          body: 'hello world',
+          _id: expect.any(String)
         });
       });
   });
@@ -107,130 +108,6 @@ describe('tweet routes', () => {
           .then(res => {
             expect(res.body._id).toEqual(createdTweet._id.toString());
           });
-      });
-  });
-
-});
-
-describe('User routes', () => {
-  beforeAll(() => {
-    mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useFindAndModify: false,
-      useCreateIndex: true
-    });
-  });
-  beforeEach(() => {
-    return mongoose.connection.dropDatabase();
-  });
-  afterAll(() => {
-    return mongoose.connection.close();
-  });
-
-  it('can create a new user', () => {
-    return request(app)
-      .post('/users')
-      .send({
-        handle: 'mcnadams',
-        name: 'Bonnie McNeil',
-        email: 'a@b.com'
-      })
-      .then(res => {
-        expect(res.body).toEqual({
-          handle: 'mcnadams',
-          name: 'Bonnie McNeil',
-          email: 'a@b.com',
-          _id: expect.any(String),
-          __v: 0
-        });
-      });
-  });
-
-  it('can get all users', () => {
-    const users = [
-      {
-        handle: 'mcnadams',
-        name: 'Bonnie McNeil',
-        email: 'a@b.com'
-      },
-      {
-        handle: 'mcnadams1',
-        name: 'Bonnie Adams',
-        email: 'c@b.com'
-      }
-    ];
-    return Promise.all(
-      users.map(user => {
-        return User.create(user);
-      }))
-      .then(() => {
-        return request(app)
-          .get('/users');
-      })
-      .then(res => {
-        expect(res.body).toHaveLength(2);
-      });
-  });
-
-  it('can get a user by id', () => {
-    return User.create({
-      handle: 'mcnadams',
-      name: 'Bonnie McNeil',
-      email: 'a@b.com'
-    })
-      .then(newUser => newUser._id)
-      .then(id => {
-        return request(app)
-          .get(`/users/${id}`);
-      })
-      .then(res => {
-        expect(res.body).toEqual({
-          handle: 'mcnadams',
-          name: 'Bonnie McNeil',
-          email: 'a@b.com',
-          _id: expect.any(String)
-        });
-      });
-  });
-
-  it('can update an existing user email', () => {
-    return User.create({
-      handle: 'mcnadams',
-      name: 'Bonnie McNeil',
-      email: 'a@b.com'
-    })
-      .then(newUser => newUser._id)
-      .then(id => {
-        return request(app)
-          .patch(`/users/${id}`)
-          .send({
-            email: 'b@c.com' 
-          });
-      })
-      .then(res => {
-        expect(res.body).toEqual({
-          handle: 'mcnadams',
-          name: 'Bonnie McNeil',
-          email: 'b@c.com',
-          _id: expect.any(String)
-        });
-      });
-  });
-
-
-  it('can delete a user', () => {
-    return User.create({
-      handle: 'mcnadams',
-      name: 'Bonnie McNeil',
-      email: 'a@b.com'
-    })
-      .then(user => user._id)
-      .then(id => {
-        return request(app)
-          .delete(`/users/${id}`)
-          .then(res => {
-            expect(res.body._id).toEqual(id.toString());
-          });       
       });
   });
 
