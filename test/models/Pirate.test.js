@@ -1,5 +1,4 @@
 const Pirate = require('../../lib/models/Pirate');
-const request = require('supertest');
 const mongoose = require('mongoose');
 
 describe('testing Pirate model', () => {
@@ -29,16 +28,16 @@ describe('testing Pirate model', () => {
     const pirate = new Pirate({
       ship: 'A pirate ship',
       pet: 'Polly the Parrot '
-    })
+    });
     const errors = pirate.validateSync().errors;
-    expect(errors.name.message).toEqual(`Path \`name\` is required.`);
+    expect(errors.name.message).toEqual('Path `name` is required.');
   });
   it('Pirate requires a ship', () => {
     const pirate = new Pirate({
       name: 'First Mate Yarrvey',
       pet: 'Polly the Parrot '
-    })
+    });
     const errors = pirate.validateSync().errors;
-    expect(errors.ship.message).toEqual(`Path \`ship\` is required.`);
+    expect(errors.ship.message).toEqual('Path `ship` is required.');
   });
 });

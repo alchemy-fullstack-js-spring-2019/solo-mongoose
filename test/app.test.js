@@ -5,6 +5,9 @@ const app = require('../lib/app');
 const Pirate = require('../lib/models/Pirate');
 
 
+
+
+
 describe('Pirate routes', () => {
   beforeAll(() => {
     mongoose.connect(process.env.MONGODB_URI, {
@@ -78,7 +81,7 @@ describe('Pirate routes', () => {
       .then(createdPirate => {
         return request(app)
           .patch(`/pirates/${createdPirate._id}`)
-          .send({ ship: 'The Sarrows'})
+          .send({ ship: 'The Sarrows' });
       })
       .then(res => {
         expect(res.body).toEqual({
@@ -90,10 +93,10 @@ describe('Pirate routes', () => {
       });
   });
   it('removes a document when DELETE called', () => {
-    return Pirate.create({ name: 'Burly the Boar', ship: 'Riddled with Holes'})
+    return Pirate.create({ name: 'Burly the Boar', ship: 'Riddled with Holes' })
       .then(createdPirate => {
         return request(app)
-          .delete(`/pirates/${createdPirate._id}`)
+          .delete(`/pirates/${createdPirate._id}`);
       })
       .then(res => {
         expect(res.body).toEqual({
