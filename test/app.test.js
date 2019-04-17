@@ -160,4 +160,24 @@ describe('user routes', ()=> {
         expect(res.body).toHaveLength(1);
       });
   });
+
+  it('can get a user by id', ()=> {
+    return User
+      .create({ 
+        handle: 'emilybemily', 
+        name: 'emily',
+        email: 'testemail@test.com' })
+      .then(createdUser=> {
+        return request(app)
+          .get(`/users/${createdUser._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'emilybemily', 
+          name: 'emily',
+          email: 'testemail@test.com',
+          _id: expect.any(String)
+        });
+      });
+  });
 });
