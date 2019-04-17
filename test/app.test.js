@@ -57,4 +57,21 @@ describe('Pirate routes', () => {
           });
       });
   });
+  it('updates Pirate document when PATCH called', () => {
+    return Pirate
+      .create({name: 'Lila Bard', ship: 'Black Spire'})
+      .then(createdPirate => {
+        return request(app)
+          .patch(`/pirates/${createdPirate._id}`)
+          .send({ ship: 'The Sarrows'})
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'Lila Bard',
+          ship: 'The Sarrows',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
 });
