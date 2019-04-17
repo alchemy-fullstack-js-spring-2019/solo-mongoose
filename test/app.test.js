@@ -66,7 +66,6 @@ describe('tweet routes', () => {
       .create({ handle: 'user2', body: 'textytext' })
       .then(createdTweet => {
         return request(app)
-      
       })
   })
 });
