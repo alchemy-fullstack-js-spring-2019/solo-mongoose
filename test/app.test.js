@@ -4,6 +4,8 @@ const app = require('../lib/app');
 const User = require('../lib/models/User');
 const Tweet = require('../lib/models/Tweet');
 
+jest.mock('../lib/services/futuramaApi.js');
+
 describe('tweet routes', () => {
   beforeAll(() => {
     return mongoose.connect('mongodb://localhost:27017/tweets', { 
@@ -37,6 +39,30 @@ describe('tweet routes', () => {
         expect(res.body).toEqual({
           user: expect.any(String),
           text: 'a new tweet', 
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it('can use random quote as tweet w/query', () => {
+    return User
+      .create({
+        handle: 'create test',
+        name: 'some name',
+        email: 'some@email.com'
+      })
+      .then(user => {
+        return request(app)
+          .post('/tweets/?random=true').send({
+            user: user._id, 
+            text: 'a new tweet'
+          });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          user: expect.any(String),
+          text: 'this is a random quote', 
           _id: expect.any(String),
           __v: 0
         });
