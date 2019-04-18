@@ -24,7 +24,7 @@ describe('tweet routes', () => {
   it('can create a new tweet', () => {
     return Dog.create({ handle: 'hello', name: 'fun', email: 'fun@hello.com' })
       .then(createdDog => {
-        return request (app)
+        return request(app)
           .post('/tweets')
           .send({ user: createdDog._id, body: 'my tweet' });
       })
@@ -32,6 +32,22 @@ describe('tweet routes', () => {
         expect(res.body).toEqual({
           user: expect.any(String),
           body: 'my tweet',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+  it('can create a tweet with a futurama quote', () => {
+    return Dog.create({ handle: 'dog', name: 'imadog', email: 'imadog@dog.com' })
+      .then(createdDog => {
+        return request(app)
+          .post('/tweets')
+          .send({ user: createdDog._id });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          user: expect.any(String),
+          body: expect.any(String),
           _id: expect.any(String),
           __v: 0
         });
