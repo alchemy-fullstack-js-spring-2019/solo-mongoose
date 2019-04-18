@@ -5,6 +5,13 @@ const Dog = require('../lib/models/Dog');
 const Owner = require('../lib/models/Owner');
 
 describe('dog route', () => {
+  const createDog = () => {
+    return Owner.create({ name: 'Clem', email: 'clemjim90@hotmail.com ' })
+      .then(owner => {
+        return Dog.create({ name: owner._id, age: 12 });
+      });
+  };
+
   beforeAll(() => {
     return mongoose.connect('mongodb://127.0.0.1:27017/dogs', { 
       useNewUrlParser: true,
@@ -22,12 +29,15 @@ describe('dog route', () => {
   });
 
   it('create a new dog', () => {
-    return request(app)
-      .post('/dogs')
-      .send({ name: 'Trevor', age: 600 })
+    return Owner.create({ name: 'Clem', email: 'clemjim90@hotmail.com' })
+      .then(owner => {
+        return request(app)
+          .post('/dogs')
+          .send({ name: owner._id, age: 600 });
+      })  
       .then(res => {
         expect(res.body).toEqual({
-          name: 'Trevor',
+          name: expect.any(String),
           age: 600,
           _id: expect.any(String),
           __v: 0
@@ -36,8 +46,7 @@ describe('dog route', () => {
   });
 
   it('get list of dogs', () => {
-    return Dog
-      .create({ name: 'Trevor', age: 600 })
+    return createDog()
       .then(() => {
         return request(app)
           .get('/dogs');
@@ -46,27 +55,28 @@ describe('dog route', () => {
   });
     
   it('get dog by ID', () => {
-    return Dog
-      .create({ name: 'Trevor', age: 600 })
+    return createDog()
       .then(createdDog => {
         return request(app)
           .get(`/dogs/${createdDog._id}`);
       })
       .then(res => {
-        expect(res.body).toEqual({ name: 'Trevor', age: 600 });
+        expect(res.body).toEqual({
+          name: expect.any(String),
+          age: 12
+        });
       });
   });
 
-  it('update dog by ID', () => {
-    return Dog
-      .create({ name: 'Trevor', age: 600 })
-      .then(dog => {
+  it.only('patch dog by ID', () => {
+    return createDog()
+      .then(createdDog => {
         return request(app)
-          .put(`/dogs/${dog._id}`)
-          .send({ name: 'Ted', age: 3 });
+          .patch(`/dogs/${createdDog._id}`)
+          .send({ age: 3 });
       })
       .then(res => {
-        expect(res.body).toEqual({ name: 'Ted', age: 3 });
+        expect(res.body).toEqual({ name: expect.any(String), age: 3, _id: expect.any(String) });
       });
   });
 
@@ -82,6 +92,10 @@ describe('dog route', () => {
       });
   });
 });
+
+
+
+
 
 describe('owner route', () => {
   beforeAll(() => {

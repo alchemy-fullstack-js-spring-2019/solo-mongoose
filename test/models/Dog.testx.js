@@ -3,12 +3,13 @@ const Dog = require('../../lib/models/Dog');
 
 describe('Dogs', () => {
   it('has a handle and a body', () => {
+    const id = new mongoose.Types.ObjectId();
     const dog = new Dog({
-      name: 'Tommy',
+      name: id,
       age: 12
     });
     expect(dog.toJSON()).toEqual({
-      name: 'Tommy',
+      name: id,
       age: 12,
       _id: expect.any(mongoose.Types.ObjectId)
     });
