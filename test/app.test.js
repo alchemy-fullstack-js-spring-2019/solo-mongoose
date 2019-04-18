@@ -46,6 +46,21 @@ describe('/tweets routes', () => {
       });
   });
 
+  it('adds a tweet by user with POST', () => {
+    return request(app)
+      .post(`/tweets/users/${userId}?random=true`)
+      .send({})
+      .then(res => {
+        expect(res.body).toEqual({
+          user: expect.any(String),
+          body: expect.any(String),
+          tags: [],
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+  
   it('gets all the tweets in the database with GET', () => {
     return request(app)
       .post(`/tweets/users/${userId}`)
