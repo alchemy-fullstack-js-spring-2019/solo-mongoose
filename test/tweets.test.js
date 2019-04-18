@@ -28,7 +28,6 @@ describe('e2e tweet routes', () => {
         body: 'maybe one day we will find peace'
       })
       .then(res => {
-        console.log(res.body);
         expect(res.body).toEqual({
           handle: 'angry aardvark',
           body: 'maybe one day we will find peace',
@@ -37,4 +36,37 @@ describe('e2e tweet routes', () => {
         });
       });
   });
+
+  it('return a list of tweets', () => {
+    return Tweet
+      .create({
+        handle: 'drunken dingo',
+        body: 'time is a flat circle'
+      })
+      .then(() => {
+        return request(app)
+          .get('/tweets');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(1);
+      });
+  });
+
+  it('can get a tweet by id', () => {
+    return Tweet
+      .create({ handle: 'surely snake', body: 'the cheese has gone bad' })
+      .then(createdTweet => {
+        return request(app)
+          .get(`/tweets/${createdTweet._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'surely snake',
+          body: 'the cheese has gone bad',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
 });
