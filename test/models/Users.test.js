@@ -8,7 +8,6 @@ describe('User model', () => {
       name: 'name',
       email: 'name@email.com'
     });
-    console.log(typeof users.toJSON()._id);
     expect(users.toJSON()).toEqual({
       handle: 'user1', 
       name: 'name',
