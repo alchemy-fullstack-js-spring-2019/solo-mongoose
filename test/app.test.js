@@ -88,7 +88,7 @@ describe('tweet routes', () => {
       });
   }); 
 
-  it.only('can patch a tweet by id', () => {
+  it('can patch a tweet by id', () => {
     return createTweet()
       .then(createdTweet => {
         return request(app)
@@ -107,18 +107,20 @@ describe('tweet routes', () => {
       });
   });
 
-  it('can delete a tweet by id', () => {
-    return Tweet
-      .create({ name: 'dan', body: 'I love data!' })
+  it.only('can delete a tweet by id', () => {
+    return createTweet()
       .then(createdTweet => {
-        return request(app)
-          .delete(`/tweets/${createdTweet._id}`);
+        // return request(app)
+        //   .delete(`/tweets/${createdTweet._id}`);
+        return Promise.all([
+          Promise.resolve(createdTweet._id.toString()),
+          request(app)
+            .delete(`/tweets/${createdTweet._id}`)
+        ]);
       })
-      .then(res => {
+      .then(([_id, res]) => {
         expect(res.body).toEqual({  
-          name: 'dan', 
-          body: 'I love data!',
-          _id: expect.any(String)
+          _id
         });
       });
   });
