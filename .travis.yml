@@ -2,4 +2,5 @@ language: node_js
 services: mongodb
 node_js:
   - "node"
+env: MONGODB_URI=mongodb://localhost:27017/tweets
  
