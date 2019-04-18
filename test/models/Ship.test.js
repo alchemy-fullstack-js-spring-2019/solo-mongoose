@@ -1,5 +1,12 @@
 const Ship = require('../../lib/models/Ship');
+const Pirate = require('../../lib/models/Pirate');
 const mongoose = require('mongoose');
+
+const makeShip = () => {
+  const testPirate = new Pirate({ name: 'One Eyed Sam', ship: 'The Glass Slipper', pet: 'Wobbly' });
+  return new Ship({ name: 'The Glass Slipper', owner: testPirate._id, sailCount: 1 });
+};
+
 
 describe('Testing Ship model', () => {
   beforeAll(() => {
@@ -13,15 +20,11 @@ describe('Testing Ship model', () => {
   });
   
   it('creates a ship with a name, owner, and sailCount', () => {
-    const newShip = new Ship({
-      name: 'The Jolly Roger',
-      owner: 'Davy Jones',
-      sailCount: 4 
-    });
+    const newShip = makeShip();
     expect(newShip.toJSON()).toEqual({
-      name: 'The Jolly Roger',
-      sailCount: 4,
-      color: 'Brown',
+      name: 'The Glass Slipper',
+      owner: expect.any(mongoose.Types.ObjectId),
+      sailCount: 1,
       _id: expect.any(mongoose.Types.ObjectId)
     });
   });
