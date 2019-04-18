@@ -70,8 +70,6 @@ describe('APP TESTS', () => {
         expect(res.body).toEqual({
           user: {
             nickname: 'nickname',
-            name: 'name',
-            email: 'email@email.com',
             _id: expect.any(String)
           }, 
           age: 20, 
@@ -95,8 +93,6 @@ describe('APP TESTS', () => {
         expect(res.body).toEqual({
           user: {
             nickname: 'nickname',
-            name: 'name',
-            email: 'email@email.com',
             _id: expect.any(String)
           }, 
           age: 18, 
@@ -115,8 +111,6 @@ describe('APP TESTS', () => {
             expect(res.body).toEqual({
               user: {
                 nickname: 'nickname',
-                name: 'name',
-                email: 'email@email.com',
                 _id: expect.any(String)
               }, 
               age: 20, 
