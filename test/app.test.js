@@ -2,8 +2,16 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
 const Tweet = require('../lib/models/Tweet');
+const User = require('../lib/models/Users');
 
 describe('tweet routes', () => {
+  const createTweet = () => {
+    return User.create({ handle: 'laura' })
+      .then(user => {
+        return Tweet.create({ user: user._id, body: 'my tweet' });
+      });
+  };
+
   beforeAll(() => {
     return mongoose.connect('mongodb://localhost:27017/tweets', {
       useFindAndModify: false,
@@ -21,20 +29,23 @@ describe('tweet routes', () => {
   });
 
   it('can create a new tweet', () => {
-    return request(app)
-      .post('/tweets')
-      .send({ handle: 'laura', body: 'my tweet' })
+    return User.create({ handle: 'laura' })
+      .then(user => {
+        return request(app)
+          .post('/tweets')
+          .send({ user: user._id, body: 'my first tweet' });
+      })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'laura',
-          body: 'my tweet',
+          user: expect.any(String),
+          body: 'my first tweet',
           _id: expect.any(String),
           __v: 0
         });
       });
   });
   it('can find all tweets', () => {
-    return Tweet
+    return createTweet()
       .create({ handle: 'laura', body: 'my tweet' })
       .then(() => {
         return request(app)
@@ -46,48 +57,52 @@ describe('tweet routes', () => {
       });
   });
   it('find a specific tweet by id', () => {
-    return Tweet
-      .create({ handle: 'laura', body: 'my tweet' })
+    return createTweet()
       .then(createdTweet => {
         return request(app)
           .get(`/tweets/${createdTweet._id}`);
       })
       .then(returnedTweet => {
         expect(returnedTweet.body).toEqual({
-          handle: 'laura',
-          body: 'my tweet',
+          user: {
+            handle: 'laura',
+            _id: expect.any(String)
+          },
           _id: expect.any(String),
+          body: 'my first tweet'
         });
       });
   });
   it('updates a tweet by id', () => {
-    return Tweet
-      .create({ handle: 'user2', body: 'textytext' })
+    return createTweet()
       .then(createdTweet => {
         return request(app)
-          .put(`/tweets/${createdTweet._id}`)
-          .send({ handle: 'user2', body: 'textytext' });
+          .patch(`/tweets/${createdTweet._id}`)
+          .send({ body: 'textytext' });
       })
       .then(res => {
         expect(res.body).toEqual({
-          handle: 'user2',
-          body: 'textytext',
           _id: expect.any(String),
+          user: {
+            _id: expect.any(String),
+            handle: 'laura'
+          },
+          body: 'textytext'
         });
       });
   });
   it('deletes an tweet by id', () => {
-    return Tweet
-      .create({ handle: 'user2', body: 'textytext' })
+    return createTweet()
       .then(createdTweet => {
-        return request(app)
-          .delete(`/tweets/${createdTweet._id}`);
+        return Promise.all([
+          Promise.resolve(createdTweet._id.toString()),
+          request(app)
+            .delete(`/tweets/${createdTweet._id}`)
+        ]);
       })
-      .then(res => {
+      .then(([_id, res]) => {
         expect(res.body).toEqual({
-          handle: 'user2',
-          body: 'textytext',
-          _id: expect.any(String),
+          _id
         });
       });
   });
