@@ -3,35 +3,37 @@ const mongoose = require('mongoose');
 
 
 describe('tweet model', ()=>{
-    it('makes sure handle is a string', ()=>{
-        //using Tweets.create will use mongo db to create tweet.  new
-        //creates it locally.  
+    it('has a user and body field', ()=>{
+        const id = new mongoose.Types.ObjectId();
         const tweet = new Tweets({
-            handle: 'olli',
+            user: id,
             body: 'my first tweet'
         });
         expect(tweet.toJSON()).toEqual({
-            handle: 'olli',
+            user: id,
             body: 'my first tweet',
             _id: expect.any(mongoose.Types.ObjectId)
         });
+        // console.log('tweet in test', tweet);
+        // console.log('tweet to json', tweet.toJSON());
+   
     });
-    it('makes sure handle is required', ()=>{
+    it('has a required user field', ()=>{
         const tweet = new Tweets({
             body: 'testing'
         });
-
-        const errors = tweet.validateSync().errors;
-
-        expect(errors.handle.message).toEqual('Path `handle` is required.');
+        const error = tweet.validateSync().errors;
+        expect(error.user.message).toBe('Path `user` is required.');
     });
     it('makes sure max length of body is 256 char', ()=>{
+        const body = 't'.repeat(300);
         const tweet = new Tweets({
-            body: 't'.repeat(300)
+            body: 't'.repeat(300),
+            user:'5850458058094850'
         });
         const errors = tweet.validateSync().errors;
 
-        expect(errors.handle.message).toEqual('Path `handle` is required.');
+        expect(errors.body.message).toEqual(`Path \`body\` (\`${body}\`) is longer than the maximum allowed length (256).`);
     });
     
 
