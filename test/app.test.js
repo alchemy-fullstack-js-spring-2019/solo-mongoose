@@ -79,16 +79,16 @@ describe('tweet routes', () => {
       .then(res => {
         expect(res.body).toEqual({
           user: {
-            user: 'stitch', 
+            name: 'the pickle',
             _id: expect.any(String)
           },
           _id: expect.any(String),
-          body: 'a fine day for a treat'
+          body: 'a fine day for a tweet'
         });
       });
   }); 
 
-  it('can update a tweet by id', () => {
+  it.only('can update a tweet by id', () => {
     return Tweet
       .create({ name: 'banjo', body: 'look but no touchy' })
       .then(createdTweet => {
