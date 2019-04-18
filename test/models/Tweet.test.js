@@ -25,7 +25,7 @@ describe('Tweet model', () => {
 
     expect(errors.user.message).toEqual('Path `user` is required.');
   });
-  //TODO needs a user id
+
   it('has a required body field', () => {
     const tweet = new Tweet({
       user: 'cheri'
@@ -35,7 +35,7 @@ describe('Tweet model', () => {
     
     expect(errors.body.message).toEqual('Path `body` is required.');
   });
-//TODO nees user id
+
   it('has a body with max length of 256', () => {
     const body = 'a'.repeat(300);
     const tweet = new Tweet({

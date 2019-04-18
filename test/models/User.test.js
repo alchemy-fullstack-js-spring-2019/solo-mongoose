@@ -49,4 +49,3 @@ describe('User model', () => {
     expect(errors.condition.message).toEqual('Path `condition` is required.');
   });
 });
-

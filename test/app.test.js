@@ -166,7 +166,7 @@ describe('tweet routes', () => {
       });
   });
 
-  it.only('can get a user by id', () => {
+  it('can get a user by id', () => {
     return createUser()
       .then(createdUser => {
         return request(app)
