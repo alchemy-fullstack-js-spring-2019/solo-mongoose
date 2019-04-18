@@ -28,14 +28,6 @@ describe('tweet model', () => {
     expect(errors.user.message).toEqual('Path `user` is required.');
   });
 
-  // it('has a required body field', () => {
-  //   const tweet = new Tweet({
-  //     handle: 'megs'
-  //   });
-  //   const errors = tweet.validateSync().errors;
-  //   expect(errors.body.message).toEqual('Path `body` is required.');
-  // });
-
   it('body has a maxlength of 300 characters', () => {
     const body = 'x'.repeat(301);
     const tweet = new Tweet({

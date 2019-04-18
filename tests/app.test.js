@@ -41,7 +41,7 @@ describe('tweet routes', () => {
     return Dog.create({ handle: 'dog', name: 'imadog', email: 'imadog@dog.com' })
       .then(createdDog => {
         return request(app)
-          .post('/tweets')
+          .post('/tweets?random=true')
           .send({ user: createdDog._id });
       })
       .then(res => {
