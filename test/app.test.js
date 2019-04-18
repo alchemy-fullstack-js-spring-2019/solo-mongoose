@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
 const User = require('../lib/models/User');
-const Tweet = require('../lib/models/Tweets');
 require('dotenv').config();
 
 
@@ -22,87 +21,82 @@ describe('tweet routes', () => {
         return mongoose.connection.close();
     });
     it('can create a new tweet', () => {
-        return request(app)
-            .post('/tweets')
-            .send({ handle: 'olli', body: 'my first tweet' })
-            .then(res => {
-                expect(res.body).toEqual({
-                    handle: 'olli',
-                    body: 'my first tweet',
-                    _id: expect.any(String),
-                    __v: 0
-                });
+        return User.create({ handle:'jimBob', image:'' })
+        
+            .then(createdUser=>{ 
+                const id = createdUser._id;
+                return request(app)
+                    .post('/tweets')
+                    .send({ user:id, body:'first message' });            
+            })        
+            .then ((res)=>{
+                expect(res.body).toEqual({ _id:expect.any(String), __v:0, body:'first message', user:expect.any(String) });
             });
+         
     });
     it('can find all tweets', () => {
-        return Tweet
-            .create({ handle: 'only', body: 'tweet I got' })
-            .then(() => {
+        return User.create({ handle:  'Bob', image:'' })
+            .then(createdUser=>{
+                const id = createdUser._id;
                 return request(app)
-                    .get('/tweets')
-                    .then(allTweets => {
-                        expect(allTweets.body.length).toBe(1);
+                    .post('/tweets')
+                    .send({ user:id,  body:'im justa tweet' });
+            })
+            .then(()=>{
+                return request(app)
+                    .get('/tweets')//we can use lean here1!!!(not sure how)
+                    .then(allTweets=>{
+                        expect(allTweets.body).toHaveLength(1);
                     });
             });
     });
     it('can find a tweet by id', () => {
-        return Tweet
-            .create({ handle: 'only', body: 'tweet I got' })
-            .then(createdTweets => {
-                const id = createdTweets._id;
+        return  User
+            .create({ handle:'jimBob', image:'placeholder' })
+            .then(createdUser=>{
+                const id = createdUser._id;
+                return request(app)
+                    .post('/tweets')
+                    .send({ user:id, body:'find me now!' });
+            })
+            .then(createdTweet=>{
+
+                const id = createdTweet.body._id;
                 return request(app)
                     .get(`/tweets/${id}`)
-            })
-            .then(foundTweet => {
-                expect(foundTweet.body).toEqual({
-                    user: {
-                        handle:'ryan',
-                        image:'',
-                        _id: expect.any(String)
-                    },
-                    _id: expect.any(String),
-                    body: 'my tweet'    
-                });
+                    .then(foundTweet=>{         
+                        expect(foundTweet.body).toEqual(
+                            { 
+                                _id:expect.any(String),
+                                user:expect.any(String),
+                                body:'find me now!' 
+                            });
+                    });
             });
     });
+    it('can update a tweet by id', () => {
+        return User
+            .create({ handle:'jimBob', image:'placeholder' })
+            .then(createdUser=>{
+                const id = createdUser._id;
+                return request(app)
+                    .post('/tweets')
+                    .send({ user:id, body:'tweet to update' });     
+            })
+            .then(createdTweet=>{
+                const id = createdTweet.body._id;
+                return request(app)
+                    .patch(`/tweets/${id}`)
+                    .send({ body:'updated tweet' })
+                    .then(newTweet=>{
+                        expect(newTweet.body).toEqual({
+                            body:'updated tweet',
+                            user:{
+                                _id:expect.any(String),
+                                handle:'jimBob'
+                            }
+                        });
+                    });
+            });  
+    });
 });
-it('can update a tweet by id', () => {
-    return Tweet
-        .create({ handle: 'update', body: 'meow' })
-        .then(createdTweet => {
-            return request(app)
-                .put(`/tweets/${createdTweet._id}`)
-                .send({
-                    handle: 'updated',
-                    body: 'thanks!'
-                });
-        })
-        .then(updatedTweet => {
-            expect(updatedTweet.body).toEqual({
-                handle: 'updated',
-                body: 'thanks!',
-                __v: 0,
-                _id: expect.any(String)
-            });
-        });
-});
-it('can delete tweet by id', () => {
-    return Tweet
-        .create({
-            handle: 'delete me',
-            body: 'delete me now!'
-        })
-        .then(createdTweet => {
-            const id = createdTweet._id;
-            return request(app)
-                .delete(`/tweets/${id}`);
-        })
-        .then(() => {
-            return request(app)
-                .get('/tweets')
-                .then(foundTweets => {
-                    expect(foundTweets.body.length).toBe(0);
-                });
-        });
-});
-
