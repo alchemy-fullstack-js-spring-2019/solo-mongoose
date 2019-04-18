@@ -59,7 +59,6 @@ describe('app routing test', () => {
           .send({ user: user._id });
       })
       .then(res => {
-        console.log('returned tweet', res.body);
         expect(res.body).toEqual({
           user: expect.any(String),
           body: expect.any(String),
