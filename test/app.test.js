@@ -19,6 +19,15 @@ describe('tweet routes', () => {
         });
       });
   };
+
+  const createUser = () => {
+    return User.create({
+      name: 'the pickle', 
+      description: 'fuzzy pickle',
+      color: 'green',
+      condition: 'squeaker in critical condition'   
+    });
+  };
   
   beforeAll(() => {
     return mongoose.connect('mongodb://localhost:27017/tweets', {
@@ -107,7 +116,7 @@ describe('tweet routes', () => {
       });
   });
 
-  it.only('can delete a tweet by id', () => {
+  it('can delete a tweet by id', () => {
     return createTweet()
       .then(createdTweet => {
         // return request(app)
@@ -147,13 +156,7 @@ describe('tweet routes', () => {
   });
 
   it('can get a list of users', () => {
-    return User
-      .create({ 
-        name: 'the pickle', 
-        description: 'fuzzy pickle',
-        color: 'green',
-        condition: 'squeaker in critical condition'
-      })
+    return createUser()
       .then(() => {
         return request(app)
           .get('/users');
@@ -163,14 +166,8 @@ describe('tweet routes', () => {
       });
   });
 
-  it('can get a user by id', () => {
-    return User
-      .create({
-        name: 'the pickle', 
-        description: 'fuzzy pickle',
-        color: 'green',
-        condition: 'squeaker in critical condition'
-      })
+  it.only('can get a user by id', () => {
+    return createUser()
       .then(createdUser => {
         return request(app)
           .get(`/users/${createdUser._id}`);
