@@ -68,7 +68,7 @@ describe('dog route', () => {
       });
   });
 
-  it.only('patch dog by ID', () => {
+  it('patch dog by ID', () => {
     return createDog()
       .then(createdDog => {
         return request(app)
@@ -81,14 +81,16 @@ describe('dog route', () => {
   });
 
   it('delete by ID', () => {
-    return Dog
-      .create({ name: 'Trevor', age: 600 })
+    return createDog()
       .then(dog => {
-        return request(app)
-          .delete(`/dogs/${dog._id}`);
+        return Promise.all([
+          Promise.resolve(dog._id.toString()),
+          request(app)
+            .delete(`/dogs/${dog._id}`)
+        ]);
       })
-      .then(res => {
-        expect(res.body).toEqual({ name: 'Trevor', age: 600, _id: expect.any(String) });
+      .then(([_id, res]) => {
+        expect(res.body).toEqual({ _id });
       });
   });
 });
