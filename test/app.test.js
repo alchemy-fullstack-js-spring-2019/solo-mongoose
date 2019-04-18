@@ -88,19 +88,21 @@ describe('tweet routes', () => {
       });
   }); 
 
-  it.only('can update a tweet by id', () => {
-    return Tweet
-      .create({ name: 'banjo', body: 'look but no touchy' })
+  it.only('can patch a tweet by id', () => {
+    return createTweet()
       .then(createdTweet => {
         return request(app)
-          .put(`/tweets/${createdTweet._id}`)
-          .send({ name: 'banjo', body: 'stay away from me!' });
+          .patch(`/tweets/${createdTweet._id}`)
+          .send({ body: 'stay away from me!' });
       })
       .then(res => {
         expect(res.body).toEqual({
-          name: 'banjo',
+          _id: expect.any(String),
+          user: {
+            _id: expect.any(String),
+            name: 'the pickle'
+          },
           body: 'stay away from me!',
-          _id: expect.any(String)
         });
       });
   });
