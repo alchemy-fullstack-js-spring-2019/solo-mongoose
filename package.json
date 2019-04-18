@@ -1,0 +1,37 @@
+{
+  "name": "solo-mongoose",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mongoosePlayground.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "scripts": {
+    "test": "jest --runInBand",
+    "test:watch": "npm run test -- --watch",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SteelFace87/solo-mongoose.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SteelFace87/solo-mongoose/issues"
+  },
+  "homepage": "https://github.com/SteelFace87/solo-mongoose#readme",
+  "dependencies": {
+    "dotenv": "^7.0.0",
+    "eslint": "^5.16.0",
+    "express": "^4.16.4",
+    "jest": "^24.7.1",
+    "mongoose": "^5.5.2",
+    "superagent": "^5.0.2",
+    "supertest": "^4.0.2"
+  }
+}

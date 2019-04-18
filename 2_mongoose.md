@@ -152,7 +152,7 @@ Tweets should be associated with a User.
   * **do not** return the the __v
   * see [https://mongoosejs.com/docs/api.html#query_Query-select](https://mongoosejs.com/docs/api.html#query_Query-select)
 
-## Add a random tweet endpoint
+## Add a random tweet endpoint//stretch goal
 
 * Use the Futurama middleware to create a random tweet
 * change your `POST /tweets` route to now accept a query `?random=true`
