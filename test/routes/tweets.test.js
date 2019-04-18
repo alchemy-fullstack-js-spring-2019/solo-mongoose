@@ -64,13 +64,47 @@ describe('router tests', () => {
               handle: 'cosmo',
               body: 'I am creating a tweet to get by id',
               _id: expect.any(String),
-              __v: 0
             });
           });
       });
   });
 
   it('finds a tweet by id and patches', () => {
-    
+    return Tweet
+      .create({
+        handle: 'cosmo',
+        body: 'I am creating a tweet to update by id'
+      })
+      .then(createdTweet => {
+        return request(app)
+          .patch(`/tweets/${createdTweet._id}`)
+          .send({ body: 'this is my updated body' })
+          .then(res => {
+            expect(res.body).toEqual({
+              handle: 'cosmo',
+              body: 'this is my updated body',
+              _id: expect.any(String),
+            });
+          });
+      });
   }); 
+
+  it('finds a tweet by id and deletes it', () => {
+    return Tweet
+      .create({
+        handle: 'cosmo',
+        body: 'tweet to be deleted',
+      })
+      .then(createdTweet => {
+        console.log(createdTweet);
+        return Promise.all([
+          Promise.resolve(createdTweet._id.toString()),
+          request(app)
+            .delete(`/tweets/${createdTweet._id}`)
+        ]);
+      })
+      .then(([_id, res]) => {
+        expect(res.body).toEqual({ _id });
+      });
+  });
 });
