@@ -26,7 +26,7 @@ describe('Tweet model', () => {
     expect(errors.user.message).toEqual('Path `user` is required.');
   });
 
-  it.only('has a required body field',  () => {
+  it('has a required body field',  () => {
     const tweet = new Tweet ({
       user: id
     });
