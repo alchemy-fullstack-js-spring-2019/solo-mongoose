@@ -58,11 +58,7 @@ describe('tweet routes', () => {
   });
   it('finds by id', () => {
     //how would we get this to work with .create?
-    // return TweetSchema
-    //   .create({
-    //     handle: 'intro_mode',
-    //     body: 'tweetaleet'
-    //   })
+    //see user section for .create version
     return request(app)
       .post('/tweets')
       .send({
@@ -83,7 +79,7 @@ describe('tweet routes', () => {
         });
       });
   });
-  it.skip('finds by ID and updates', () => {
+  it('finds by ID and updates', () => {
     return TweetSchema
       .create({
         handle: 'intro_mode',
@@ -93,7 +89,7 @@ describe('tweet routes', () => {
         return request(app)
           .put(`/tweets/${createdTweet._id}`) //just like post. were telling it where to post and where to put! Put completely replaces the old object. 
           .send({
-            handle: 'into_mode',
+            handle: 'intro_mode',
             body: 'TWEETALEET2'
           });
       })
@@ -102,7 +98,7 @@ describe('tweet routes', () => {
         expect(res.body).toEqual({
           handle: 'intro_mode',
           body: 'TWEETALEET2',
-          id: expect.any(String),
+          _id: expect.any(String),
           __v: 0
         });
       });
@@ -147,6 +143,7 @@ describe('user routes', () => {
         handle: 'intro_mode',
         email: 'intro_mode@gmail.com'
       })
+      //do we not HAVE to catch the res from create?
       .then(() => {
         return request(app)
           .get('/users');
@@ -155,6 +152,50 @@ describe('user routes', () => {
         expect(res.body).toHaveLength(1);
       });
   });
+  it('finds by ID', () => {
+    return UserSchema
+      .create({
+        handle: 'intro_mode',
+        email: 'intro_mode@gmail.com'
+      })
+      //we didn't code .create in routes, so we dont have a res. we also then dont have a .body. it is built in and just returns the created user. res goes through the full cycle of server client request, so it picks up the req res full object with headers etc. .create just returns the created user, so no body.
+      .then(createdUser => {
+        return request(app)
+          .get(`/users/${createdUser._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'intro_mode',
+          email: 'intro_mode@gmail.com',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+  it('finds by ID and updates', () => {
+    UserSchema
+      .create({
+        handle: 'intro_mode',
+        email: 'intro_mode@gmail.com'
+      })
+      .then(createdUser => {
+        return request(app)
+          .put(`/tweets/${createdUser._id}`)
+          .send({
+            handle: 'intro_mode',
+            email: 'SPAM@email.com'
+          });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'intro_mode',
+          email: 'SPAM@email.com',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+
+  })
 });
 
 
