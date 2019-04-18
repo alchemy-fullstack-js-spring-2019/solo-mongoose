@@ -7,7 +7,7 @@ require('dotenv').config();
 
 describe('tweet routes', () => {
     beforeAll(() => {
-        return mongoose.connect(`mongodb://${process.env.MONGO_HOST}/tweets`, {
+        return mongoose.connect(`${process.env.MONGODB_URI}`, {
             useFindAndModify: false,
             useNewUrlParser: true,
             useCreateIndex: true
