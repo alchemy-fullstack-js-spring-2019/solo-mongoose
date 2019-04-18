@@ -78,5 +78,21 @@ describe('user routes', () => {
         });
       });
   });
+  it('deletes a user by id', () => {
+    return Users
+      .create({ handle: 'user1', name: 'name', email:'name@email.com' })
+      .then(createdUser => {
+        return request(app)
+          .delete(`/users/${createdUser._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'user1',
+          name: 'name',
+          email: 'name@email.com',
+          _id: expect.any(String)
+        });
+      });
+  });
 
 });
