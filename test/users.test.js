@@ -3,7 +3,6 @@ const request = require('supertest');
 const app = require('../lib/app');
 const Users = require('../lib/models/Users');
 
-
 describe('user routes', () => {
   beforeAll(() => {
     return mongoose.connect('mongodb://localhost:27017/users', {
@@ -46,8 +45,38 @@ describe('user routes', () => {
         expect(res.body).toHaveLength(1);
       });
   });
-  // it('find a specific user by id', () => {
-
-  // })
+  it('find a specific user by id', () => {
+    return Users
+      .create({ handle: 'user1', name: 'name', email: 'name@email.com' })
+      .then(createdUser => {
+        return request(app)
+          .get(`/users/${createdUser._id}`);
+      })
+      .then(returnedUser => {
+        expect(returnedUser.body).toEqual({
+          handle: 'user1',
+          name: 'name',
+          email: 'name@email.com',
+          _id: expect.any(String)
+        });
+      });
+  });
+  it('updates a user by id', () => {
+    return Users
+      .create({ handle: 'user1', name: 'name', email: 'name@email.com' })
+      .then(createdUser => {
+        return request(app)
+          .patch(`/users/${createdUser._id}`)
+          .send({ handle: 'user1', name: 'name', email: 'name@email.com' });
+      })
+      .then(returnedUser => {
+        expect(returnedUser.body).toEqual({
+          handle: 'user1',
+          name: 'name',
+          email: 'name@email.com',
+          _id: expect.any(String)
+        });
+      });
+  });
 
 });
