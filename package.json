@@ -16,7 +16,7 @@
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "test": "jest -verbose --runInBand",
+    "test": "jest",
     "test:watch": "npm run test -- --watch",
     "start:watch": "nodemon server.js",
     "start": "node server.js"

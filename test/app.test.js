@@ -50,6 +50,25 @@ describe('app routing test', () => {
       });
   });
 
+  it('uses a random futurama quote if path is random=true', () => {
+    return User
+      .create({ handle: 'fryfan', name: 'Phillip Jay', email: 'fryfan@gmail.com' })
+      .then(user => {
+        return request(app)
+          .post('/tweets?random=true')
+          .send({ user: user._id });
+      })
+      .then(res => {
+        console.log('returned tweet', res.body);
+        expect(res.body).toEqual({
+          user: expect.any(String),
+          body: expect.any(String),
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
   it('finds all tweets', () => {
     return createTweet()
       .then(() => {
