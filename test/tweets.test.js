@@ -69,4 +69,28 @@ describe('e2e tweet routes', () => {
       });
   });
 
+  it('can update a tweet by ID', () => {
+    return Tweet
+      .create({
+        handle: 'cretinous crab',
+        body: 'arrogant ass',
+      })
+      .then(tweet => {
+        return request(app)
+          .put(`/tweets/${tweet._id}`)
+          .send({
+            handle: 'doubt',
+            body: 'regret'
+          });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'doubt',
+          body: 'regret',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
 });
