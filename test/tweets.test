@@ -93,4 +93,21 @@ describe('e2e tweet routes', () => {
       });
   });
 
+  it('can delete a tweet by ID', () => {
+    return Tweet
+      .create({ handle: 'south', body: 'longing' })
+      .then(tweet => {
+        return request(app)
+          .delete(`/tweets/${tweet._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'south',
+          body: 'longing',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
 });
