@@ -96,7 +96,6 @@ describe('Tweet router tests', () => {
         body: 'tweet to be deleted',
       })
       .then(createdTweet => {
-        console.log(createdTweet);
         return Promise.all([
           Promise.resolve(createdTweet._id.toString()),
           request(app)

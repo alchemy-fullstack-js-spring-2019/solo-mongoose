@@ -43,17 +43,10 @@ describe('User router tests', () => {
         image: 'test 1'
       })
       .then(() => {
-        return User
-          .create({
-            handle: 'other cosmo',
-            image: 'test 2'
-          })
-          .then(() => {
-            return request(app)
-              .get('/users')
-              .then(res => {
-                expect(res.body).toHaveLength(2);
-              });
+        return request(app)
+          .get('/users')
+          .then(res => {
+            expect(res.body).toHaveLength(1);
           });
       });
   });
