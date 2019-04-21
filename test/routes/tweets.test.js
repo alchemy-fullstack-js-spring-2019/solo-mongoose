@@ -3,7 +3,7 @@ const request = require('supertest');
 const Tweet = require('../../lib/models/Tweet');
 const app = require('../../lib/app');
 
-describe('router tests', () => {
+describe('Tweet router tests', () => {
   beforeAll(() => {
     return mongoose.connect('mongodb://localhost:27017/tweets', {
       useFindAndModify: false,
