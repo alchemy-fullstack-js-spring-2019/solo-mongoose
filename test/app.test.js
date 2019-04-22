@@ -172,31 +172,36 @@ describe('user routes', () => {
         });
       });
   });
-  it('finds by ID and updates', () => {
-    UserSchema
-      .create({
-        handle: 'intro_mode',
-        email: 'intro_mode@gmail.com'
-      })
-      .then(createdUser => {
-        return request(app)
-          .put(`/tweets/${createdUser._id}`)
-          .send({
-            handle: 'intro_mode',
-            email: 'SPAM@email.com'
-          });
-      })
-      .then(res => {
-        expect(res.body).toEqual({
-          handle: 'intro_mode',
-          email: 'SPAM@email.com',
-          _id: expect.any(String),
-          __v: 0
-        });
-      });
+  // it('finds by ID and updates', () => {
+  //   return UserSchema
+  //     .create({
+  //       handle: 'intro_mode',
+  //       email: 'intro_mode@gmail.com'
+  //     })
+  //     .then(createdUser => {
+  //       return request(app)
+  //         .post('/tweets')
+  //         .send({
+  //           handle: createdUser._id,
+  //           body: 'heyyy'
+  //         });
+  //     })
+  //     .then(createdTweet => {
+  //       return request(app)
+  //         .get(`/tweets/${createdTweet._id}`)
+  //         .then(res => {
+  //           expect(res.body).toEqual({
+  //             handle: 'intro_mode',
+  //             body: 'heyyy',
+  //             _id: expect.any(String),
+  //             __v: 0
+  //           });
+  //         });
+  //     });
 
-  });
+  // });
 });
+
 
 
 
