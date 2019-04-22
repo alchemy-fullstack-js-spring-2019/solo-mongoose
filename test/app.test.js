@@ -81,17 +81,21 @@ describe('tweet routes testing', () => {
       });
   });
 
-  // it('can delete a tweet by id', () => {
-  //   return User.create({ handle: 'byeUser', name: 'Ima Outtahere', email: 'gotta.run.dmc', _id: this._id })
-  //     .then(user => {
-  //       Tweet.create({ user: user._id, body: 'You should delete this tweet' });
-  //     })
-  //     .then(() => {
-  //       return request(app)
-  //         .delete('/tweets/:id');
-  //     })
-  //     .then(res => {
-  //       expect(res.body).toEqual({ user: expect.any(String), body: 'You should delete this tweet', _id: expect.any(String) });
-  //     });
-  // });
+  it('can delete a tweet by id', () => {
+    return User.create({ handle: 'byeUser', name: 'Ima Outtahere', email: 'gotta.run.dmc', _id: this._id })
+      .then(user => {
+        Tweet.create({ user: user._id, body: 'You should delete this tweet' });
+      })
+      .then(() => {
+        return request(app)
+          .get('tweets/:id');
+        //.delete('/tweets/:id');   //or ('/tweets/${Tweet._id}');
+      })
+      .then(user => {
+        Tweet.delete(user);
+      })
+      .then(res => {
+        expect(res.body).toEqual({ user: expect.any(String), body: 'You should delete this tweet', _id: expect.any(String) });
+      });
+  });
 });
