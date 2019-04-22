@@ -1,6 +1,5 @@
-const User = require('../../lib/models/User');
 const mongoose = require('mongoose');
-// const request = require('supertest');
+const User = require('../../lib/models/User');
 
 describe('user model', () => {
   beforeAll(() => {
@@ -31,7 +30,7 @@ describe('user model', () => {
       _id: expect.any(mongoose.Types.ObjectId)
     });
   });
-  it('can check that handle is present in a created user', () => {
+  it('can check that required handle is present in a created user', () => {
     const user = new User({
       name: 'Frances',
       email: 'i-check@handle-and-name-and@email.com'
@@ -41,21 +40,3 @@ describe('user model', () => {
   });
 
 });
-
-// it('can check that name is present in a created user', () => {
-//   const user = new User({
-//     handle: 'HandlingIt',
-//     email: 'i-check@handle-and-name-and@email.com'
-//   });
-//   //const errors = user.validateSync().errors;
-//   //expect(user.name.message).toEqual('Path `name` is required.');
-// });
-
-// it('can check that email is present in a created user', () => {
-//   const user = new User({
-//     handle: 'Test User 2',
-//     name: 'Frances',
-//   });
-//   const errors = user.validateSync().errors;
-//   expect(errors.email.message).toEqual('Path `email` is required.');
-// });

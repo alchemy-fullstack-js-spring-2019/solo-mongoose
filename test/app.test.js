@@ -64,17 +64,34 @@ describe('tweet routes testing', () => {
       });
   });
 
-  it('can delete a tweet by id', () => {
-    return User.create({ handle: 'byeUser', name: 'Ima Outtahere', email: 'gotta.run.dmc', _id: this._id })
+  it('can find a tweet by id and update it', () => {
+    return User.create({ handle: 'updater', name: 'UpdateMe', email: 'update@me.com', id: this._id })
       .then(user => {
-        Tweet.create({ user: user.id, body: 'You should delete this user' });
+        Tweet.create({ user: user.id, body: 'This is now an updated tweet' });
       })
       .then(() => {
         return request(app)
           .get('/tweets/:id');
       })
+      .then(user => {
+        Tweet.create({ user: user.id, body: 'This is now an updated tweet' });
+      })
       .then(res => {
-        expect(res.body).toEqual({});
+        expect(res);
       });
   });
+
+  // it('can delete a tweet by id', () => {
+  //   return User.create({ handle: 'byeUser', name: 'Ima Outtahere', email: 'gotta.run.dmc', _id: this._id })
+  //     .then(user => {
+  //       Tweet.create({ user: user._id, body: 'You should delete this tweet' });
+  //     })
+  //     .then(() => {
+  //       return request(app)
+  //         .delete('/tweets/:id');
+  //     })
+  //     .then(res => {
+  //       expect(res.body).toEqual({ user: expect.any(String), body: 'You should delete this tweet', _id: expect.any(String) });
+  //     });
+  // });
 });
