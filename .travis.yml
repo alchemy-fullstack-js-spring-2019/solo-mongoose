@@ -1,7 +1,3 @@
-language: "node_js"
-node_js: "11"
-before_script:
-  - npm i eslint esm
-  - npm i jsdom
-script:
-  - npx eslint .
+language: node_js
+node_js: node
+services: mongodb

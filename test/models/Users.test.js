@@ -21,9 +21,8 @@ describe('User model', () => {
       email: 'name@email.com',
       _id: expect.any(mongoose.Types.ObjectId),
     });
-
-    const errors = users.validateSync().errors;
-
-    expect(errors.handle.message).toEqual('Path `handle` is required.');
+    const error = users.validateSync().errors;
+    expect(error.handle.message).toEqual('Path `handle` is required.');
   });
+  
 });
