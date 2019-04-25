@@ -114,7 +114,7 @@ describe('user routes', () => {
     });
   });
   afterAll(() => {
-    return mongoose.connected.close();
+    return mongoose.connection.close();
   });
 
   beforeEach(() => {
