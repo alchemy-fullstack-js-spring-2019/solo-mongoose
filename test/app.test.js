@@ -49,7 +49,7 @@ describe('tweet routes testing', () => {
           .get('/tweets/all');
       })
       .then(res => {
-        expect(res.body).toHaveLength(1);
+        expect(res.body).toEqual(1);
       });
   });
 
