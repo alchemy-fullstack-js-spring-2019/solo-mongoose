@@ -5,6 +5,13 @@ const app = require('../lib/app');
 const Tweet = require('../lib/models/Tweet');
 const User = require('../lib/models/User');
 
+const createTweet = () => {
+  return User.create({ handle: 'Land Shark', name: 'vkeqnv', email: 'kjjnwkjvb' })
+    .then(user => {
+      return Tweet.create({ user: user._id, body: 'my tweet' });
+    });
+};
+
 describe('tweet routes testing', () => {
 
   beforeAll(() => {
@@ -28,7 +35,7 @@ describe('tweet routes testing', () => {
       user: mongoose.Types.ObjectId(),
       body: 'first tweet from user bliss',
     });
-    console.log('console', tweet);
+    console.log('console', typeof(tweet));
   //   expect(tweet.toEqual(expect.any(Object))
   });
 
@@ -77,21 +84,18 @@ describe('tweet routes testing', () => {
       });
   });
 
-  it('can delete a tweet by id', () => {
-    return User.create({ handle: 'byeUser', name: 'Ima Outtahere', email: 'gotta.run.dmc', _id: this._id })
-      .then(user => {
-        Tweet.create({ user: user._id, body: 'You should delete this tweet' });
+  it('can delete a tweet', () => {
+    return createTweet()
+      .then(tweet => {
+        return Promise.all([
+          Promise.resolve(tweet._id.toString()),
+          request(app)
+            .delete('/tweets/:id')
+        ]);
       })
-      .then(() => {
-        return request(app)
-          .get('tweets/:id');
-        //.delete('/tweets/:id');   //or ('/tweets/${Tweet._id}');
-      })
-      .then(user => {
-        Tweet.delete(user);
-      })
-      .then(res => {
-        expect(res.body).toEqual(null);
+      .then(([_id, res]) => {
+        expect(res.body).toEqual(expect.any(Object));
+        expect(_id).toEqual(_id);
       });
   });
 });

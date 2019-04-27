@@ -15,14 +15,6 @@ describe('tweet model', () => {
     });
   });
 
-  it('can has a required user', () => {
-    const tweet = new Tweet({
-      body: 'HasNoHandle Guy'
-    });
-    const errors = tweet.validateSync().errors;
-    expect(errors.user.message).toEqual('Path `user` is required.');
-  });
-
   it('can has a required body', () => {
     const tweet = new Tweet({
       user: 'Headless One'
