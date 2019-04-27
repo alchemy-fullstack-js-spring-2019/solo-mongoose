@@ -30,16 +30,18 @@ describe('tweet routes testing', () => {
     return mongoose.connection.close();
   });
 
-  it('can add a tweet, with user and name fields', () => {
-    const tweet = new Tweet({
-      user: mongoose.Types.ObjectId(),
-      body: 'first tweet from user bliss',
-    });
-    console.log('console', typeof(tweet));
-  //   expect(tweet.toEqual(expect.any(Object))
+  it('can add a tweet, returning only the body, user id, and tweet id', () => {
+    return User.create({ handle: 'chris', name: 'bo-biss', email: 'AndInDarkness@Bind.Them' })
+      .then(user => {
+        return Tweet.create({ user: user._id, body: 'my LOTR tweet' });
+      })
+      .then(res => {
+        expect(res.body).toEqual('my LOTR tweet');
+        expect(res.user).toEqual(expect.anything());
+      });
   });
 
-  it('can get a list of tweets', () => {
+  it('can get a list of tweets, each returning only the body, user id, and tweet id', () => {
     return User.create({ handle: 'chris', name: 'bo-biss', email: 'AndInDarkness@Bind.Them' })
       .then(user => {
         return Tweet.create({ user: user._id, body: 'my LOTR tweet' });
@@ -49,7 +51,7 @@ describe('tweet routes testing', () => {
           .get('/tweets/all');
       })
       .then(res => {
-        expect(res.body).toEqual(1);
+        expect(res.body).toEqual([{ _id: expect.anything(), body: 'my LOTR tweet', user: expect.anything() }]);
       });
   });
 
