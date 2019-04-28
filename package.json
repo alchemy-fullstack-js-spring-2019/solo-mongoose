@@ -4,7 +4,7 @@
   "description": "",
   "main": "mongoosePlayground.js",
   "scripts": {
-    "test": "jest --verbose",
+    "test": "jest --verbose --runInBand",
     "test:watch": "npm run test -- --watch",
     "start": "node server.js"
   },
@@ -29,6 +29,7 @@
     "superagent": "^5.0.2"
   },
   "devDependencies": {
+    "chance": "^1.0.18",
     "eslint": "^5.16.0",
     "jest": "^24.7.1",
     "nodemon": "^1.18.11",
