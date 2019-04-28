@@ -1,21 +1,13 @@
-require('dotenv').config();
+require('dotenv');
 const mongoose = require('mongoose');
 const request = require('supertest');
-const app = require('../lib/app');
+const app = require('../lib/app.js');
 const Tweet = require('../lib/models/Tweet');
 const User = require('../lib/models/User');
 
-const createTweet = () => {
-  return User.create({ handle: 'Land Shark', name: 'vkeqnv', email: 'kjjnwkjvb' })
-    .then(user => {
-      return Tweet.create({ user: user._id, body: 'my tweet' });
-    });
-};
-
 describe('tweet routes testing', () => {
-
   beforeAll(() => {
-    return mongoose.connect(process.env.MONGODB_URI, {
+    return mongoose.connect('mongodb://localhost:27017/tweets', {
       useFindAndModify: false,
       useNewUrlParser: true,
       useCreateIndex: true
@@ -30,18 +22,19 @@ describe('tweet routes testing', () => {
     return mongoose.connection.close();
   });
 
-  it('can add a tweet, returning only the body, user id, and tweet id', () => {
+  it('can add a tweet', () => {
     return User.create({ handle: 'chris', name: 'bo-biss', email: 'AndInDarkness@Bind.Them' })
       .then(user => {
-        return Tweet.create({ user: user._id, body: 'my LOTR tweet' });
+        return request(app)
+          .post('/tweets')
+          .send({ user: user._id, body: 'my LOTR tweet' });
       })
       .then(res => {
-        expect(res.body).toEqual('my LOTR tweet');
-        expect(res.user).toEqual(expect.anything());
+        expect(res.body).toEqual({ user: expect.any(String), body: 'my LOTR tweet', _id: expect.any(String), __v: 0 });
       });
   });
 
-  it('can get a list of tweets, each returning only the body, user id, and tweet id', () => {
+  it('can get a list of tweets, each returning only the body and user id', () => {
     return User.create({ handle: 'chris', name: 'bo-biss', email: 'AndInDarkness@Bind.Them' })
       .then(user => {
         return Tweet.create({ user: user._id, body: 'my LOTR tweet' });
@@ -51,53 +44,82 @@ describe('tweet routes testing', () => {
           .get('/tweets/all');
       })
       .then(res => {
-        expect(res.body).toEqual([{ _id: expect.anything(), body: 'my LOTR tweet', user: expect.anything() }]);
+        expect(res.body).toEqual([{ body: 'my LOTR tweet', user: expect.any(String) }]);
       });
   });
 
-  it('can get a tweet by id', () => {
-    return User.create({ handle: 'idme', name: 'meme', email: 'about.me.com', id: this._id })
+  it('can get a tweet by id, returning only the body, tweet id, email, handle, and name', () => {
+    return User.create({ handle: 'idme', name: 'meme', email: 'about.me.com' }) //, id: this._id })
       .then(user => {
-        Tweet.create({ user: user.id, body: 'ID me!!' });
+        return Tweet.create({ user: user._id, body: 'ID me!!' });
       })
-      .then(() => {
-        return request(app)
-          .get('/tweets/:id');
-      })
-      .then(res => {
-        expect(res);
-      });
-  });
-
-  it('can find a tweet by id and update it', () => {
-    return User.create({ handle: 'updater', name: 'UpdateMe', email: 'update@me.com', id: this._id })
-      .then(user => {
-        Tweet.create({ user: user.id, body: 'This is now an updated tweet' });
-      })
-      .then(() => {
-        return request(app)
-          .get('/tweets/:id');
-      })
-      .then(user => {
-        Tweet.create({ user: user.id, body: 'This is now an updated tweet' });
-      })
-      .then(res => {
-        expect(res);
-      });
-  });
-
-  it('can delete a tweet', () => {
-    return createTweet()
       .then(tweet => {
-        return Promise.all([
-          Promise.resolve(tweet._id.toString()),
-          request(app)
-            .delete('/tweets/:id')
-        ]);
+        return request(app)
+          .get(`/tweets/${tweet._id}`);
       })
-      .then(([_id, res]) => {
-        expect(res.body).toEqual(expect.any(Object));
-        expect(_id).toEqual(_id);
+      .then(res => {
+        expect(res.body).toEqual(({ body: 'ID me!!', user: { _id: expect.any(String), email: 'about.me.com', handle: 'idme', name: 'meme' } }));
+      });
+  });
+
+  it('can find a tweet by id and update it, returning only the body, handle, name, email and user id', () => {
+    return User.create({ handle: 'updater', name: 'UpdateMe', email: 'update@me.com' })
+      .then(user => {
+        return Tweet.create({ user: user._id, body: 'The original tweet' });
+      })
+      .then(tweet => {
+        return request(app)
+          .patch(`/tweets/${tweet._id}`)
+          .send({ body: 'This is now an updated tweet' });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          user: { _id: expect.any(String), handle: 'updater', name: 'UpdateMe', email: 'update@me.com' },
+          body: 'This is now an updated tweet'
+
+        });
+      });
+  });
+
+  it('can delete a tweet, returning only the deleted body, handle, name, email, and user id', () => {
+    return User.create({ handle: 'Pizza Delivery', name: 'Land Shark', email: 'Telegram' })
+      .then(user => {
+        return Tweet.create({ user: user._id, body: 'this is my tweet' });
+      })
+      .then(tweet => {
+        return request(app)
+          .delete(`/tweets/${tweet._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({ 
+          user: { handle: 'Pizza Delivery', name: 'Land Shark', email: 'Telegram', _id: expect.anything()  }, 
+          body: 'this is my tweet',
+        });
+      });
+  });
+});
+
+describe('user routes testing', () => {
+  beforeAll(() => {
+    return mongoose.connect('mongodb://localhost:27017/users', {
+      useNewUrlParser: true,
+      useFindAndModify: false,
+      useCreateIndex: true
+    });
+  });
+  beforeEach(() => {
+    return mongoose.connection.dropDatabase();
+  });
+  afterAll(() => {
+    return mongoose.connection.close();
+  });
+
+  it('creates a user', () => {
+    return request(app)
+      .post('/users')
+      .send({ handle: '@anna', name: 'Anna', email: 'email@email.com' })
+      .then(res => {
+        expect(res.body).toEqual({ handle: '@anna', name: 'Anna', email: 'email@email.com', _id: expect.any(String), __v: 0 });
       });
   });
 });

@@ -1,3 +1,4 @@
+require('dotenv');
 const mongoose = require('mongoose');
 const User = require('../../lib/models/User');
 
@@ -30,13 +31,4 @@ describe('user model', () => {
       _id: expect.any(mongoose.Types.ObjectId)
     });
   });
-  it('can check that required handle is present in a created user', () => {
-    const user = new User({
-      name: 'Frances',
-      email: 'i-check@handle-and-name-and@email.com'
-    });
-    const errors = user.validateSync().errors;
-    expect(errors.handle.message).toEqual('Path `handle` is required.');
-  });
-
 });

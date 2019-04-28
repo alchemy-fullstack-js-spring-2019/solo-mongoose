@@ -7,7 +7,6 @@ describe('tweet model', () => {
       user: mongoose.Types.ObjectId(),
       body: 'first tweet from user bliss',
     });
-    console.log('console', typeof(tweet.toJSON()._id));
     expect(tweet.toJSON()).toEqual({
       user: expect.any(mongoose.Types.ObjectId),
       body: 'first tweet from user bliss',
