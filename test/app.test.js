@@ -76,6 +76,7 @@ describe('tweet routes testing', () => {
         expect(res.body).toEqual({
           user: { _id: expect.any(String), handle: 'updater', name: 'UpdateMe', email: 'update@me.com' },
           body: 'This is now an updated tweet'
+
         });
       });
   });
@@ -122,11 +123,11 @@ describe('user routes testing', () => {
       });
   });
 
-  it('gets a list of all users', () => {
+  it('can get a list of all users', () => {
     return User.create({
       handle: 'Pizza Delivery',
       name: 'Land Shark',
-      email: 'Telegram@seventies.com'
+      email: 'Telegram@fromTheSeventies.com'
     })
       .then(() => {
         return request(app)
@@ -137,8 +138,27 @@ describe('user routes testing', () => {
         expect(res.body).toEqual([{
           handle: 'Pizza Delivery',
           name: 'Land Shark',
-          email: 'Telegram@seventies.com'
+          email: 'Telegram@fromTheSeventies.com'
         }]);
+      });
+  });
+
+  it('can get a user by id', () => {
+    return User.create({
+      handle: 'Head Crusher', 
+      name: 'I crush your head',
+      email: 'kids@inTheHall.com'
+    })
+      .then(user => {
+        return request(app)
+          .get(`/users/${user._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'Head Crusher', 
+          name: 'I crush your head',
+          email: 'kids@inTheHall.com'
+        });
       });
   });
 });
