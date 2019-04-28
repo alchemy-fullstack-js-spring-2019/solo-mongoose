@@ -13,7 +13,7 @@ describe('tweet routes testing', () => {
       useCreateIndex: true
     });
   });
-
+  
   beforeEach(() => {
     return mongoose.connection.dropDatabase();
   });
