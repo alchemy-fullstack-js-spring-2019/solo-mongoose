@@ -76,7 +76,6 @@ describe('tweet routes testing', () => {
         expect(res.body).toEqual({
           user: { _id: expect.any(String), handle: 'updater', name: 'UpdateMe', email: 'update@me.com' },
           body: 'This is now an updated tweet'
-
         });
       });
   });
@@ -120,6 +119,26 @@ describe('user routes testing', () => {
       .send({ handle: '@anna', name: 'Anna', email: 'email@email.com' })
       .then(res => {
         expect(res.body).toEqual({ handle: '@anna', name: 'Anna', email: 'email@email.com', _id: expect.any(String), __v: 0 });
+      });
+  });
+
+  it('gets a list of all users', () => {
+    return User.create({
+      handle: 'Pizza Delivery',
+      name: 'Land Shark',
+      email: 'Telegram@seventies.com'
+    })
+      .then(() => {
+        return request(app)
+          .get('/users');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(1);
+        expect(res.body).toEqual([{
+          handle: 'Pizza Delivery',
+          name: 'Land Shark',
+          email: 'Telegram@seventies.com'
+        }]);
       });
   });
 });
