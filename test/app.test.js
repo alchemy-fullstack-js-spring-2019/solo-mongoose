@@ -9,10 +9,13 @@ describe('tweet routes', () => {
     return User.create({ 
       handle: 'laurab',  
       name: 'laura',
-      email: 'name@email.com'
+      email: 'name@email.com',
     })
       .then(user => {
-        return Tweet.create({ user: user._id, body: 'my first tweet', name: 'laura' });
+        return Tweet.create({
+          user: user._id,
+          body: 'my first tweet',
+          name: user.name });
       });
   };
 
@@ -32,16 +35,19 @@ describe('tweet routes', () => {
     return mongoose.connection.close();
   });
 
-  // const user1 = { handle: 'lab', name: 'laura', email: 'name@gmail.com' };
-  // const testUser1 = new User(user1);
-  // const testTweet = { user: testUser1._id, body: 'my first tweet' };
-
   it('can create a new tweet', () => {
-    return User.create({ handle: 'laurab', name: 'laura', email: 'name@email.com' })
-      .then(newUser => {
+    return User.create({
+      handle: 'laurab', 
+      name: 'laura', 
+      email: 'name@email.com' 
+    })
+      .then(user => {
         return request(app)
           .post('/tweets')
-          .send({ user: newUser._id, body: 'my first tweet' });
+          .send({
+            user: user._id, 
+            body: 'my first tweet' 
+          });
       })
       .then(res => {
         expect(res.body).toEqual({
@@ -69,33 +75,35 @@ describe('tweet routes', () => {
         return request(app)
           .get(`/tweets/${foundTweet._id}`);
       })
-      .then(returnedTweet => {
-        expect(returnedTweet.body).toEqual({
+      .then(res => {
+        expect(res.body).toEqual({
           user: {
             handle: 'laurab',
-            _id: expect.any(String),
             email: 'name@email.com',
-            name: 'laura'
+            name: 'laura',
+            _id: expect.any(String)
           },
           _id: expect.any(String),
           body: 'my first tweet',
         });
       });
   });
-  it.only('updates a tweet by id', () => {
+  it('updates a tweet by id', () => {
     return createTweet()
       .then(createdTweet => {
         return request(app)
-          .put(`/tweets/${createdTweet._id}`)
-          .send({ body: 'textytext' });
+          .patch(`/tweets/${createdTweet._id}`)
+          .send({
+            body: 'textytext' 
+          });
       })
       .then(res => {
         expect(res.body).toEqual({
           user: {
-            _id: expect.any(String),
             handle: 'laurab',
-            // email: 'name@email.com',
-            // name: 'laura'
+            email: 'name@email.com',
+            name: 'laura',
+            _id: expect.any(String)
           },
           body: 'textytext',
           _id: expect.any(String)
@@ -112,9 +120,7 @@ describe('tweet routes', () => {
         ]);
       })
       .then(([_id, res]) => {
-        expect(res.body).toEqual({
-          _id
-        });
+        expect(res.body).toEqual(_id);
       });
   });
 });

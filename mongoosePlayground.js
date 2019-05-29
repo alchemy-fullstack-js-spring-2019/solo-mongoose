@@ -52,29 +52,29 @@ Tweet
   })
   .then(foundTweet => console.log(foundTweet));
 
-// Tweet.findById('5cb61a479e6b250bbdd9321b')
-//   .then(foundTweet => console.log(foundTweet))
-//   .finally(() => {
-//     mongoose.connection.close();
-//   });
+Tweet.findById('5cb61a479e6b250bbdd9321b')
+  .then(foundTweet => console.log(foundTweet))
+  .finally(() => {
+    mongoose.connection.close();
+  });
 
-// Tweet
-//   .findByIdAndUpdate('5cb61a479e6b250bbdd9321b', { handle: 'bingo' }, { new: true })
-//   .then(updatedTweet => console.log(updatedTweet))
-//   .finally(() => {
-//     mongoose.connection.close();
-//   });
+Tweet
+  .findByIdAndUpdate('5cb61a479e6b250bbdd9321b', { handle: 'bingo' }, { new: true })
+  .then(updatedTweet => console.log(updatedTweet))
+  .finally(() => {
+    mongoose.connection.close();
+  });
 
-// Tweet
-//   .findByIdAndDelete('5cb61a479e6b250bbdd9321b')
-//   .then(result => console.log(result))
-//   .finally(() => {
-//     mongoose.connection.close();
-//   });
+Tweet
+  .findByIdAndDelete('5cb61a479e6b250bbdd9321b')
+  .then(result => console.log(result))
+  .finally(() => {
+    mongoose.connection.close();
+  });
 
-// Tweet
-//   .find()
-//   .then(foundTweets => console.log(foundTweets))
-//   .finally(() => {
-//     mongoose.connection.close();
-//   });
+Tweet
+  .find()
+  .then(foundTweets => console.log(foundTweets))
+  .finally(() => {
+    mongoose.connection.close();
+  });
