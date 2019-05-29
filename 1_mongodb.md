@@ -37,7 +37,7 @@
 
 * start your mongo server (`mongod`)
 * start your mongo client (`mongo`)
-* `use` a new database (`use myFistDb`)
+* `use` a new database (`use myFirstDb`)
 * insert a document into a collection
   * `db.getCollection('myFirstCollection').insert({ name: 'ryan' })`
 * insert another document
